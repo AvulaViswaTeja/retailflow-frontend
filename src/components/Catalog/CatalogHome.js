@@ -11,7 +11,6 @@ export default function CatalogHome(){
                     <li><Link to="getById">Get Catalogs By Id</Link></li>
                     <li><Link to="getByProduct">Get Catalogs By Product</Link></li>
                     <li><Link to="getAll">Get Catalogs All Catalogs</Link></li>
-
                 </ul>
             </nav>
             <Outlet></Outlet>
