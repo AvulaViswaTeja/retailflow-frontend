@@ -1,24 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter as Router, Routes, Route,Outlet} from 'react-router-dom';
+import CatalogHome from './components/Catalog/CatalogHome';
+import InsertCatalog from './components/Catalog/InsertCatalog';
+import DeleteCatalog from './components/Catalog/DeleteCatalog';
+import InventoryHome  from './components/Inventory/InventoryHome';
+import SaleHome from './components/Sale/SaleHome';
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path="/Catalog" element={<CatalogHome/>}>
+          <Route path="insert" element={<InsertCatalog/>}></Route>
+          <Route path="delete" element={<DeleteCatalog/>}></Route>
+
+        </Route>
+
+        <Route path="/inventory" element={<InventoryHome/>}></Route>
+      </Routes>
+    </Router>
   );
 }
 
