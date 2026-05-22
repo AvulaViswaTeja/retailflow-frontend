@@ -1,5 +1,5 @@
 export  default function GetInventoryById(){
     return(<div>
-        <h1>Get Inven</h1>
+        <h1>Get Inventory</h1>
     </div>);
 } 
