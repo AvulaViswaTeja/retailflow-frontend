@@ -1,5 +1,5 @@
 export  default function GetByInvoice(){
     return(<div>
-        <h1>Get By Invoice</h1>
+        <h1>Get By Invoice component</h1>
     </div>);
 } 
