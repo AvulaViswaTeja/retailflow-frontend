@@ -3,7 +3,18 @@ import CatalogHome from './components/Catalog/CatalogHome';
 import InsertCatalog from './components/Catalog/InsertCatalog';
 import DeleteCatalog from './components/Catalog/DeleteCatalog';
 import InventoryHome  from './components/Inventory/InventoryHome';
-<<<<<<< HEAD
+import SaleHome from './components/Sale/SaleHome';
+import ProductHome from './components/Product/ProductHome';
+import AddProduct from './components/Product/AddProduct';
+import DeleteProduct from './components/Product/DeleteProduct';
+import UpdateProduct from './components/Product/UpdateProduct';
+import GetProductById from './components/Product/GetProductById';
+import GetAllProducts from './components/Product/GetAllProducts';
+import UpdateCatalog from './components/Catalog/UpdateCatalog';
+import GetAllCatalogs from './components/Catalog/GetAllCatalogs';
+import GetCatalogById from './components/Catalog/GetCatalogById';
+import GetCatalogsByProduct from './components/Catalog/GetCatalogsByProduct';
+
 import InventoryHome  from './components/Inventory/AddInventory';
 import InventoryHome  from './components/Inventory/DeleteInventory';
 import InventoryHome  from './components/Inventory/GetAllInventory';
@@ -26,8 +37,6 @@ import GetAllInventory from './components/Inventory/GetAllInventory';
 import GetLowStock from './components/Inventory/GetLowStock';
 import GetByProduct from './components/Inventory/GetByProduct';
 import ReplenishStock from './components/Inventory/ReplenishStock';
-=======
->>>>>>> main
 
 import SaleHome from './components/Sale/SaleHome';
 import AuditLogHome from './components/AuditLog/AuditLogHome';
@@ -83,11 +92,21 @@ function App() {
         <Route path="/Catalog" element={<CatalogHome/>}>
           <Route path="insert" element={<InsertCatalog/>}></Route>
           <Route path="delete" element={<DeleteCatalog/>}></Route>
-        </Route>
-        <Route path="/inventory" element={<InventoryHome/>}>
+          <Route path='update' element={<UpdateCatalog/>}></Route>
+          <Route path='getAll' element={<GetAllCatalogs/>}></Route>
+          <Route path='getById' element={<GetCatalogById/>}></Route>
+          <Route path='getByProduct' element={<GetCatalogsByProduct/>}></Route>
         </Route>
 
-<<<<<<< HEAD
+        <Route path='/Product' element={<ProductHome/>}>
+          <Route path='add' element={<AddProduct/>}></Route>
+          <Route path='delete' element={<DeleteProduct/>}></Route>
+          <Route path='update' element={<UpdateProduct/>}></Route>
+          <Route path='getById' element={<GetProductById/>}></Route>
+          <Route path='getAll' element={<GetAllProducts/>}></Route>
+        </Route>
+
+
         <Route path="/Inventory" element={<InventoryHome/>}>
         <Route path="insert" element={<AddInventory/>}></Route>
         <Route path="delete" element={<DeleteInventory/>}></Route>
@@ -107,8 +126,7 @@ function App() {
           <Route path="getBySupplier" element={<GetPurchaseOrderBySupplier />} />
           <Route path="getByStatus" element={<GetPurchaseByStatus />} />
 </Route>
-=======
-        <Route path="/inventory" element={<InventoryHome/>}></Route>
+        
         <Route path="/auditLog" element={<AuditLogHome/>}>
             <Route path="getAuditLogs" element={<GetAllAuditLogs/>} />
             <Route path="getAuditLogById" element={<GetAllAuditLogById/>} />
@@ -173,7 +191,6 @@ function App() {
 
 
        
->>>>>>> main
       </Routes>
 
     </Router>
