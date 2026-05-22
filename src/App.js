@@ -2,31 +2,7 @@ import {BrowserRouter as Router, Routes, Route,Outlet} from 'react-router-dom';
 import CatalogHome from './components/Catalog/CatalogHome';
 import InsertCatalog from './components/Catalog/InsertCatalog';
 import DeleteCatalog from './components/Catalog/DeleteCatalog';
-import InventoryHome  from './components/Inventory/InventoryHome';
-import InventoryHome  from './components/Inventory/AddInventory';
-import InventoryHome  from './components/Inventory/DeleteInventory';
-import InventoryHome  from './components/Inventory/GetAllInventory';
-import InventoryHome  from './components/Inventory/GetByProduct';
-import InventoryHome  from './components/Inventory/GetInventoryById';
-import InventoryHome  from './components/Inventory/GetLowStock';
-import InventoryHome  from './components/Inventory/ReplenishStock';
-import InventoryHome  from './components/Inventory/UpdateInventory';
 
-
-
-
-
-
-import SaleHome from './components/Sale/SaleHome';
-import DeleteInventory from './components/Inventory/DeleteInventory';
-import UpdateInventory from './components/Inventory/UpdateInventory';
-import GetInventoryById from './components/Inventory/GetInventoryById';
-import GetAllInventory from './components/Inventory/GetAllInventory';
-import GetLowStock from './components/Inventory/GetLowStock';
-import GetByProduct from './components/Inventory/GetByProduct';
-import ReplenishStock from './components/Inventory/ReplenishStock';
-
-import SaleHome from './components/Sale/SaleHome';
 import AuditLogHome from './components/AuditLog/AuditLogHome';
 import GetAllAuditLogs from './components/AuditLog/GetAllAuditLogs';
 import GetAllAuditLogById from './components/AuditLog/GetAuditLogById';
@@ -37,6 +13,7 @@ import AddUser from './components/User/AddUser';
 import DeleteUser from './components/User/DeleteUser';
 import UpdateUser from './components/User/UpdateUser';
 import GetUserById from './components/User/UpdateUser';
+
 import InsertSale from './components/Sale/InsertSale'
 import DeleteSale from './components/Sale/DeleteSale'
 import UpdateSale from './components/Sale/UpdateSale'
@@ -72,6 +49,7 @@ import GetNotificationById from './components/Notification/GetNotificationById';
 import GetPaginatedUsers from './components/User/GetPaginatedUsers';
 import GetAllUsers from './components/User/GetAllUsers';
 import InsertNotification from './components/Notification/InsertNotification';
+import SaleHome from './components/Payment/PaymentHome';
 
 function App() {
   return (
