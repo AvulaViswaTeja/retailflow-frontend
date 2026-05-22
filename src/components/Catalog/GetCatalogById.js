@@ -1,5 +1,69 @@
-export  default function GetPaginated(){
-    return(<div>
-        <h1>Get Catalog By Id</h1>
-    </div>);
-} 
+import axios from "axios";
+import { useState } from "react";
+
+export default function GetCatalogById() {
+    let [catalogId, setCatalogId] = useState("");
+    let [catalog, setCatalog] = useState(null);
+    let [error, setError] = useState("");
+
+    let searchHandler = () => {
+        if (!catalogId) {
+            alert("Please enter a Catalog ID");
+            return;
+        }
+
+        let url = "http://localhost:8014/api/catalogs/" + catalogId;
+
+        axios.get(url)
+            .then((response) => {
+                setCatalog(response.data);
+                setError("");
+            })
+            .catch((error) => {
+                setCatalog(null);
+                setError("Catalog not found with ID: " + catalogId);
+                console.error("Error:", error);
+            });
+    };
+
+    return (
+        <div>
+
+            <label>Enter Catalog ID: </label>
+            <input
+                type="number"
+                value={catalogId}
+                onChange={(e) => setCatalogId(e.target.value)}
+                placeholder="Enter catalog ID"
+            />
+            <button onClick={searchHandler}>Search</button>
+
+            {/* Error Message */}
+            {error && <p>{error}</p>}
+
+            
+            {catalog && (
+                <table border="1">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Effective Date</th>
+                            <th>Expiry Date</th>
+                            <th>Status</th>
+                            <th>Product ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{catalog.catalogId}</td>
+                            <td>{catalog.effectiveDate}</td>
+                            <td>{catalog.expiryDate}</td>
+                            <td>{catalog.status}</td>
+                            <td>{catalog.productId}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            )}
+        </div>
+    );
+}

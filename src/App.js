@@ -68,24 +68,51 @@ function App() {
     <Router>
       <Routes>
         <Route path="/Catalog" element={<CatalogHome/>}>
-          <Route path="insert" element={<InsertCatalog/>}></Route>
-          <Route path="delete" element={<DeleteCatalog/>}></Route>
-          <Route path='update' element={<UpdateCatalog/>}></Route>
-          <Route path='getAll' element={<GetAllCatalogs/>}></Route>
-          <Route path='getById' element={<GetCatalogById/>}></Route>
-          <Route path='getByProduct' element={<GetCatalogsByProduct/>}></Route>
+          <Route path="insert"       element={<InsertCatalog/>}/>
+          <Route path="delete"     element={<DeleteCatalog/>}/>   {/* ✅ no :id needed */}
+          <Route path="delete/:id" element={<DeleteCatalog/>}/>
+          <Route path="update"       element={<UpdateCatalog/>}/>       {/* Nav → asks for ID */}
+          <Route path="update/:id"   element={<UpdateCatalog/>}/>       {/* Edit button → loads directly */}
+          <Route path="getAll"       element={<GetAllCatalogs/>}/>
+          <Route path="getById"      element={<GetCatalogById/>}/>
+          <Route path="getByProduct" element={<GetCatalogsByProduct/>}/>
         </Route>
 
         <Route path='/Product' element={<ProductHome/>}>
-          <Route path='add' element={<AddProduct/>}></Route>
-          <Route path='delete' element={<DeleteProduct/>}></Route>
-          <Route path='update' element={<UpdateProduct/>}></Route>
-          <Route path='getById' element={<GetProductById/>}></Route>
-          <Route path='getAll' element={<GetAllProducts/>}></Route>
+          <Route path='add'        element={<AddProduct/>}/>
+          <Route path='update'     element={<UpdateProduct/>}/>      {/* ✅ nav → asks for ID */}
+          <Route path='update/:id' element={<UpdateProduct/>}/>      {/* ✅ Edit button → loads directly */}
+          <Route path='getById'    element={<GetProductById/>}/>
+          <Route path='getAll'     element={<GetAllProducts/>}/>
+          <Route path='delete'     element={<DeleteProduct/>}/>
+        <Route path='delete/:id' element={<DeleteProduct/>}/>
+      </Route>
+
+
+<<<<<<< Updated upstream
+        
+=======
+        <Route path="/Inventory" element={<InventoryHome/>}>
+        <Route path="insert" element={<AddInventory/>}></Route>
+        <Route path="delete" element={<DeleteInventory/>}></Route>
+        <Route path="update" element={<UpdateInventory/>}></Route>
+        <Route path="getById" element={<GetInventoryById/>}></Route>
+        <Route path="getAll" element={<GetAllInventory/>}></Route>
+        <Route path="getLowStock" element={<GetLowStock/>}></Route>
+        <Route path="getByProduct" element={<GetInventoryByProduct/>}></Route>
+        <Route path="replenish" element={<ReplenishStock/>}></Route>
         </Route>
 
-
-        
+        <Route path="/PurchaseOrder" element={<PurchaseOrderHome/>}>
+          <Route path="insert" element={<CreatePurchaseOrder />} />
+          <Route path="delete" element={<CancelPurchaseOrder />} />
+          <Route path="update" element={<UpdatePurchaseOrder />} />
+          <Route path="getById" element={<GetPurchaseOrderById />} />
+          <Route path="getAll" element={<GetAllPurchaseOrders />} />
+          <Route path="getBySupplier" element={<GetPurchaseBySupplier />} />
+          <Route path="getByStatus" element={<GetPurchaseByStatus />} />
+        </Route>        
+>>>>>>> Stashed changes
         
         <Route path="/auditLog" element={<AuditLogHome/>}>
             <Route path="getAuditLogs" element={<GetAllAuditLogs/>} />
