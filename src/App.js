@@ -3,7 +3,6 @@ import CatalogHome from './components/Catalog/CatalogHome';
 import InsertCatalog from './components/Catalog/InsertCatalog';
 import DeleteCatalog from './components/Catalog/DeleteCatalog';
 import InventoryHome  from './components/Inventory/InventoryHome';
-<<<<<<< HEAD
 import InventoryHome  from './components/Inventory/AddInventory';
 import InventoryHome  from './components/Inventory/DeleteInventory';
 import InventoryHome  from './components/Inventory/GetAllInventory';
@@ -26,8 +25,6 @@ import GetAllInventory from './components/Inventory/GetAllInventory';
 import GetLowStock from './components/Inventory/GetLowStock';
 import GetByProduct from './components/Inventory/GetByProduct';
 import ReplenishStock from './components/Inventory/ReplenishStock';
-=======
->>>>>>> main
 
 import SaleHome from './components/Sale/SaleHome';
 import AuditLogHome from './components/AuditLog/AuditLogHome';
@@ -87,7 +84,6 @@ function App() {
         <Route path="/inventory" element={<InventoryHome/>}>
         </Route>
 
-<<<<<<< HEAD
         <Route path="/Inventory" element={<InventoryHome/>}>
         <Route path="insert" element={<AddInventory/>}></Route>
         <Route path="delete" element={<DeleteInventory/>}></Route>
@@ -107,8 +103,7 @@ function App() {
           <Route path="getBySupplier" element={<GetPurchaseOrderBySupplier />} />
           <Route path="getByStatus" element={<GetPurchaseByStatus />} />
 </Route>
-=======
-        <Route path="/inventory" element={<InventoryHome/>}></Route>
+        
         <Route path="/auditLog" element={<AuditLogHome/>}>
             <Route path="getAuditLogs" element={<GetAllAuditLogs/>} />
             <Route path="getAuditLogById" element={<GetAllAuditLogById/>} />
@@ -173,7 +168,6 @@ function App() {
 
 
        
->>>>>>> main
       </Routes>
 
     </Router>
