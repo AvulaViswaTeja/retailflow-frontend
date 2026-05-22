@@ -3,7 +3,33 @@ import CatalogHome from './components/Catalog/CatalogHome';
 import InsertCatalog from './components/Catalog/InsertCatalog';
 import DeleteCatalog from './components/Catalog/DeleteCatalog';
 import InventoryHome  from './components/Inventory/InventoryHome';
+
 import SaleHome from './components/Sale/SaleHome';
+import InsertSale from './components/Sale/InsertSale'
+import DeleteSale from './components/Sale/DeleteSale'
+import UpdateSale from './components/Sale/UpdateSale'
+import GetAllSales from './components/Sale/GetAllSales'
+import GetAllSalesPaginated from './components/Sale/GetAllSalesPaginated'
+import GetSalesByCustomer from './components/Sale/GetSalesByCustomer'
+import GetSaleById from './components/Sale/GetSaleById'
+import GetSalesByDateRange from './components/Sale/GetSalesByDateRange'
+
+import PaymentHome from './components/Payment/PaymentHome';
+import InsertPayment from './components/Payment/InsertPayment'
+import UpdatePayment from './components/Payment/UpdatePayment'
+import DeletePayment from './components/Payment/DeletePayment'
+import GetPaymentById from './components/Payment/GetPaymentById'
+import GetByInvoice from './components/Payment/GetByInvoice'
+import GetPaginated from './components/Payment/GetPaginated'
+import GetAllPayments from './components/Payment/GetAllPayments'
+
+import InvoiceHome from './components/Invoice/InvoiceHome';
+import InsertInvoice from './components/Invoice/InsertInvoice';
+import UpdateInvoice from './components/Invoice/UpdateInvoice';
+import DeleteInvoice from './components/Invoice/DeleteInvoice';
+import GetAllInvoices from './components/Invoice/GetAllInvoices';
+import GetByDateRange from './components/Invoice/GetByDateRange';
+import GetByStatus from './components/Invoice/GetByStatus';
 
 
 function App() {
@@ -13,10 +39,47 @@ function App() {
         <Route path="/Catalog" element={<CatalogHome/>}>
           <Route path="insert" element={<InsertCatalog/>}></Route>
           <Route path="delete" element={<DeleteCatalog/>}></Route>
-
+        </Route>
+        <Route path="/inventory" element={<InventoryHome/>}>
         </Route>
 
-        <Route path="/inventory" element={<InventoryHome/>}></Route>
+        {/* Sale Route */}
+        <Route path="/Sale" element={<SaleHome/>}>
+          <Route path="insert" element={<InsertSale/>}></Route>
+          <Route path="delete" element={<DeleteSale/>}></Route>
+          <Route path="update" element={<UpdateSale/>}></Route>
+          <Route path="getById" element={<GetSaleById/>}></Route>
+          <Route path="getAll" element={<GetAllSales/>}></Route>
+          <Route path="getAllPaginated" element={<GetAllSalesPaginated/>}></Route>
+          <Route path="getSalesByCustomer" element={<GetSalesByCustomer/>}></Route>
+          <Route path="getSalesByDateRange" element={<GetSalesByDateRange/>}></Route>
+        </Route>
+
+        {/* Payment Route */}
+        <Route path="/Payment" element={<PaymentHome />}>
+          <Route path="insert" element={<InsertPayment/>}></Route>
+          <Route path="update" element={<UpdatePayment/>}></Route>
+          <Route path="delete" element={<DeletePayment/>}></Route>
+          <Route path="getPaymentById" element={<GetPaymentById/>}></Route>
+          <Route path="getAll" element={<GetAllPayments/>}></Route>
+          <Route path="getByInvoice" element={<GetByInvoice/>}></Route>
+          <Route path="getPaginated" element={<GetPaginated/>}></Route>
+        </Route>
+
+        {/* Invoice Route */}
+        <Route path="/Invoice" element={<InvoiceHome/>}>
+          <Route path="insert" element={<InsertInvoice/>}></Route>
+          <Route path="update" element={<UpdateInvoice/>}></Route>
+          <Route path="delete" element={<DeleteInvoice/>}></Route>
+          <Route path="getAll" element={<GetAllInvoices/>}></Route>
+          <Route path="getByDateRange" element={<GetByDateRange/>}></Route>
+          <Route path="getByStatus" element={<GetByStatus />}></Route>
+          <Route path="getPaginated" element={<GetPaginated />}></Route>
+        </Route>
+
+
+
+       
       </Routes>
     </Router>
   );
