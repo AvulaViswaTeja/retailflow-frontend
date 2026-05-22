@@ -41,7 +41,7 @@ import UpdatePayment from './components/Payment/UpdatePayment'
 import DeletePayment from './components/Payment/DeletePayment'
 import GetPaymentById from './components/Payment/GetPaymentById'
 import GetByInvoice from './components/Payment/GetByInvoice'
-import GetPaginated from './components/Payment/GetPaginated'
+import GetPaginatedPayments from './components/Payment/GetPaginatedPayments'
 import GetAllPayments from './components/Payment/GetAllPayments'
 
 import InvoiceHome from './components/Invoice/InvoiceHome';
@@ -49,8 +49,9 @@ import InsertInvoice from './components/Invoice/InsertInvoice';
 import UpdateInvoice from './components/Invoice/UpdateInvoice';
 import DeleteInvoice from './components/Invoice/DeleteInvoice';
 import GetAllInvoices from './components/Invoice/GetAllInvoices';
-import GetByDateRange from './components/Invoice/GetByDateRange';
+import GetInvoiceByDateRange from './components/Invoice/GetInvoiceByDateRange';
 import GetByStatus from './components/Invoice/GetByStatus';
+import GetInvoicePaginated from './components/Invoice/GetInvoicePaginated';
 
 import UserHome from './components/User/UserHome';
 import NotificationHome from './components/Notification/NotificationHome';
@@ -61,7 +62,6 @@ import GetNotificationById from './components/Notification/GetNotificationById';
 import GetPaginatedUsers from './components/User/GetPaginatedUsers';
 import GetAllUsers from './components/User/GetAllUsers';
 import InsertNotification from './components/Notification/InsertNotification';
-import SaleHome from './components/Payment/PaymentHome';
 
 function App() {
   return (
@@ -111,7 +111,7 @@ function App() {
             <Route path="getNotificationByUser" element={<GetNotificationByUser/>} />
         </Route>
 
-        
+
         {/* Sale Route */}
         <Route path="/Sale" element={<SaleHome/>}>
           <Route path="insert" element={<InsertSale/>}></Route>
@@ -132,7 +132,7 @@ function App() {
           <Route path="getPaymentById" element={<GetPaymentById/>}></Route>
           <Route path="getAll" element={<GetAllPayments/>}></Route>
           <Route path="getByInvoice" element={<GetByInvoice/>}></Route>
-          <Route path="getPaginated" element={<GetPaginated/>}></Route>
+          <Route path="getPaginated" element={<GetPaginatedPayments/>}></Route>
         </Route>
 
         {/* Invoice Route */}
@@ -141,9 +141,9 @@ function App() {
           <Route path="update" element={<UpdateInvoice/>}></Route>
           <Route path="delete" element={<DeleteInvoice/>}></Route>
           <Route path="getAll" element={<GetAllInvoices/>}></Route>
-          <Route path="getByDateRange" element={<GetByDateRange/>}></Route>
+          <Route path="getByDateRange" element={<GetInvoiceByDateRange/>}></Route>
           <Route path="getByStatus" element={<GetByStatus />}></Route>
-          <Route path="getPaginated" element={<GetPaginated />}></Route>
+          <Route path="getPaginated" element={<GetInvoicePaginated />}></Route>
         </Route>
 
 
