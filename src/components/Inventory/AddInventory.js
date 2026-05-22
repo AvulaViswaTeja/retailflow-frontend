@@ -1,5 +1,5 @@
-export  default function GetPaginated(){
+export  default function AddInventory(){
     return(<div>
-        <h1>Get paginated</h1>
+        <h1>Add Inventory</h1>
     </div>);
 } 
