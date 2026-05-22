@@ -1,7 +1,7 @@
 import { Outlet , Link} from "react-router-dom";
 
-export default function InventoryHome(){    
-import {Link,Outlet} from 'react-router-dom'
+
+
 export default function InventoryHome(){
     return(
         <div>
