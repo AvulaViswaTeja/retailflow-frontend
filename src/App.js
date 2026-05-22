@@ -34,6 +34,7 @@ import GetAllPurchaseOrders from './components/PurchaseOrder/GetAllPurchaseOrder
 import GetPurchaseBySupplier from './components/PurchaseOrder/GetPurchaseBySupplier';
 import GetPurchaseByStatus from './components/PurchaseOrder/GetPurchaseByStatus';
 
+
 import AuditLogHome from './components/AuditLog/AuditLogHome';
 import GetAllAuditLogs from './components/AuditLog/GetAllAuditLogs';
 import GetAllAuditLogById from './components/AuditLog/GetAuditLogById';
@@ -44,6 +45,7 @@ import AddUser from './components/User/AddUser';
 import DeleteUser from './components/User/DeleteUser';
 import UpdateUser from './components/User/UpdateUser';
 import GetUserById from './components/User/UpdateUser';
+
 import InsertSale from './components/Sale/InsertSale'
 import DeleteSale from './components/Sale/DeleteSale'
 import UpdateSale from './components/Sale/UpdateSale'
@@ -60,6 +62,7 @@ import DeletePayment from './components/Payment/DeletePayment'
 import GetPaymentById from './components/Payment/GetPaymentById'
 import GetByInvoice from './components/Payment/GetByInvoice'
 import GetPaymentPaginated from './components/Payment/GetPaginated'
+import GetPaginatedPayments from './components/Payment/GetPaginatedPayments'
 import GetAllPayments from './components/Payment/GetAllPayments'
 
 import InvoiceHome from './components/Invoice/InvoiceHome';
@@ -68,7 +71,9 @@ import UpdateInvoice from './components/Invoice/UpdateInvoice';
 import DeleteInvoice from './components/Invoice/DeleteInvoice';
 import GetAllInvoices from './components/Invoice/GetAllInvoices';
 import GetInvoiceByDateRange from './components/Invoice/GetByDateRange';
+import GetInvoiceByDateRange from './components/Invoice/GetInvoiceByDateRange';
 import GetByStatus from './components/Invoice/GetByStatus';
+import GetInvoicePaginated from './components/Invoice/GetInvoicePaginated';
 
 import UserHome from './components/User/UserHome';
 import NotificationHome from './components/Notification/NotificationHome';
@@ -121,6 +126,18 @@ function App() {
           <Route path="getBySupplier" element={<GetPurchaseBySupplier />} />
           <Route path="getByStatus" element={<GetPurchaseByStatus />} />
 </Route>
+        </Route>
+
+        <Route path='/Product' element={<ProductHome/>}>
+          <Route path='add' element={<AddProduct/>}></Route>
+          <Route path='delete' element={<DeleteProduct/>}></Route>
+          <Route path='update' element={<UpdateProduct/>}></Route>
+          <Route path='getById' element={<GetProductById/>}></Route>
+          <Route path='getAll' element={<GetAllProducts/>}></Route>
+        </Route>
+
+
+        
         
         <Route path="/auditLog" element={<AuditLogHome/>}>
             <Route path="getAuditLogs" element={<GetAllAuditLogs/>} />
@@ -144,11 +161,9 @@ function App() {
             <Route path="getAllNotifications" element={<GetAllNotifications/>} />
             <Route path="getNotificationById" element={<GetNotificationById/>} />
             <Route path="getNotificationByUser" element={<GetNotificationByUser/>} />
-        
-            
-        
-        
         </Route>
+
+
         {/* Sale Route */}
         <Route path="/Sale" element={<SaleHome/>}>
           <Route path="insert" element={<InsertSale/>}></Route>
@@ -170,6 +185,7 @@ function App() {
           <Route path="getAll" element={<GetAllPayments/>}></Route>
           <Route path="getByInvoice" element={<GetByInvoice/>}></Route>
           <Route path="getPaginated" element={<GetPaymentPaginated/>}></Route>
+          <Route path="getPaginated" element={<GetPaginatedPayments/>}></Route>
         </Route>
 
         {/* Invoice Route */}
@@ -180,7 +196,7 @@ function App() {
           <Route path="getAll" element={<GetAllInvoices/>}></Route>
           <Route path="getByDateRange" element={<GetInvoiceByDateRange/>}></Route>
           <Route path="getByStatus" element={<GetByStatus />}></Route>
-          <Route path="getPaginated" element={<GetPaginated />}></Route>
+          <Route path="getPaginated" element={<GetInvoicePaginated />}></Route>
         </Route>
 
 
