@@ -1,6 +1,6 @@
 import {Link,Outlet} from 'react-router-dom'
 export default function InventoryHome(){
-    retutn(
+    return(
         <div>
             <nav>
                 <ul>

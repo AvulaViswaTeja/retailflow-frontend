@@ -3,28 +3,34 @@ import CatalogHome from './components/Catalog/CatalogHome';
 import InsertCatalog from './components/Catalog/InsertCatalog';
 import DeleteCatalog from './components/Catalog/DeleteCatalog';
 import InventoryHome  from './components/Inventory/InventoryHome';
-import InventoryHome  from './components/Inventory/AddInventory';
-import InventoryHome  from './components/Inventory/DeleteInventory';
-import InventoryHome  from './components/Inventory/GetAllInventory';
-import InventoryHome  from './components/Inventory/GetByProduct';
-import InventoryHome  from './components/Inventory/GetInventoryById';
-import InventoryHome  from './components/Inventory/GetLowStock';
-import InventoryHome  from './components/Inventory/ReplenishStock';
-import InventoryHome  from './components/Inventory/UpdateInventory';
+import AddInventory  from './components/Inventory/AddInventory';
+import DeleteInventory  from './components/Inventory/DeleteInventory';
+import GetAllInventory  from './components/Inventory/GetAllInventory';
+import GetByProduct  from './components/Inventory/GetByProduct';
+import GetInventoryById  from './components/Inventory/GetInventoryById';
+import GetLowStock  from './components/Inventory/GetLowStock';
+import ReplenishStock  from './components/Inventory/ReplenishStock';
+import UpdateInventory  from './components/Inventory/UpdateInventory';
+import CancelPurchaseOrder  from './components/PurchaseOrder/CancelPurchaseOrder'
+import GetAllPurchaseOrders  from './components/PurchaseOrder/GetAllPurchaseOrders'
+import GetByStatus  from './components/PurchaseOrder/GetByStatus';
+import GetPurchaseOrderById  from './components/PurchaseOrder/GetPurchaseOrderById'
+import GetBySupplier  from './components/PurchaseOrder/GetBySupplier'
+import CreatePurchaseOrder  from './components/PurchaseOrder/CreatePurchaseOrder'
+import PurchaseOrderHome  from './components/PurchaseOrder/PurchaseOrderHome'
+import UpdatePurchaseOrder  from './components/PurchaseOrder/UpdatePurchaseOrder'
 
 
 
 
-
-
-import SaleHome from './components/Sale/SaleHome';
-import DeleteInventory from './components/Inventory/DeleteInventory';
-import UpdateInventory from './components/Inventory/UpdateInventory';
-import GetInventoryById from './components/Inventory/GetInventoryById';
-import GetAllInventory from './components/Inventory/GetAllInventory';
-import GetLowStock from './components/Inventory/GetLowStock';
-import GetByProduct from './components/Inventory/GetByProduct';
-import ReplenishStock from './components/Inventory/ReplenishStock';
+// import SaleHome from './components/Sale/SaleHome';
+// import DeleteInventory from './components/Inventory/DeleteInventory';
+// import UpdateInventory from './components/Inventory/UpdateInventory';
+// import GetInventoryById from './components/Inventory/GetInventoryById';
+// import GetAllInventory from './components/Inventory/GetAllInventory';
+// import GetLowStock from './components/Inventory/GetLowStock';
+// import GetByProduct from './components/Inventory/GetByProduct';
+// import ReplenishStock from './components/Inventory/ReplenishStock';
 
 
 function App() {
@@ -48,13 +54,13 @@ function App() {
         <Route path="replenish" element={<ReplenishStock/>}></Route>
         </Route>
         <Route path="/PurchaseOrder" element={<PurchaseOrderHome/>}>
-          <Route path="insert" element={<AddPurchaseOrder />} />
-          <Route path="delete" element={<DeletePurchaseOrder />} />
+          <Route path="insert" element={<CreatePurchaseOrder />} />
+          <Route path="delete" element={<CancelPurchaseOrder />} />
           <Route path="update" element={<UpdatePurchaseOrder />} />
           <Route path="getById" element={<GetPurchaseOrderById />} />
           <Route path="getAll" element={<GetAllPurchaseOrders />} />
-          <Route path="getBySupplier" element={<GetPurchaseOrderBySupplier />} />
-          <Route path="getByStatus" element={<GetPurchaseByStatus />} />
+          <Route path="getBySupplier" element={<GetBySupplier />} />
+          <Route path="getByStatus" element={<GetByStatus />} />
 </Route>
       </Routes>
 
