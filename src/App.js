@@ -2,7 +2,6 @@ import {BrowserRouter as Router, Routes, Route,Outlet} from 'react-router-dom';
 import CatalogHome from './components/Catalog/CatalogHome';
 import InsertCatalog from './components/Catalog/InsertCatalog';
 import DeleteCatalog from './components/Catalog/DeleteCatalog';
-import InventoryHome  from './components/Inventory/InventoryHome';
 import SaleHome from './components/Sale/SaleHome';
 import ProductHome from './components/Product/ProductHome';
 import AddProduct from './components/Product/AddProduct';
@@ -15,30 +14,10 @@ import GetAllCatalogs from './components/Catalog/GetAllCatalogs';
 import GetCatalogById from './components/Catalog/GetCatalogById';
 import GetCatalogsByProduct from './components/Catalog/GetCatalogsByProduct';
 
-import InventoryHome  from './components/Inventory/AddInventory';
-import InventoryHome  from './components/Inventory/DeleteInventory';
-import InventoryHome  from './components/Inventory/GetAllInventory';
-import InventoryHome  from './components/Inventory/GetByProduct';
-import InventoryHome  from './components/Inventory/GetInventoryById';
-import InventoryHome  from './components/Inventory/GetLowStock';
-import InventoryHome  from './components/Inventory/ReplenishStock';
-import InventoryHome  from './components/Inventory/UpdateInventory';
 
 
 
 
-
-
-import SaleHome from './components/Sale/SaleHome';
-import DeleteInventory from './components/Inventory/DeleteInventory';
-import UpdateInventory from './components/Inventory/UpdateInventory';
-import GetInventoryById from './components/Inventory/GetInventoryById';
-import GetAllInventory from './components/Inventory/GetAllInventory';
-import GetLowStock from './components/Inventory/GetLowStock';
-import GetByProduct from './components/Inventory/GetByProduct';
-import ReplenishStock from './components/Inventory/ReplenishStock';
-
-import SaleHome from './components/Sale/SaleHome';
 import AuditLogHome from './components/AuditLog/AuditLogHome';
 import GetAllAuditLogs from './components/AuditLog/GetAllAuditLogs';
 import GetAllAuditLogById from './components/AuditLog/GetAuditLogById';
@@ -64,7 +43,7 @@ import UpdatePayment from './components/Payment/UpdatePayment'
 import DeletePayment from './components/Payment/DeletePayment'
 import GetPaymentById from './components/Payment/GetPaymentById'
 import GetByInvoice from './components/Payment/GetByInvoice'
-import GetPaginated from './components/Payment/GetPaginated'
+
 import GetAllPayments from './components/Payment/GetAllPayments'
 
 import InvoiceHome from './components/Invoice/InvoiceHome';
@@ -72,7 +51,6 @@ import InsertInvoice from './components/Invoice/InsertInvoice';
 import UpdateInvoice from './components/Invoice/UpdateInvoice';
 import DeleteInvoice from './components/Invoice/DeleteInvoice';
 import GetAllInvoices from './components/Invoice/GetAllInvoices';
-import GetByDateRange from './components/Invoice/GetByDateRange';
 import GetByStatus from './components/Invoice/GetByStatus';
 
 import UserHome from './components/User/UserHome';
@@ -107,25 +85,7 @@ function App() {
         </Route>
 
 
-        <Route path="/Inventory" element={<InventoryHome/>}>
-        <Route path="insert" element={<AddInventory/>}></Route>
-        <Route path="delete" element={<DeleteInventory/>}></Route>
-        <Route path="update" element={<UpdateInventory/>}></Route>
-        <Route path="getById" element={<GetInventoryById/>}></Route>
-        <Route path="getAll" element={<GetAllInventory/>}></Route>
-        <Route path="getLowStock" element={<GetLowStock/>}></Route>
-        <Route path="getByProduct" element={<GetByProduct/>}></Route>
-        <Route path="replenish" element={<ReplenishStock/>}></Route>
-        </Route>
-        <Route path="/PurchaseOrder" element={<PurchaseOrderHome/>}>
-          <Route path="insert" element={<AddPurchaseOrder />} />
-          <Route path="delete" element={<DeletePurchaseOrder />} />
-          <Route path="update" element={<UpdatePurchaseOrder />} />
-          <Route path="getById" element={<GetPurchaseOrderById />} />
-          <Route path="getAll" element={<GetAllPurchaseOrders />} />
-          <Route path="getBySupplier" element={<GetPurchaseOrderBySupplier />} />
-          <Route path="getByStatus" element={<GetPurchaseByStatus />} />
-</Route>
+        
         
         <Route path="/auditLog" element={<AuditLogHome/>}>
             <Route path="getAuditLogs" element={<GetAllAuditLogs/>} />
