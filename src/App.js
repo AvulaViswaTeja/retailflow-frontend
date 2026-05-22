@@ -1,50 +1,58 @@
-import {BrowserRouter as Router, Routes, Route,Outlet} from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route, Outlet} from 'react-router-dom';
+
+// existing imports — unchanged
 import CatalogHome from './components/Catalog/CatalogHome';
 import InsertCatalog from './components/Catalog/InsertCatalog';
 import DeleteCatalog from './components/Catalog/DeleteCatalog';
-import InventoryHome  from './components/Inventory/InventoryHome';
-import AddInventory from './components/Inventory/AddInventory';
-import DeleteInventory from './components/Inventory/DeleteInventory';
-import UpdateInventory from './components/Inventory/UpdateInventory';   
-import GetInventoryById from './components/Inventory/GetInventoryById';
-import GetAllInventory from './components/Inventory/GetAllInventory';
+// new imports for Compliance Report
 import ComplianceReportHome from './components/ComplianceReport/CompilanceReportHome';
-import InsertReport from './components/ComplianceReport/InsertReport';
-import DeleteReport from './components/ComplianceReport/DeleteReport';
-import UpdateReport from './components/ComplianceReport/UpdateReport';
-import GetReportById from './components/ComplianceReport/GetReportById';
-import GetAllReports from './components/ComplianceReport/GetAllReports';
+import InsertComplianceReport from './components/ComplianceReport/InsertReport';
+import DeleteComplianceReport from './components/ComplianceReport/DeleteReport';
+import UpdateComplianceReport from './components/ComplianceReport/UpdateReport';
+import GetComplianceReportById from './components/ComplianceReport/GetReportById';
+import GetComplianceAllReports from './components/ComplianceReport/GetAllReports';
 
-import SaleHome from './components/Sale/SaleHome';
 
+// new KPI imports
+import KPIReportHome from './components/KPIReport/KPIReportHome';
+import SaveReport from './components/KPIReport/SaveReport';
+import DeleteKPIReport from './components/KPIReport/DeleteReport';
+import GetKPITrend from './components/KPIReport/GetTrend';
+import GetKPIById from './components/KPIReport/GetById';
+import GetAllKPIReports from './components/KPIReport/GetAllReports';
+import GetKPIByDateRange from './components/KPIReport/GetByDateRange';
+import GetKPILatestByScope from './components/KPIReport/GetLatestByScope';
+import GetKPIPaginated from './components/KPIReport/GetPaginated';
 
 function App() {
   return (
     <Router>
       <Routes>
+
         <Route path="/Catalog" element={<CatalogHome/>}>
           <Route path="insert" element={<InsertCatalog/>}></Route>
           <Route path="delete" element={<DeleteCatalog/>}></Route>
-
         </Route>
 
-        <Route path="/inventory" element={<InventoryHome/>}>
-          <Route path="insert" element={<AddInventory/>}></Route>
-          <Route path="delete" element={<DeleteInventory/>}></Route>
-          <Route path="update" element={<UpdateInventory/>}></Route>
-          <Route path="getById" element={<GetInventoryById/>}></Route>
-          <Route path="getAll" element={<GetAllInventory/>}></Route>
+        {/* KPI Reports — new */}
+        <Route path="/kpireport" element={<KPIReportHome/>}>
+          <Route path="savereport"     element={<SaveReport/>}></Route>
+          <Route path="delete"         element={<DeleteKPIReport/>}></Route>
+          <Route path="getTrend"       element={<GetKPITrend/>}></Route>
+          <Route path="getById"        element={<GetKPIById/>}></Route>
+          <Route path="getAll"         element={<GetAllKPIReports/>}></Route>
+          <Route path="GetByDateRange" element={<GetKPIByDateRange/>}></Route>
+          <Route path="getLatest"      element={<GetKPILatestByScope/>}></Route>
+          <Route path="getPaginated"   element={<GetKPIPaginated/>}></Route>
         </Route>
-   
 
         <Route path="/compliance" element={<ComplianceReportHome/>}>
-          <Route path="insert" element={<InsertReport/>}></Route>
-          <Route path="delete" element={<DeleteReport/>}></Route>
-          <Route path="update" element={<UpdateReport/>}></Route>
-          <Route path="getById" element={<GetReportById/>}></Route>
-          <Route path="getAll" element={<GetAllReports/>}></Route>
+          <Route path="insert"  element={<InsertComplianceReport/>}></Route>
+          <Route path="delete"  element={<DeleteComplianceReport/>}></Route>
+          <Route path="update"  element={<UpdateComplianceReport/>}></Route>
+          <Route path="getById" element={<GetComplianceReportById/>}></Route>
+          <Route path="getAll"  element={<GetComplianceAllReports/>}></Route>
         </Route>
-
 
       </Routes>
     </Router>
