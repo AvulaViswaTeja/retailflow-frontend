@@ -93,7 +93,7 @@ import DeleteInvoice from './components/Invoice/DeleteInvoice';
 import GetAllInvoices from './components/Invoice/GetAllInvoices';
 import GetInvoiceByDateRange from './components/Invoice/GetInvoiceByDateRange';
 
-import GetByStatus from './components/Invoice/GetByStatus';
+import GetInvoiceByStatus from './components/Invoice/GetInvoiceByStatus';
 import GetInvoicePaginated from './components/Invoice/GetInvoicePaginated';
 
 import UserHome from './components/User/UserHome';
@@ -216,7 +216,7 @@ function App() {
           <Route path="delete" element={<DeleteInvoice/>}></Route>
           <Route path="getAll" element={<GetAllInvoices/>}></Route>
           <Route path="getByDateRange" element={<GetInvoiceByDateRange/>}></Route>
-          <Route path="getByStatus" element={<GetByStatus />}></Route>
+          <Route path="getByStatus" element={<GetInvoiceByStatus />}></Route>
           <Route path="getPaginated" element={<GetInvoicePaginated />}></Route>
         </Route>
 
