@@ -1,36 +1,34 @@
 import { useState } from "react";
 import api from "../../api";
 
-export default function GetSalesByDateRange() {
+export default function GetInvoiceByDateRange() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
-  const [sales, setSales] = useState([]);
+  const [invoices, setInvoices] = useState([]);
   const [error, setError] = useState("");
   const [searched, setSearched] = useState(false);
 
   const handleSearch = async () => {
     setSearched(true);
-    setSales([]);
+    setInvoices([]);
     setError("");
 
     try {
-      const res = await api.get("/api/sales/date-range", {
+      const res = await api.get("/api/invoices/date-range", {
         params: {
           start: startDate,
           end: endDate,
         },
       });
-      console.log(res.data);
-      setSales(res.data);
+      setInvoices(res.data);
     } catch (err) {
-      console.log(err);
       setError(err.response?.data?.message || "Something went wrong");
     }
   };
 
   return (
     <div>
-      <h1>Get Sales By Date Range</h1>
+      <h1>Get Invoices By Date Range</h1>
 
       <label>Start Date: </label>
       <input
@@ -52,40 +50,36 @@ export default function GetSalesByDateRange() {
 
       <button onClick={handleSearch}>Search</button>
 
+      <br /><br />
+
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      {searched && sales.length === 0 && !error && (
-        <p>No sales found between {startDate} and {endDate}</p>
+      {searched && invoices.length === 0 && !error && (
+        <p>No invoices found between {startDate} and {endDate}</p>
       )}
 
-      {sales.length > 0 && (
+      {invoices.length > 0 && (
         <table border={1}>
           <thead>
             <tr>
+              <th>Invoice ID</th>
               <th>Sale ID</th>
-              <th>Product ID</th>
-              <th>Product Name</th>
               <th>Customer ID</th>
-              <th>Quantity</th>
               <th>Amount</th>
               <th>Date</th>
               <th>Status</th>
-              <th>Invoice ID</th>
             </tr>
           </thead>
           <tbody>
-            {sales.map((sale) => {
+            {invoices.map((invoice) => {
               return (
-                <tr key={sale.saleId}>
-                  <td>{sale.saleId}</td>
-                  <td>{sale.productId}</td>
-                  <td>{sale.productName}</td>
-                  <td>{sale.customerId}</td>
-                  <td>{sale.quantity}</td>
-                  <td>{sale.amount}</td>
-                  <td>{sale.date}</td>
-                  <td>{sale.status}</td>
-                  <td>{sale.invoiceId}</td>
+                <tr key={invoice.invoiceId}>
+                  <td>{invoice.invoiceId}</td>
+                  <td>{invoice.saleId}</td>
+                  <td>{invoice.customerId}</td>
+                  <td>{invoice.amount}</td>
+                  <td>{invoice.date}</td>
+                  <td>{invoice.status}</td>
                 </tr>
               );
             })}
