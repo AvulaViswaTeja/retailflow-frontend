@@ -2,7 +2,6 @@ import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import CatalogHome from './components/Catalog/CatalogHome';
 import InsertCatalog from './components/Catalog/InsertCatalog';
 import DeleteCatalog from './components/Catalog/DeleteCatalog';
-import InventoryHome  from './components/Inventory/InventoryHome';
 import SaleHome from './components/Sale/SaleHome';
 
 
@@ -16,6 +15,8 @@ import UpdateCatalog from './components/Catalog/UpdateCatalog';
 import GetAllCatalogs from './components/Catalog/GetAllCatalogs';
 import GetCatalogById from './components/Catalog/GetCatalogById';
 import GetCatalogsByProduct from './components/Catalog/GetCatalogsByProduct';
+
+
 
 import AddInventory from './components/Inventory/AddInventory';
 import DeleteInventory from './components/Inventory/DeleteInventory';
@@ -91,6 +92,7 @@ import InsertInvoice from './components/Invoice/InsertInvoice';
 import UpdateInvoice from './components/Invoice/UpdateInvoice';
 import DeleteInvoice from './components/Invoice/DeleteInvoice';
 import GetAllInvoices from './components/Invoice/GetAllInvoices';
+import GetByStatus from './components/Invoice/GetByStatus';
 import GetInvoiceByDateRange from './components/Invoice/GetInvoiceByDateRange';
 import GetInvoiceById from './components/Invoice/GetInvoiceById';
 import GetInvoiceByStatus from './components/Invoice/GetInvoiceByStatus';
@@ -147,23 +149,28 @@ function App() {
     <Router>
       <Routes>
         <Route path="/Catalog" element={<CatalogHome/>}>
-          <Route path="insert" element={<InsertCatalog/>}></Route>
-          <Route path="delete" element={<DeleteCatalog/>}></Route>
-          <Route path='update' element={<UpdateCatalog/>}></Route>
-          <Route path='getAll' element={<GetAllCatalogs/>}></Route>
-          <Route path='getById' element={<GetCatalogById/>}></Route>
-          <Route path='getByProduct' element={<GetCatalogsByProduct/>}></Route>
+          <Route path="insert"       element={<InsertCatalog/>}/>
+          <Route path="delete"     element={<DeleteCatalog/>}/>   {/* ✅ no :id needed */}
+          <Route path="delete/:id" element={<DeleteCatalog/>}/>
+          <Route path="update"       element={<UpdateCatalog/>}/>       {/* Nav → asks for ID */}
+          <Route path="update/:id"   element={<UpdateCatalog/>}/>       {/* Edit button → loads directly */}
+          <Route path="getAll"       element={<GetAllCatalogs/>}/>
+          <Route path="getById"      element={<GetCatalogById/>}/>
+          <Route path="getByProduct" element={<GetCatalogsByProduct/>}/>
         </Route>
 
         <Route path='/Product' element={<ProductHome/>}>
-          <Route path='add' element={<AddProduct/>}></Route>
-          <Route path='delete' element={<DeleteProduct/>}></Route>
-          <Route path='update' element={<UpdateProduct/>}></Route>
-          <Route path='getById' element={<GetProductById/>}></Route>
-          <Route path='getAll' element={<GetAllProducts/>}></Route>
-        </Route>
+          <Route path='add'        element={<AddProduct/>}/>
+          <Route path='update'     element={<UpdateProduct/>}/>      {/* ✅ nav → asks for ID */}
+          <Route path='update/:id' element={<UpdateProduct/>}/>      {/* ✅ Edit button → loads directly */}
+          <Route path='getById'    element={<GetProductById/>}/>
+          <Route path='getAll'     element={<GetAllProducts/>}/>
+          <Route path='delete'     element={<DeleteProduct/>}/>
+        <Route path='delete/:id' element={<DeleteProduct/>}/>
+      </Route>
 
 
+        
         <Route path="/Inventory" element={<InventoryHome/>}>
         <Route path="insert" element={<AddInventory/>}></Route>
         <Route path="delete" element={<DeleteInventory/>}></Route>
@@ -174,6 +181,7 @@ function App() {
         <Route path="getByProduct" element={<GetInventoryByProduct/>}></Route>
         <Route path="replenish" element={<ReplenishStock/>}></Route>
         </Route>
+
         <Route path="/PurchaseOrder" element={<PurchaseOrderHome/>}>
           <Route path="insert" element={<CreatePurchaseOrder />} />
           <Route path="delete" element={<CancelPurchaseOrder />} />
@@ -182,6 +190,8 @@ function App() {
           <Route path="getAll" element={<GetAllPurchaseOrders />} />
           <Route path="getBySupplier" element={<GetPurchaseBySupplier />} />
           <Route path="getByStatus" element={<GetPurchaseByStatus />} />
+        </Route>        
+
         </Route>
         
 
@@ -195,6 +205,7 @@ function App() {
 
 
         
+
         
         <Route path="/auditLog" element={<AuditLogHome/>}>
             <Route path="getAuditLogs" element={<GetAllAuditLogs/>} />
