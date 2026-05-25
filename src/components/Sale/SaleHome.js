@@ -14,7 +14,7 @@ export default function SaleHome() {
             <Link to="update">Update sale</Link>
           </li>
           <li>
-            <Link to="getById">Get Catalogs By Id</Link>
+            <Link to="getById">Get Sale By Id</Link>
           </li>
           <li>
             <Link to="getAll">Get All Sales</Link>
