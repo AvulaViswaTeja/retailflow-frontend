@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useState } from 'react';
 
-export default function SaveReport() {
+export default function InsertComplianceReport() {
 
     let [scope, setScope] = useState("");
     let [metrics, setMetrics] = useState("");
@@ -12,7 +12,7 @@ export default function SaveReport() {
     let saveHandler = (e) => {
         e.preventDefault();
 
-        let url = "http://localhost:8016/api/kpi-reports";
+        let url = "http://localhost:8016/api/compliance-reports";
 
         let data = {
             scope: scope,
@@ -20,18 +20,18 @@ export default function SaveReport() {
         };
 
         axios.post(url, data).then((response) => {
-            alert("KPI Report Saved! ID: " + response.data.reportId);
+            alert("Compliance Report Saved! ID: " + response.data.reportId);
             setScope("");
             setMetrics("");
         }).catch((error) => {
-            console.error("Error saving KPI report:", error);
-            alert("Failed to save KPI report.");
+            console.error("Error saving compliance report:", error);
+            alert("Failed to save compliance report.");
         });
     }
 
     return (
         <div>
-            <h2>Save KPI Report</h2>
+            <h2>Insert Compliance Report</h2>
 
             <label>Scope</label>
             <select value={scope} onChange={scopeHandler}>
@@ -47,7 +47,7 @@ export default function SaveReport() {
             <input
                 value={metrics}
                 onChange={metricsHandler}
-                placeholder="e.g. Stock Turnover: 4.75 | Sales Growth: 12%"
+                placeholder="e.g. Shrinkage: 2% | Growth: 10%"
                 style={{ width: "400px" }}
             />
             <br />

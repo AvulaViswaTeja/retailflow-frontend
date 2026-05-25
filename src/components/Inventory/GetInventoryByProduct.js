@@ -1,5 +1,60 @@
-export  default function GetInventoryByProduct(){
-    return(<div>
-        <h1>Get By Product</h1>
-    </div>);
-} 
+import { useState } from "react";
+import axios from "axios";
+
+export default function GetInventoryByProduct() {
+  const [productId, setProductId] = useState("");
+  const [inventoryArr, setInventoryArr] = useState([]);
+
+  const fetchInventory = () => {
+    if (!productId) return;
+    let url = "http://localhost:8014/api/inventory/product/" + productId;
+    axios.get(url)
+      .then((response) => {
+        // assuming backend returns an array of inventory records
+        setInventoryArr(response.data);
+      })
+      .catch((error) => {
+        console.error("Error fetching inventory:", error);
+      });
+  };
+
+  return (
+    <div>
+      <h1>Get Inventory By Product ID</h1>
+      <label>Product ID:</label>
+      <input
+        type="text"
+        value={productId}
+        onChange={(e) => setProductId(e.target.value)}
+      />
+      <button onClick={fetchInventory}>Show Inventory</button>
+
+      {inventoryArr.length > 0 && (
+        <table border="1">
+          <thead>
+            <tr>
+              <th>Inventory ID</th>
+              <th>Product ID</th>
+              <th>Location ID</th>
+              <th>Quantity On Hand</th>
+              <th>Safety Stock</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            {inventoryArr.map((inv) => (
+              <tr key={inv.inventoryId}>
+                <td>{inv.inventoryId}</td>
+                <td>{inv.productId}</td>
+                <td>{inv.locationId}</td>
+                <td>{inv.quantityOnHand}</td>
+                <td>{inv.safetyStock}</td>
+                <td>{inv.status}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
+  );
+}
