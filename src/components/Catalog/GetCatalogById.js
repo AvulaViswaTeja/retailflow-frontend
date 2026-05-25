@@ -38,7 +38,7 @@ export default function GetCatalogById() {
             />
             <button onClick={searchHandler}>Search</button>
 
-            {/* Error Message */}
+            
             {error && <p>{error}</p>}
 
             

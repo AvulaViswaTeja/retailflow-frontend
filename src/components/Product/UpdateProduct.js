@@ -14,8 +14,7 @@ export default function UpdateProduct() {
     let [price, setPrice] = useState("");
     let [status, setStatus] = useState("");
 
-    // ✅ If ID comes from URL (Edit button), load directly
-    // ✅ If no ID (nav link), reset everything
+
     useEffect(() => {
         if (id) {
             fetchProduct(id);
@@ -75,7 +74,7 @@ export default function UpdateProduct() {
         <div>
             <h1>Update Product</h1>
 
-            {/* ✅ Show search box only when coming from nav (no ID in URL) */}
+      
             {!id && (
                 <div>
                     <label>Enter Product ID: </label>
@@ -90,7 +89,7 @@ export default function UpdateProduct() {
                 </div>
             )}
 
-            {/* ✅ Form shown after product is found */}
+            
             {productFound && (
                 <div>
                     <h3>Editing Product ID: {productId}</h3>

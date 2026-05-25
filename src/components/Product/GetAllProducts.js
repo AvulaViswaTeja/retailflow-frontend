@@ -24,7 +24,7 @@ export default function GetAllProducts() {
             axios.delete("http://localhost:8014/api/products/" + id)
                 .then(() => {
                     alert("Product marked as INACTIVE!");
-                    fetchProducts();  // ✅ refresh table
+                    fetchProducts(); 
                 })
                 .catch(() => alert("Delete failed!"));
         }
@@ -53,12 +53,12 @@ export default function GetAllProducts() {
                             <td>{product.price}</td>
                             <td>{product.status}</td>
                             <td>
-                                {/* ✅ Delete calls API directly */}
+                                
                                 <button onClick={() => deleteHandler(product.productId)}>
                                     Delete
                                 </button>
                                 &nbsp;
-                                {/* ✅ Edit navigates to update form with correct path */}
+                                
                                 <Link to={`/Product/update/${product.productId}`}>Edit</Link>
                             </td>
                         </tr>
