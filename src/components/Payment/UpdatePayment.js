@@ -1,5 +1,5 @@
 import { useState } from "react";
-import api from "../../api";
+import axios from "axios";
 
 export default function UpdatePayment() {
   const [paymentId, setPaymentId] = useState("");
@@ -14,7 +14,13 @@ export default function UpdatePayment() {
     setCurrentPayment(null);
 
     try {
-      const res = await api.get("/api/payments/" + paymentId);
+      let token = localStorage.getItem("token");
+      const res = await axios.get(
+        "http://localhost:8014/api/payments/" + paymentId,
+        {
+          headers: { Authorization: "Bearer " + token },
+        },
+      );
       setCurrentPayment(res.data);
       setMethod(res.data.method);
     } catch (err) {
@@ -27,19 +33,28 @@ export default function UpdatePayment() {
     setError("");
 
     try {
-      const res = await api.put("/api/payments/" + paymentId, {
-        invoiceId: currentPayment.invoiceId,
-        amount: currentPayment.amount,
-        method: method,
-      });
+      let token = localStorage.getItem("token");
+      const res = await axios.put(
+        "http://localhost:8014/api/payments/" + paymentId,
+        {
+          invoiceId: currentPayment.invoiceId,
+          amount: currentPayment.amount,
+          method: method,
+        },
+        {
+          headers: { Authorization: "Bearer " + token },
+        },
+      );
 
       setCurrentPayment(res.data);
       setMethod(res.data.method);
 
       setMessage(
         "Payment updated! " +
-          "Payment ID: " + res.data.paymentId +
-          " | Method changed to: " + res.data.method
+          "Payment ID: " +
+          res.data.paymentId +
+          " | Method changed to: " +
+          res.data.method,
       );
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong");
@@ -50,7 +65,6 @@ export default function UpdatePayment() {
     <div>
       <h1>Update Payment</h1>
 
-     
       <label>Payment ID: </label>
       <input
         type="number"
@@ -61,12 +75,12 @@ export default function UpdatePayment() {
       />
       <button onClick={handleSearch}>Search</button>
 
-      <br /><br />
+      <br />
+      <br />
 
       {error && <p style={{ color: "red" }}>{error}</p>}
       {message && <p style={{ color: "green" }}>{message}</p>}
 
-    
       {currentPayment && (
         <div>
           <table border={1}>
@@ -95,9 +109,7 @@ export default function UpdatePayment() {
           <br />
 
           {currentPayment.status === "REFUNDED" ? (
-            <p style={{ color: "orange" }}>
-              Cannot update a refunded payment!
-            </p>
+            <p style={{ color: "orange" }}>Cannot update a refunded payment!</p>
           ) : (
             <div>
               <label>New Method: </label>
@@ -111,7 +123,8 @@ export default function UpdatePayment() {
                 <option value="NET_BANKING">NET_BANKING</option>
               </select>
 
-              <br /><br />
+              <br />
+              <br />
 
               <button onClick={handleUpdate}>Update Payment</button>
             </div>

@@ -1,5 +1,6 @@
+import axios from "axios";
 import { useState } from "react";
-import api from "../../api";
+
 
 //Refund == Delete Payment
 
@@ -15,7 +16,10 @@ export default function DeletePayment() {
     setCurrentPayment(null);
 
     try {
-      const res = await api.get("/api/payments/" + paymentId);
+      let token = localStorage.getItem("token");
+      const res = await axios.get("http://localhost:8014/api/payments/" + paymentId, {
+            headers: { "Authorization": "Bearer " + token }
+        });
       setCurrentPayment(res.data);
     } catch (err) {
       setError(err.response?.data?.message || "Payment not found");
@@ -27,7 +31,7 @@ export default function DeletePayment() {
     setError("");
 
     try {
-      await api.patch("/api/payments/" + paymentId + "/refund");
+      await axios.patch("http://localhost:8014/api/payments/" + paymentId + "/refund");
       setMessage(
         "Payment ID: " + paymentId + " refunded successfully!"
       );

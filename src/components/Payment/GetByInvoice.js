@@ -1,5 +1,6 @@
 import { useState } from "react";
-import api from "../../api";
+
+import axios from "axios";
 
 export default function GetByInvoice() {
   const [invoiceId, setInvoiceId] = useState("");
@@ -7,13 +8,20 @@ export default function GetByInvoice() {
   const [error, setError] = useState("");
   const [searched, setSearched] = useState(false);
 
+
   const handleSearch = async () => {
     setSearched(true);
     setPayments([]);
     setError("");
 
     try {
-      const res = await api.get("/api/payments/invoice/" + invoiceId);
+      let token = localStorage.getItem("token");
+      const res = await axios.get(
+        "http://localhost:8014/api/payments/invoice/" + invoiceId,
+        {
+          headers: { Authorization: "Bearer " + token },
+        },
+      );
       setPayments(res.data);
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong");
@@ -34,7 +42,8 @@ export default function GetByInvoice() {
       />
       <button onClick={handleSearch}>Search</button>
 
-      <br /><br />
+      <br />
+      <br />
 
       {error && <p style={{ color: "red" }}>{error}</p>}
 

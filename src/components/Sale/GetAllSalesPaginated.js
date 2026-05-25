@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import api from "../../api";
+import axios from "axios";
 
 export default function GetAllSalesPaginated() {
   const [sales, setSales] = useState([]);
@@ -12,13 +12,20 @@ export default function GetAllSalesPaginated() {
   const fetchSales = (pageNumber) => {
     setLoading(true);
     setError("");
-
-    api.get("/api/sales/paginated", {
-      params: {
-        page: pageNumber,
-        size: 5,
-      },
-    })
+    let token = localStorage.getItem("token");
+    axios
+      .get(
+        "http://localhost:8014/api/sales/paginated",
+        {
+          params: {
+            page: pageNumber,
+            size: 5,
+          },
+        },
+        {
+          headers: { Authorization: "Bearer " + token },
+        },
+      )
       .then((res) => {
         setSales(res.data.content);
         setTotalPages(res.data.totalPages);
@@ -88,7 +95,6 @@ export default function GetAllSalesPaginated() {
 
       <br />
 
-  
       <button onClick={handlePrevious} disabled={page === 0}>
         Previous
       </button>
@@ -100,7 +106,6 @@ export default function GetAllSalesPaginated() {
       <button onClick={handleNext} disabled={page === totalPages - 1}>
         Next
       </button>
-
     </div>
   );
 }

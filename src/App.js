@@ -145,8 +145,8 @@ function App() {
         localStorage.clear(); 
  
         
-        axios.post("http://localhost:1405/api/auth/login", {
-            "email": "admin@store.com",
+        axios.post("http://localhost:8014/api/auth/login", {
+            "email": "admin@retailflow.com",
             "password": "admin123"
         })
         .then((res) => {

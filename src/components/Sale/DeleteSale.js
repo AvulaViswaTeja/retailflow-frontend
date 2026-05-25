@@ -1,5 +1,6 @@
 import { useState } from "react";
-import api from "../../api";
+
+import axios from "axios";
 
 export default function DeleteSale() {
   const [saleId, setSaleId] = useState("");
@@ -13,7 +14,10 @@ export default function DeleteSale() {
     setCurrentSale(null);
 
     try {
-      const res = await api.get("/api/sales/" + saleId);
+      let token = localStorage.getItem("token");
+      const res = await axios.get("http://localhost:8014/api/sales/" + saleId,{
+            headers: { "Authorization": "Bearer " + token }
+        });
       setCurrentSale(res.data);
     } catch (err) {
       setError(err.response?.data?.message || "Sale not found");
@@ -25,7 +29,10 @@ export default function DeleteSale() {
     setError("");
 
     try {
-      await api.delete("/api/sales/" + saleId);
+      let token = localStorage.getItem("token");
+      await axios.delete("http://localhost:8014/api/sales/" + saleId, {
+            headers: { "Authorization": "Bearer " + token }
+        });
       setMessage("Sale ID: " + saleId + " cancelled successfully!");
       setCurrentSale(null);
       setSaleId("");

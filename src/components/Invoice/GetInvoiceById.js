@@ -1,5 +1,6 @@
+import axios from "axios";
 import { useState } from "react";
-import api from "../../api";
+
 
 export default function GetInvoiceById() {
   const [invoiceId, setInvoiceId] = useState("");
@@ -11,7 +12,10 @@ export default function GetInvoiceById() {
     setError("");
 
     try {
-      const res = await api.get("/api/invoices/" + invoiceId);
+      let token = localStorage.getItem("token");
+      const res = await axios.get("http://localhost:8014/api/invoices/" + invoiceId,{
+            headers: { "Authorization": "Bearer " + token }
+        });
       setInvoice(res.data);
     } catch (err) {
       setError(err.response?.data?.message || "Invoice not found");
