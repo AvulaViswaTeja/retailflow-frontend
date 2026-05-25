@@ -198,28 +198,10 @@ function App() {
           <Route path="getNotificationByUser" element={<GetNotificationByUser/>}/>
         </Route>
 
-        {/* Sale */}
-        <Route path="/Sale" element={<SaleHome/>}>
-          <Route path="insert"              element={<InsertSale/>}/>
-          <Route path="delete"              element={<DeleteSale/>}/>
-          <Route path="update"              element={<UpdateSale/>}/>
-          <Route path="getById"             element={<GetSaleById/>}/>
-          <Route path="getAll"              element={<GetAllSales/>}/>
-          <Route path="getAllPaginated"     element={<GetAllSalesPaginated/>}/>
-          <Route path="getSalesByCustomer"  element={<GetSalesByCustomer/>}/>
-          <Route path="getSalesByDateRange" element={<GetSalesByDateRange/>}/>
-        </Route>
+        
 
-        {/* Payment */}
-        <Route path="/Payment" element={<PaymentHome/>}>
-          <Route path="insert"         element={<InsertPayment/>}/>
-          <Route path="update"         element={<UpdatePayment/>}/>
-          <Route path="delete"         element={<DeletePayment/>}/>
-          <Route path="getPaymentById" element={<GetPaymentById/>}/>
-          <Route path="getAll"         element={<GetAllPayments/>}/>
-          <Route path="getByInvoice"   element={<GetByInvoice/>}/>
-          <Route path="getPaginated"   element={<GetPaginatedPayments/>}/>
-        </Route>
+        
+       
         <Route path="/Catalog" element={<CatalogHome/>}>
           <Route path="insert"       element={<InsertCatalog/>}/>
           <Route path="delete"     element={<DeleteCatalog/>}/>  
