@@ -312,8 +312,8 @@ function App() {
         
         <Route path="/Inventory" element={<InventoryHome/>}>
         <Route path="insert" element={<AddInventory/>}></Route>
-        <Route path="delete" element={<DeleteInventory/>}></Route>
-        <Route path="update" element={<UpdateInventory/>}></Route>
+        <Route path="delete/:inventoryId" element={<DeleteInventory/>}></Route>
+        <Route path="update/:inventoryId" element={<UpdateInventory/>}></Route>
         <Route path="getById" element={<GetInventoryById/>}></Route>
         <Route path="getAll" element={<GetAllInventory/>}></Route>
         <Route path="getLowStock" element={<GetLowStock/>}></Route>
@@ -323,12 +323,13 @@ function App() {
 
         <Route path="/PurchaseOrder" element={<PurchaseOrderHome/>}>
           <Route path="insert" element={<CreatePurchaseOrder />} />
-          <Route path="delete" element={<CancelPurchaseOrder />} />
-          <Route path="update" element={<UpdatePurchaseOrder />} />
+          <Route path="delete/:purchaseOrderId" element={<CancelPurchaseOrder />} />
+          <Route path="update/:purchaseOrderId" element={<UpdatePurchaseOrder />} />
           <Route path="getById" element={<GetPurchaseOrderById />} />
           <Route path="getAll" element={<GetAllPurchaseOrders />} />
           <Route path="getBySupplier" element={<GetPurchaseBySupplier />} />
           <Route path="getByStatus" element={<GetPurchaseByStatus />} />
+</Route>
         </Route>        
 
         </Route>
