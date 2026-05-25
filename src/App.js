@@ -92,8 +92,8 @@ import UpdateInvoice from './components/Invoice/UpdateInvoice';
 import DeleteInvoice from './components/Invoice/DeleteInvoice';
 import GetAllInvoices from './components/Invoice/GetAllInvoices';
 import GetInvoiceByDateRange from './components/Invoice/GetInvoiceByDateRange';
-
-import GetByStatus from './components/Invoice/GetByStatus';
+import GetInvoiceById from './components/Invoice/GetInvoiceById';
+import GetInvoiceByStatus from './components/Invoice/GetInvoiceByStatus';
 import GetInvoicePaginated from './components/Invoice/GetInvoicePaginated';
 
 import UserHome from './components/User/UserHome';
@@ -108,6 +108,7 @@ import InsertNotification from './components/Notification/InsertNotification';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import MarkAsRead from './components/Notification/MarkAsRead';
+
 
 function App() {
    const [loading, setLoading] = useState(true); // wait for login to finish
@@ -252,8 +253,9 @@ function App() {
           <Route path="update" element={<UpdateInvoice/>}></Route>
           <Route path="delete" element={<DeleteInvoice/>}></Route>
           <Route path="getAll" element={<GetAllInvoices/>}></Route>
+          <Route path="getById" element={<GetInvoiceById/>}></Route>
           <Route path="getByDateRange" element={<GetInvoiceByDateRange/>}></Route>
-          <Route path="getByStatus" element={<GetByStatus />}></Route>
+          <Route path="getByStatus" element={<GetInvoiceByStatus />}></Route>
           <Route path="getPaginated" element={<GetInvoicePaginated />}></Route>
         </Route>
 

@@ -1,9 +1,8 @@
 import { useState } from "react";
 import api from "../../api";
 
-export default function GetInvoiceByDateRange() {
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+export default function GetInvoiceByStatus() {
+  const [status, setStatus] = useState("PENDING");
   const [invoices, setInvoices] = useState([]);
   const [error, setError] = useState("");
   const [searched, setSearched] = useState(false);
@@ -14,12 +13,7 @@ export default function GetInvoiceByDateRange() {
     setError("");
 
     try {
-      const res = await api.get("/api/invoices/date-range", {
-        params: {
-          start: startDate,
-          end: endDate,
-        },
-      });
+      const res = await api.get("/api/invoices/status/" + status);
       setInvoices(res.data);
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong");
@@ -28,25 +22,18 @@ export default function GetInvoiceByDateRange() {
 
   return (
     <div>
-      <h1>Get Invoices By Date Range</h1>
+      <h1>Get Invoices By Status</h1>
 
-      <label>Start Date: </label>
-      <input
-        type="date"
-        value={startDate}
-        onChange={(e) => setStartDate(e.target.value)}
-      />
-
-      <br /><br />
-
-      <label>End Date: </label>
-      <input
-        type="date"
-        value={endDate}
-        onChange={(e) => setEndDate(e.target.value)}
-      />
-
-      <br /><br />
+      <label>Select Status: </label>
+      <select
+        value={status}
+        onChange={(e) => setStatus(e.target.value)}
+      >
+        <option value="PENDING">PENDING</option>
+        <option value="PAID">PAID</option>
+        <option value="PARTIALLY_PAID">PARTIALLY_PAID</option>
+        <option value="CANCELLED">CANCELLED</option>
+      </select>
 
       <button onClick={handleSearch}>Search</button>
 
@@ -55,7 +42,7 @@ export default function GetInvoiceByDateRange() {
       {error && <p style={{ color: "red" }}>{error}</p>}
 
       {searched && invoices.length === 0 && !error && (
-        <p>No invoices found between {startDate} and {endDate}</p>
+        <p>No invoices found with status: {status}</p>
       )}
 
       {invoices.length > 0 && (
