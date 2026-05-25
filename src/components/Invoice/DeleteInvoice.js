@@ -82,7 +82,7 @@ export default function DeleteInvoice() {
 
           <br />
 
-          
+            
           {currentInvoice.status === "PAID" ? (
             <p style={{ color: "orange" }}>
               Cannot cancel a PAID invoice!
