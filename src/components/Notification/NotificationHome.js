@@ -20,6 +20,9 @@ export default function NotificationHome(){
                     <li>
                         <Link to="getNotificationByUser">Get Notification by User</Link>
                     </li>
+                    <li>
+                        <Link to="markAsReadNotification">Mark As Read Notification By User</Link>
+                    </li>
                 </ul>
             </nav>
             <Outlet></Outlet>

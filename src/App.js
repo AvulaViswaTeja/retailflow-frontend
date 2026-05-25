@@ -1,4 +1,4 @@
-import {BrowserRouter as Router, Routes, Route,Outlet} from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
 import CatalogHome from './components/Catalog/CatalogHome';
 import InsertCatalog from './components/Catalog/InsertCatalog';
 import DeleteCatalog from './components/Catalog/DeleteCatalog';
@@ -46,7 +46,7 @@ import GetPaginated from './components/AuditLog/GetPaginated';
 import AddUser from './components/User/AddUser';
 import DeleteUser from './components/User/DeleteUser';
 import UpdateUser from './components/User/UpdateUser';
-import GetUserById from './components/User/UpdateUser';
+import GetUserById from './components/User/GetUserById';
 
 import ComplianceReportHome from './components/ComplianceReport/CompilanceReportHome';
 import InsertComplianceReport from './components/ComplianceReport/InsertReport';
@@ -105,9 +105,44 @@ import GetNotificationById from './components/Notification/GetNotificationById';
 import GetPaginatedUsers from './components/User/GetPaginatedUsers';
 import GetAllUsers from './components/User/GetAllUsers';
 import InsertNotification from './components/Notification/InsertNotification';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import MarkAsRead from './components/Notification/MarkAsRead';
 
 function App() {
+   const [loading, setLoading] = useState(true); // wait for login to finish
+ 
+    useEffect(() => {
+        // Check if token already exists — no need to login again
+        // const existingToken = localStorage.getItem("token");
+        // if (existingToken) {
+        //     setLoading(false); // already logged in
+        //     return;
+        // }
+        localStorage.clear(); 
+ 
+        
+        axios.post("http://localhost:1405/api/auth/login", {
+            "email": "admin@store.com",
+            "password": "admin123"
+        })
+        .then((res) => {
+            localStorage.setItem("token", res.data.token);
+            localStorage.setItem("role", res.data.role);
+            localStorage.setItem("userName", res.data.userName);
+            console.log("Auto logged in as Admin");
+            setLoading(false);
+        })
+        .catch((err) => {
+            console.log("Auto login failed: " + err.message);
+            setLoading(false);
+        });
+    }, []); 
+    if (loading) {
+        return <div>Logging in...</div>;
+    }
   return (
+    
     <Router>
       <Routes>
         <Route path="/Catalog" element={<CatalogHome/>}>
@@ -167,12 +202,13 @@ function App() {
             <Route path="getByUser" element={<GetByUser/>} />
             <Route path="getPaginated" element={<GetPaginated/>} />
         </Route>
-
+      
          <Route path="/user" element={<UserHome/>}>
+         
             <Route path="addUser" element={<AddUser/>} />
             <Route path="deleteUser" element={<DeleteUser/>} />
             <Route path="updateUser" element={<UpdateUser/>} />
-            <Route path="getUserById" element={<GetUserById/>} />
+            <Route path="getUserById" element={<GetUserById />} />
             <Route path="getUserPaginated" element={<GetPaginatedUsers/>} />
             <Route path="getAllUsers" element={<GetAllUsers/>} />
         </Route>
@@ -182,6 +218,7 @@ function App() {
             <Route path="getAllNotifications" element={<GetAllNotifications/>} />
             <Route path="getNotificationById" element={<GetNotificationById/>} />
             <Route path="getNotificationByUser" element={<GetNotificationByUser/>} />
+            <Route path="markAsReadNotification" element={<MarkAsRead/>} />
         </Route>
 
 
