@@ -6,6 +6,7 @@ export  default function AddInventory(){
    let [quantityOnHand, setQuantityOnHand] = useState("");
    let [safetyStock, setSafetyStock] = useState("");
    let [status, setStatus] = useState("");
+   let token = localStorage.getItem("token");
     let submitHandler = (e) => {
         e.preventDefault();
         let url = "http://localhost:8014/api/inventory";
@@ -16,7 +17,9 @@ export  default function AddInventory(){
             "safetyStock": safetyStock,
             "status": status
         };
-        axios.post(url, inventory)
+        axios.post(url, inventory, {
+            headers: { "Authorization": "Bearer " + token }
+        })
             .then((response) => {
                 alert("Inventory Added Successfully: " + response.data);
             })

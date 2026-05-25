@@ -5,10 +5,12 @@ export default function ReplenishStock() {
   const [inventoryId, setInventoryId] = useState("");
   const [quantity, setQuantity] = useState("");
   const [updatedInventory, setUpdatedInventory] = useState(null);
-
+    let token = localStorage.getItem("token");
   const replenishHandler = () => {
     let url = `http://localhost:8014/api/inventory/${inventoryId}/replenish?quantity=${quantity}`;
-    axios.patch(url)
+    axios.patch(url, null, {
+            headers: { "Authorization": "Bearer " + token }
+        })
       .then((response) => {
         setUpdatedInventory(response.data); // store updated inventory object
       })

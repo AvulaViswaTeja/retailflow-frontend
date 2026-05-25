@@ -4,11 +4,14 @@ import axios from "axios";
 export default function GetInventoryById() {
   const [inventoryId, setInventoryId] = useState("");
   const [inventory, setInventory] = useState(null);
+    let token = localStorage.getItem("token");
 
   const fetchInventory = () => {
     if (!inventoryId) return;
     let url = "http://localhost:8014/api/inventory/" + inventoryId;
-    axios.get(url)
+    axios.get(url, {
+            headers: { "Authorization": "Bearer " + token }
+        })
       .then((response) => {
         setInventory(response.data); // store single inventory record
       })
