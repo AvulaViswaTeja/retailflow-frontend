@@ -61,7 +61,6 @@ import UpdatePayment from './components/Payment/UpdatePayment'
 import DeletePayment from './components/Payment/DeletePayment'
 import GetPaymentById from './components/Payment/GetPaymentById'
 import GetByInvoice from './components/Payment/GetByInvoice'
-import GetPaymentPaginated from './components/Payment/GetPaginated'
 import GetPaginatedPayments from './components/Payment/GetPaginatedPayments'
 import GetAllPayments from './components/Payment/GetAllPayments'
 
@@ -70,7 +69,6 @@ import InsertInvoice from './components/Invoice/InsertInvoice';
 import UpdateInvoice from './components/Invoice/UpdateInvoice';
 import DeleteInvoice from './components/Invoice/DeleteInvoice';
 import GetAllInvoices from './components/Invoice/GetAllInvoices';
-import GetInvoiceByDateRange from './components/Invoice/GetByDateRange';
 import GetInvoiceByDateRange from './components/Invoice/GetInvoiceByDateRange';
 import GetByStatus from './components/Invoice/GetByStatus';
 import GetInvoicePaginated from './components/Invoice/GetInvoicePaginated';
@@ -109,8 +107,8 @@ function App() {
 
         <Route path="/Inventory" element={<InventoryHome/>}>
         <Route path="insert" element={<AddInventory/>}></Route>
-        <Route path="delete" element={<DeleteInventory/>}></Route>
-        <Route path="update" element={<UpdateInventory/>}></Route>
+        <Route path="delete/:inventoryId" element={<DeleteInventory/>}></Route>
+        <Route path="update/:inventoryId" element={<UpdateInventory/>}></Route>
         <Route path="getById" element={<GetInventoryById/>}></Route>
         <Route path="getAll" element={<GetAllInventory/>}></Route>
         <Route path="getLowStock" element={<GetLowStock/>}></Route>
@@ -119,14 +117,13 @@ function App() {
         </Route>
         <Route path="/PurchaseOrder" element={<PurchaseOrderHome/>}>
           <Route path="insert" element={<CreatePurchaseOrder />} />
-          <Route path="delete" element={<CancelPurchaseOrder />} />
-          <Route path="update" element={<UpdatePurchaseOrder />} />
+          <Route path="delete/:purchaseOrderId" element={<CancelPurchaseOrder />} />
+          <Route path="update/:purchaseOrderId" element={<UpdatePurchaseOrder />} />
           <Route path="getById" element={<GetPurchaseOrderById />} />
           <Route path="getAll" element={<GetAllPurchaseOrders />} />
           <Route path="getBySupplier" element={<GetPurchaseBySupplier />} />
           <Route path="getByStatus" element={<GetPurchaseByStatus />} />
 </Route>
-        </Route>
 
         <Route path='/Product' element={<ProductHome/>}>
           <Route path='add' element={<AddProduct/>}></Route>
@@ -184,7 +181,6 @@ function App() {
           <Route path="getPaymentById" element={<GetPaymentById/>}></Route>
           <Route path="getAll" element={<GetAllPayments/>}></Route>
           <Route path="getByInvoice" element={<GetByInvoice/>}></Route>
-          <Route path="getPaginated" element={<GetPaymentPaginated/>}></Route>
           <Route path="getPaginated" element={<GetPaginatedPayments/>}></Route>
         </Route>
 
