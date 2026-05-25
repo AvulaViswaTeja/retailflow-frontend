@@ -8,8 +8,8 @@ export default function GetPaymentById() {
     try {
         setError("");
         setPayment(null);
-      const res = await api.get("/api/payments/" + paymentId);
-      setPayment(res.data);
+        const res = await api.get("/api/payments/" + paymentId);
+        setPayment(res.data);
       
     } catch (err) {
       setError(err.response?.data?.message || "Payment not found");
