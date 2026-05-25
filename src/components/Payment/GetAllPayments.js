@@ -19,6 +19,8 @@ export  default function GetAllPayments(){
 
     if(loading) return <p>Loading...</p>
 
+    if(error) return <p style={{color:"red"}}>{error}</p>
+
     if(payments.length===0) {
         return <p>Payments not found</p>
     }
@@ -26,6 +28,30 @@ export  default function GetAllPayments(){
 
     return(<div>
         <h1>Get All payments component</h1>
-
+        <table border={1}>
+            <thead>
+                <tr>
+                    <th>Payment Id</th>
+                    <th>Invoice Id</th>
+                    <th>Amount </th>
+                    <th>Date</th>
+                    <th>Method</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {payments.map((payment)=>{
+                    return (<tr key={payment.paymentId}>
+                        <td>{payment.paymentId}</td>
+                        <td>{payment.invoiceId}</td>
+                        <td>{payment.amount}</td>
+                        <td>{payment.date}</td>
+                        <td>{payment.method}</td>
+                        <td>{payment.status}</td>
+                       
+                    </tr>)
+                })}
+            </tbody>
+        </table>
     </div>);
 } 
