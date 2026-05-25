@@ -1,6 +1,6 @@
 import {BrowserRouter as Router, Routes, Route, Outlet} from 'react-router-dom';
 
-// Catalog
+
 import CatalogHome from './components/Catalog/CatalogHome';
 import InsertCatalog from './components/Catalog/InsertCatalog';
 import DeleteCatalog from './components/Catalog/DeleteCatalog';
@@ -9,12 +9,8 @@ import GetAllCatalogs from './components/Catalog/GetAllCatalogs';
 import GetCatalogById from './components/Catalog/GetCatalogById';
 import GetCatalogsByProduct from './components/Catalog/GetCatalogsByProduct';
 
-// Product
-import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
-import CatalogHome from './components/Catalog/CatalogHome';
-import InsertCatalog from './components/Catalog/InsertCatalog';
-import DeleteCatalog from './components/Catalog/DeleteCatalog';
-import SaleHome from './components/Sale/SaleHome';
+
+
 
 
 import ProductHome from './components/Product/ProductHome';
@@ -53,7 +49,7 @@ import GetAllAuditLogs from './components/AuditLog/GetAllAuditLogs';
 import GetAllAuditLogById from './components/AuditLog/GetAuditLogById';
 import GetAuditLogByDateRange from './components/AuditLog/GetByDateRange';
 import GetByUser from './components/AuditLog/GetByUser';
-import GetAuditPaginated from './components/AuditLog/GetPaginated';
+import GetAuditPaginated from './components/AuditLog/GetAuditPaginated';
 
 // User
 import UserHome from './components/User/UserHome';
@@ -64,33 +60,10 @@ import GetUserById from './components/User/GetUserById';
 import GetPaginatedUsers from './components/User/GetPaginatedUsers';
 import GetAllUsers from './components/User/GetAllUsers';
 
-import ComplianceReportHome from './components/ComplianceReport/CompilanceReportHome';
-import InsertComplianceReport from './components/ComplianceReport/InsertReport';
-import DeleteComplianceReport from './components/ComplianceReport/DeleteReport';
-import UpdateComplianceReport from './components/ComplianceReport/UpdateReport';
-import GetComplianceReportById from './components/ComplianceReport/GetReportById';
-import GetComplianceAllReports from './components/ComplianceReport/GetAllReports';
 
 
-// new KPI imports
-import KPIReportHome from './components/KPIReport/KPIReportHome';
-import SaveReport from './components/KPIReport/SaveReport';
-import DeleteKPIReport from './components/KPIReport/DeleteReport';
-import GetKPITrend from './components/KPIReport/GetTrend';
-import GetKPIById from './components/KPIReport/GetById';
-import GetAllKPIReports from './components/KPIReport/GetAllReports';
-import GetKPIByDateRange from './components/KPIReport/GetByDateRange';
-import GetKPILatestByScope from './components/KPIReport/GetLatestByScope';
-import GetKPIPaginated from './components/KPIReport/GetPaginated';
 
-import InsertSale from './components/Sale/InsertSale'
-import DeleteSale from './components/Sale/DeleteSale'
-import UpdateSale from './components/Sale/UpdateSale'
-import GetAllSales from './components/Sale/GetAllSales'
-import GetAllSalesPaginated from './components/Sale/GetAllSalesPaginated'
-import GetSalesByCustomer from './components/Sale/GetSalesByCustomer'
-import GetSaleById from './components/Sale/GetSaleById'
-import GetSalesByDateRange from './components/Sale/GetSalesByDateRange'
+
 
 // Compliance
 import ComplianceReportHome from './components/ComplianceReport/CompilanceReportHome';
@@ -141,13 +114,13 @@ import UpdateInvoice from './components/Invoice/UpdateInvoice';
 import DeleteInvoice from './components/Invoice/DeleteInvoice';
 import GetAllInvoices from './components/Invoice/GetAllInvoices';
 import GetInvoiceByDateRange from './components/Invoice/GetInvoiceByDateRange';
-import GetByStatus from './components/Invoice/GetByStatus';
-import GetInvoiceByDateRange from './components/Invoice/GetInvoiceByDateRange';
+import GetByStatus from './components/Invoice/GetInvoiceByStatus';
+
 import GetInvoiceById from './components/Invoice/GetInvoiceById';
 import GetInvoiceByStatus from './components/Invoice/GetInvoiceByStatus';
 import GetInvoicePaginated from './components/Invoice/GetInvoicePaginated';
 
-// Notification
+
 import NotificationHome from './components/Notification/NotificationHome';
 import GetNotificationByUser from './components/Notification/GetNotificationByUser';
 import DeleteNotification from './components/Notification/DeleteNotification';
@@ -287,6 +260,7 @@ function App() {
           <Route path="getAll"         element={<GetAllPayments/>}/>
           <Route path="getByInvoice"   element={<GetByInvoice/>}/>
           <Route path="getPaginated"   element={<GetPaginatedPayments/>}/>
+        </Route>
         <Route path="/Catalog" element={<CatalogHome/>}>
           <Route path="insert"       element={<InsertCatalog/>}/>
           <Route path="delete"     element={<DeleteCatalog/>}/>   {/* ✅ no :id needed */}
@@ -305,8 +279,8 @@ function App() {
           <Route path='getById'    element={<GetProductById/>}/>
           <Route path='getAll'     element={<GetAllProducts/>}/>
           <Route path='delete'     element={<DeleteProduct/>}/>
-        <Route path='delete/:id' element={<DeleteProduct/>}/>
-      </Route>
+          <Route path='delete/:id' element={<DeleteProduct/>}/>
+        </Route>
 
 
         
@@ -329,10 +303,10 @@ function App() {
           <Route path="getAll" element={<GetAllPurchaseOrders />} />
           <Route path="getBySupplier" element={<GetPurchaseBySupplier />} />
           <Route path="getByStatus" element={<GetPurchaseByStatus />} />
-</Route>
-        </Route>        
-
         </Route>
+               
+
+        
         
 
         {/* Invoice */}
@@ -364,7 +338,7 @@ function App() {
             <Route path="getAuditLogById" element={<GetAllAuditLogById/>} />
             <Route path="getByDate" element={<GetAuditLogByDateRange/>} />
             <Route path="getByUser" element={<GetByUser/>} />
-            <Route path="getPaginated" element={<GetPaginated/>} />
+            <Route path="getPaginated" element={<GetAuditPaginated/>} />
         </Route>
       
          <Route path="/user" element={<UserHome/>}>
