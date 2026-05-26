@@ -24,7 +24,7 @@ export default function GetPaginated() {
         console.log(res);
         setInvoices(res.data.content);
         setTotalElements(res.data.totalElements);
-        setTotalPages(res.data.totalPages);
+        setTotalPages(res.data.totalPages)
         setLoading(false);
       })
       .catch((err) => {

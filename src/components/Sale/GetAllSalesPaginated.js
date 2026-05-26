@@ -20,9 +20,11 @@ export default function GetAllSalesPaginated() {
           params: {
             page: pageNumber,
             size: 5,
-          }, 
-          headers: { Authorization: "Bearer " + token }
-        }
+          },
+        
+      
+          headers: { Authorization: "Bearer " + token },
+        },
       )
       .then((res) => {
         setSales(res.data.content);
@@ -31,7 +33,6 @@ export default function GetAllSalesPaginated() {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
         setError(err.response?.data?.message || "Failed to fetch sales");
         setLoading(false);
       });
