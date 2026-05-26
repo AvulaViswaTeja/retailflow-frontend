@@ -1,13 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-export  default function GetUserById(){
-    return(<div>
-        <h1>Update User</h1>
-    </div>);
-} 
-=======
-=======
->>>>>>> e3c8e309107a975e194b90bb0c79b8189a5a3602
+
 import axios from "axios";
 import { useState } from "react";
 
@@ -31,11 +22,8 @@ export default function UpdateUser() {
 
         let token = localStorage.getItem("token");
 
-<<<<<<< HEAD
-        axios.get("http://localhost:8014/api/users/" + userId, {
-=======
+
         axios.get("http://localhost:1405/api/users/" + userId, {
->>>>>>> e3c8e309107a975e194b90bb0c79b8189a5a3602
             headers: { "Authorization": "Bearer " + token }
         })
         .then((res) => {
@@ -144,9 +132,6 @@ export default function UpdateUser() {
             )}
         </div>
     );
-<<<<<<< HEAD
+
 }
->>>>>>> Stashed changes
-=======
-}
->>>>>>> e3c8e309107a975e194b90bb0c79b8189a5a3602
+

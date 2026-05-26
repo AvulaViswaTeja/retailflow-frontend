@@ -10,7 +10,7 @@ export default function CatalogHome(){
                     <li><Link to="update">Update Catalog</Link></li>
                     <li><Link to="getById">Get Catalogs By Id</Link></li>
                     <li><Link to="getByProduct">Get Catalogs By Product</Link></li>
-                    <li><Link to="getAll">Get Catalogs All Catalogs</Link></li>
+                    <li><Link to="getAll">Get All Catalogs</Link></li>
                     <li><Link to="getAllCatalogsPaginated">Get All Catalogs Paginated</Link></li>
                 </ul>
             </nav>

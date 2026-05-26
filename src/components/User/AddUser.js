@@ -1,13 +1,4 @@
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-export  default function AddUser(){
-    return(<div>
-        <h1>Add user</h1>
-    </div>);
-} 
-=======
-=======
->>>>>>> e3c8e309107a975e194b90bb0c79b8189a5a3602
+
 import axios from "axios";
 import { useState } from "react";
 
@@ -51,11 +42,7 @@ export default function AddUser() {
             return;
         }
 
-<<<<<<< HEAD
-        let url = "http://localhost:8014/api/users";
-=======
         let url = "http://localhost:1405/api/users";
->>>>>>> e3c8e309107a975e194b90bb0c79b8189a5a3602
 
         let data = {
             "userName": name,
@@ -136,9 +123,6 @@ export default function AddUser() {
             </form>
         </div>
     );
-<<<<<<< HEAD
+
 }
->>>>>>> Stashed changes
-=======
-}
->>>>>>> e3c8e309107a975e194b90bb0c79b8189a5a3602
+

@@ -8,9 +8,7 @@ import UpdateCatalog from './components/Catalog/UpdateCatalog';
 import GetAllCatalogs from './components/Catalog/GetAllCatalogs';
 import GetCatalogById from './components/Catalog/GetCatalogById';
 import GetCatalogsByProduct from './components/Catalog/GetCatalogsByProduct';
-
-
-
+import GetAllCatalogsPaginated from './components/Catalog/GetAllCatalogsPaginated';
 
 
 import ProductHome from './components/Product/ProductHome';
@@ -19,6 +17,8 @@ import DeleteProduct from './components/Product/DeleteProduct';
 import UpdateProduct from './components/Product/UpdateProduct';
 import GetProductById from './components/Product/GetProductById';
 import GetAllProducts from './components/Product/GetAllProducts';
+import GetAllProductsPaginated from './components/Product/GetAllProductsPaginated';
+import GetProductsByCategory from './components/Product/GetProductsByCategory';
 
 // Inventory
 import InventoryHome from './components/Inventory/InventoryHome';
@@ -143,7 +143,7 @@ function App() {
  
         
         axios.post("http://localhost:8014/api/auth/login", {
-            "email": "admin@retailflow.com",
+            "email": "admin@1.com",
             "password": "admin123"
         })
         .then((res) => {
@@ -225,6 +225,8 @@ function App() {
           <Route path='getAll'     element={<GetAllProducts/>}/>
           <Route path='delete'     element={<DeleteProduct/>}/>
           <Route path='delete/:id' element={<DeleteProduct/>}/>
+          <Route path='getAllProductsPaginated' element={<GetAllProductsPaginated/>}/>
+          <Route path='getProductsByCategory' element={<GetProductsByCategory/>}/>
         </Route>
 
 
