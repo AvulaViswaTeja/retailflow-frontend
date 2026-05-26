@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../../api";
 
 export default function UpdateInvoice() {
   const [invoiceId, setInvoiceId] = useState("");
@@ -15,10 +15,7 @@ export default function UpdateInvoice() {
     setCurrentInvoice(null);
 
     try {
-      let token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:8014/api/invoices/" + invoiceId,{
-            headers: { "Authorization": "Bearer " + token }
-        });
+      const res = await api.get("/api/invoices/" + invoiceId);
       setCurrentInvoice(res.data);
       setAmount(res.data.amount);
       setStatus(res.data.status);
@@ -32,14 +29,11 @@ export default function UpdateInvoice() {
     setError("");
 
     try {
-      let token = localStorage.getItem("token");
-      const res = await axios.put("http://localhost:8014/api/invoices/" + invoiceId, {
+      const res = await api.put("/api/invoices/" + invoiceId, {
         saleId: currentInvoice.saleId,
         amount: parseFloat(amount),
         status: status,
-      },{
-            headers: { "Authorization": "Bearer " + token }
-        });
+      });
 
       setCurrentInvoice(res.data);
       setAmount(res.data.amount);

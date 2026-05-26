@@ -1,6 +1,5 @@
-import axios from "axios";
 import { useState } from "react";
-
+import api from "../../api";
 
 export default function InsertInvoice() {
   const [saleId, setSaleId] = useState("");
@@ -14,13 +13,10 @@ export default function InsertInvoice() {
     setError("");
 
     try {
-      let token = localStorage.getItem("token");
-      const res = await axios.post("http://localhost:8014/api/invoices", {
+      const res = await api.post("/api/invoices", {
         saleId: parseInt(saleId),
         amount: parseFloat(amount),
-      },{
-            headers: { "Authorization": "Bearer " + token }
-        });
+      });
 
       const invoice = res.data;
       setMessage(

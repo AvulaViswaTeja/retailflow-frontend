@@ -1,18 +1,14 @@
-import axios from "axios";
 import { useState } from "react";
-
+import api from "../../api";
 export default function GetPaymentById() {
   const [payment, setPayment] = useState(null);
   const [paymentId, setPaymentId] = useState("");
   const [error, setError] = useState("");
   const handleSearch = async () => {
     try {
-      let token = localStorage.getItem("token");
         setError("");
         setPayment(null);
-        const res = await axios.get("http://localhost:8014/api/payments/" + paymentId, {
-            headers: { "Authorization": "Bearer " + token }
-        });
+        const res = await api.get("/api/payments/" + paymentId);
         setPayment(res.data);
       
     } catch (err) {

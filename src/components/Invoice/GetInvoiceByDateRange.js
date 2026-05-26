@@ -1,6 +1,5 @@
-import axios from "axios";
 import { useState } from "react";
-
+import api from "../../api";
 
 export default function GetInvoiceByDateRange() {
   const [startDate, setStartDate] = useState("");
@@ -15,15 +14,12 @@ export default function GetInvoiceByDateRange() {
     setError("");
 
     try {
-      let token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:8014/api/invoices/date-range", {
+      const res = await api.get("/api/invoices/date-range", {
         params: {
           start: startDate,
           end: endDate,
         },
-      },{
-            headers: { "Authorization": "Bearer " + token }
-        });
+      });
       setInvoices(res.data);
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong");

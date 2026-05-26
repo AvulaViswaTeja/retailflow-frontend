@@ -1,6 +1,5 @@
-import axios from "axios";
 import { useState } from "react";
-
+import api from "../../api";
 
 export default function GetInvoiceByStatus() {
   const [status, setStatus] = useState("PENDING");
@@ -14,10 +13,7 @@ export default function GetInvoiceByStatus() {
     setError("");
 
     try {
-      let token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:8014/api/invoices/status/" + status,{
-            headers: { "Authorization": "Bearer " + token }
-        });
+      const res = await api.get("/api/invoices/status/" + status);
       setInvoices(res.data);
     } catch (err) {
       setError(err.response?.data?.message || "Something went wrong");

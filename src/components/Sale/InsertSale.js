@@ -1,5 +1,5 @@
-import axios from "axios";
 import { useState } from "react";
+import api from "../../api";
 
 export default function InsertSale() {
   const [productId, setProductId] = useState("");
@@ -20,10 +20,7 @@ export default function InsertSale() {
     };
 
     try {
-      let token = localStorage.getItem("token");
-      const res = await axios.post("http://localhost:8014/api/sales", req_data,{
-            headers: { "Authorization": "Bearer " + token }
-        });
+      const res = await api.post("/api/sales", req_data);
       const sale = res.data;
       setMessage(
         "Sale created! " +

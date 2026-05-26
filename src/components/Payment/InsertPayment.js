@@ -1,6 +1,5 @@
-import axios from "axios";
 import { useState } from "react";
-
+import api from "../../api";
 
 export default function InsertPayment() {
   const [invoiceId, setInvoiceId] = useState("");
@@ -20,10 +19,7 @@ export default function InsertPayment() {
         amount: parseFloat(amount),
         method: method,
       }
-      let token = localStorage.getItem("token");
-      const res = await axios.post("http://localhost:8014/api/payments", req_data, {
-            headers: { "Authorization": "Bearer " + token }
-        });
+      const res = await api.post("/api/payments", req_data);
       const payment = res.data;
       setMessage(
         "Payment processed! " +

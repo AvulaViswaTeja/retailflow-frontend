@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import api from "../../api";
 export default function GetSalesByCustomers() {
   const [customerId, setCustomerId] = useState("");
   const [sales, setSales] = useState([]);
@@ -11,10 +11,7 @@ export default function GetSalesByCustomers() {
     setSales([]);
     setError("");
     try {
-      let token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:8014/api/sales/customer/" + customerId,{
-            headers: { "Authorization": "Bearer " + token }
-        });
+      const res = await api.get("/api/sales/customer/" + customerId);
       console.log(res.data);
       setSales(res.data);
     } catch (err) {

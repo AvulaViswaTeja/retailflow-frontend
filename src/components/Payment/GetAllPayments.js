@@ -1,6 +1,5 @@
-import axios from 'axios';
 import {useEffect, useState} from 'react';
-
+import api from "../../api";
 export  default function GetAllPayments(){
 
     const [payments, setPayments] = useState([]);
@@ -8,10 +7,7 @@ export  default function GetAllPayments(){
     const [error,setError] = useState("");
 
     useEffect(()=>{
-        let token = localStorage.getItem("token");
-        axios.get("http://localhost:8014/api/payments", {
-            headers: { "Authorization": "Bearer " + token }
-        }).then((res)=>{
+        api.get("api/payments").then((res)=>{
             console.log(res);
             setPayments(res.data);
             setLoading(false);
