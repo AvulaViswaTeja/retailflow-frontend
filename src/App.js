@@ -1,6 +1,5 @@
-import {BrowserRouter as Router, Routes, Route, Outlet} from 'react-router-dom';
+import {BrowserRouter as Router, Routes, Route, Navigate} from 'react-router-dom';
 
-// Catalog
 import CatalogHome from './components/Catalog/CatalogHome';
 import InsertCatalog from './components/Catalog/InsertCatalog';
 import DeleteCatalog from './components/Catalog/DeleteCatalog';
@@ -17,7 +16,6 @@ import UpdateProduct from './components/Product/UpdateProduct';
 import GetProductById from './components/Product/GetProductById';
 import GetAllProducts from './components/Product/GetAllProducts';
 
-// Inventory
 import InventoryHome from './components/Inventory/InventoryHome';
 import AddInventory from './components/Inventory/AddInventory';
 import DeleteInventory from './components/Inventory/DeleteInventory';
@@ -44,9 +42,8 @@ import GetAllAuditLogs from './components/AuditLog/GetAllAuditLogs';
 import GetAllAuditLogById from './components/AuditLog/GetAuditLogById';
 import GetAuditLogByDateRange from './components/AuditLog/GetByDateRange';
 import GetByUser from './components/AuditLog/GetByUser';
-import GetAuditPaginated from './components/AuditLog/GetPaginated';
+import GetAuditPaginated from './components/AuditLog/GetAuditPaginated';
 
-// User
 import UserHome from './components/User/UserHome';
 import AddUser from './components/User/AddUser';
 import DeleteUser from './components/User/DeleteUser';
@@ -55,7 +52,6 @@ import GetUserById from './components/User/GetUserById';
 import GetPaginatedUsers from './components/User/GetPaginatedUsers';
 import GetAllUsers from './components/User/GetAllUsers';
 
-// Compliance
 import ComplianceReportHome from './components/ComplianceReport/CompilanceReportHome';
 import InsertComplianceReport from './components/ComplianceReport/InsertCompilanceReport';
 import DeleteComplianceReport from './components/ComplianceReport/DeleteCompilanceReport';
@@ -64,7 +60,6 @@ import GetComplianceReportById from './components/ComplianceReport/GetCompliance
 import GetComplianceAllReports from './components/ComplianceReport/GetAllComplianceReports';
 import GetCompliancePaginated from './components/ComplianceReport/GetCompliancePaginated';
 
-// KPI Report 
 import KPIReportHome from './components/KPIReport/KPIReportHome';
 import SaveReport from './components/KPIReport/SaveReport';
 import DeleteKPIReport from './components/KPIReport/DeleteKPIReport';
@@ -76,7 +71,6 @@ import GetKPILatestByScope from './components/KPIReport/GetKPILatestByScope';
 import GetKPIPaginated from './components/KPIReport/GetKPIPaginated';
 import UpdateKPIReport from './components/KPIReport/UpdateKPIReport';
 
-// Sale
 import SaleHome from './components/Sale/SaleHome';
 import InsertSale from './components/Sale/InsertSale';
 import DeleteSale from './components/Sale/DeleteSale';
@@ -104,10 +98,10 @@ import UpdateInvoice from './components/Invoice/UpdateInvoice';
 import DeleteInvoice from './components/Invoice/DeleteInvoice';
 import GetAllInvoices from './components/Invoice/GetAllInvoices';
 import GetInvoiceByDateRange from './components/Invoice/GetInvoiceByDateRange';
-import GetByStatus from './components/Invoice/GetByStatus';
+import GetInvoiceById from './components/Invoice/GetInvoiceById';
+import GetInvoiceByStatus from './components/Invoice/GetInvoiceByStatus';
 import GetInvoicePaginated from './components/Invoice/GetInvoicePaginated';
 
-// Notification
 import NotificationHome from './components/Notification/NotificationHome';
 import GetNotificationByUser from './components/Notification/GetNotificationByUser';
 import DeleteNotification from './components/Notification/DeleteNotification';
@@ -115,141 +109,196 @@ import GetAllNotifications from './components/Notification/GetAllNotifications';
 import GetNotificationById from './components/Notification/GetNotificationById';
 import InsertNotification from './components/Notification/InsertNotification';
 
+import Dashboard from './components/Dashboard';
+
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
 function App() {
-  return (
-    <Router>
-      <Routes>
+    const [loading, setLoading] = useState(true);
 
-        {/* Catalog */}
-        <Route path="/Catalog" element={<CatalogHome/>}>
-          <Route path="insert"      element={<InsertCatalog/>}/>
-          <Route path="delete"      element={<DeleteCatalog/>}/>
-          <Route path="update"      element={<UpdateCatalog/>}/>
-          <Route path="getAll"      element={<GetAllCatalogs/>}/>
-          <Route path="getById"     element={<GetCatalogById/>}/>
-          <Route path="getByProduct"element={<GetCatalogsByProduct/>}/>
-        </Route>
+    useEffect(() => {
+        // Check if already logged in
+        const existingToken = localStorage.getItem('token');
+        if (existingToken) {
+            setLoading(false);
+            return;
+        }
 
-        {/* Product */}
-        <Route path="/Product" element={<ProductHome/>}>
-          <Route path="add"     element={<AddProduct/>}/>
-          <Route path="delete"  element={<DeleteProduct/>}/>
-          <Route path="update"  element={<UpdateProduct/>}/>
-          <Route path="getById" element={<GetProductById/>}/>
-          <Route path="getAll"  element={<GetAllProducts/>}/>
-        </Route>
+        // Auto login — change port to 8016 to match your backend
+        axios.post("http://localhost:8016/api/auth/login", {
+            "userName": "store_manager",
+            "password": "password123"
+        })
+        .then((res) => {
+            localStorage.setItem("token", res.data.token);
+            localStorage.setItem("role", res.data.role);
+            localStorage.setItem("userName", res.data.userName);
+            console.log("Auto logged in as:", res.data.role);
+            setLoading(false);
+        })
+        .catch((err) => {
+            console.log("Auto login failed: " + err.message);
+            // Set a default role for testing even if login fails
+            localStorage.setItem("role", "STORE_MANAGER");
+            localStorage.setItem("userName", "store_manager");
+            setLoading(false);
+        });
+    }, []);
 
-        {/* Inventory */}
-        <Route path="/Inventory" element={<InventoryHome/>}>
-          <Route path="insert"       element={<AddInventory/>}/>
-          <Route path="delete"       element={<DeleteInventory/>}/>
-          <Route path="update"       element={<UpdateInventory/>}/>
-          <Route path="getById"      element={<GetInventoryById/>}/>
-          <Route path="getAll"       element={<GetAllInventory/>}/>
-          <Route path="getLowStock"  element={<GetLowStock/>}/>
-          <Route path="getByProduct" element={<GetInventoryByProduct/>}/>
-          <Route path="replenish"    element={<ReplenishStock/>}/>
-        </Route>
+    if (loading) {
+        return (
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '100vh', fontSize: '13px', color: '#6b7280' }}>
+                Loading RetailFlow...
+            </div>
+        );
+    }
 
-        {/* Purchase Order */}
-        <Route path="/PurchaseOrder" element={<PurchaseOrderHome/>}>
-          <Route path="insert"        element={<CreatePurchaseOrder/>}/>
-          <Route path="delete"        element={<CancelPurchaseOrder/>}/>
-          <Route path="update"        element={<UpdatePurchaseOrder/>}/>
-          <Route path="getById"       element={<GetPurchaseOrderById/>}/>
-          <Route path="getAll"        element={<GetAllPurchaseOrders/>}/>
-          <Route path="getBySupplier" element={<GetPurchaseBySupplier/>}/>
-          <Route path="getByStatus"   element={<GetPurchaseByStatus/>}/>
-        </Route>
+    return (
+        <Router>
+            <Routes>
 
-        {/* Audit Log */}
-        <Route path="/auditLog" element={<AuditLogHome/>}>
-          <Route path="getAuditLogs"   element={<GetAllAuditLogs/>}/>
-          <Route path="getAuditLogById"element={<GetAllAuditLogById/>}/>
-          <Route path="getByDate"      element={<GetAuditLogByDateRange/>}/>
-          <Route path="getByUser"      element={<GetByUser/>}/>
-          <Route path="getPaginated"   element={<GetAuditPaginated/>}/>
-        </Route>
+                {/* Default — redirect to dashboard */}
+                <Route path="/" element={<Navigate to="/dashboard" replace />} />
 
-        {/* User */}
-        <Route path="/user" element={<UserHome/>}>
-          <Route path="addUser"          element={<AddUser/>}/>
-          <Route path="deleteUser"       element={<DeleteUser/>}/>
-          <Route path="updateUser"       element={<UpdateUser/>}/>
-          <Route path="getUserById"      element={<GetUserById/>}/>
-          <Route path="getUserPaginated" element={<GetPaginatedUsers/>}/>
-          <Route path="getAllUsers"      element={<GetAllUsers/>}/>
-        </Route>
+                {/* Dashboard — main landing page */}
+                <Route path="/dashboard" element={<Dashboard/>} />
 
-        {/* Notification */}
-        <Route path="/notification" element={<NotificationHome/>}>
-          <Route path="insert"                element={<InsertNotification/>}/>
-          <Route path="delete"                element={<DeleteNotification/>}/>
-          <Route path="getAllNotifications"   element={<GetAllNotifications/>}/>
-          <Route path="getNotificationById"   element={<GetNotificationById/>}/>
-          <Route path="getNotificationByUser" element={<GetNotificationByUser/>}/>
-        </Route>
+                {/* Audit Log */}
+                <Route path="/auditLog" element={<AuditLogHome/>}>
+                    <Route path="getAuditLogs"    element={<GetAllAuditLogs/>}/>
+                    <Route path="getAuditLogById" element={<GetAllAuditLogById/>}/>
+                    <Route path="getByDate"       element={<GetAuditLogByDateRange/>}/>
+                    <Route path="getByUser"       element={<GetByUser/>}/>
+                    <Route path="getPaginated"    element={<GetAuditPaginated/>}/>
+                </Route>
 
-        {/* Sale */}
-        <Route path="/Sale" element={<SaleHome/>}>
-          <Route path="insert"              element={<InsertSale/>}/>
-          <Route path="delete"              element={<DeleteSale/>}/>
-          <Route path="update"              element={<UpdateSale/>}/>
-          <Route path="getById"             element={<GetSaleById/>}/>
-          <Route path="getAll"              element={<GetAllSales/>}/>
-          <Route path="getAllPaginated"     element={<GetAllSalesPaginated/>}/>
-          <Route path="getSalesByCustomer"  element={<GetSalesByCustomer/>}/>
-          <Route path="getSalesByDateRange" element={<GetSalesByDateRange/>}/>
-        </Route>
+                {/* User */}
+                <Route path="/user" element={<UserHome/>}>
+                    <Route path="addUser"          element={<AddUser/>}/>
+                    <Route path="deleteUser"       element={<DeleteUser/>}/>
+                    <Route path="updateUser"       element={<UpdateUser/>}/>
+                    <Route path="getUserById"      element={<GetUserById/>}/>
+                    <Route path="getUserPaginated" element={<GetPaginatedUsers/>}/>
+                    <Route path="getAllUsers"       element={<GetAllUsers/>}/>
+                </Route>
 
-        {/* Payment */}
-        <Route path="/Payment" element={<PaymentHome/>}>
-          <Route path="insert"         element={<InsertPayment/>}/>
-          <Route path="update"         element={<UpdatePayment/>}/>
-          <Route path="delete"         element={<DeletePayment/>}/>
-          <Route path="getPaymentById" element={<GetPaymentById/>}/>
-          <Route path="getAll"         element={<GetAllPayments/>}/>
-          <Route path="getByInvoice"   element={<GetByInvoice/>}/>
-          <Route path="getPaginated"   element={<GetPaginatedPayments/>}/>
-        </Route>
+                {/* Notification */}
+                <Route path="/notification" element={<NotificationHome/>}>
+                    <Route path="insert"                element={<InsertNotification/>}/>
+                    <Route path="delete"                element={<DeleteNotification/>}/>
+                    <Route path="getAllNotifications"    element={<GetAllNotifications/>}/>
+                    <Route path="getNotificationById"   element={<GetNotificationById/>}/>
+                    <Route path="getNotificationByUser" element={<GetNotificationByUser/>}/>
+                </Route>
 
-        {/* Invoice */}
-        <Route path="/Invoice" element={<InvoiceHome/>}>
-          <Route path="insert"        element={<InsertInvoice/>}/>
-          <Route path="update"        element={<UpdateInvoice/>}/>
-          <Route path="delete"        element={<DeleteInvoice/>}/>
-          <Route path="getAll"        element={<GetAllInvoices/>}/>
-          <Route path="getByDateRange"element={<GetInvoiceByDateRange/>}/>
-          <Route path="getByStatus"   element={<GetByStatus/>}/>
-          <Route path="getPaginated"  element={<GetInvoicePaginated/>}/>
-        </Route>
+                {/* Catalog */}
+                <Route path="/Catalog" element={<CatalogHome/>}>
+                    <Route path="insert"       element={<InsertCatalog/>}/>
+                    <Route path="delete"       element={<DeleteCatalog/>}/>
+                    <Route path="delete/:id"   element={<DeleteCatalog/>}/>
+                    <Route path="update"       element={<UpdateCatalog/>}/>
+                    <Route path="update/:id"   element={<UpdateCatalog/>}/>
+                    <Route path="getAll"       element={<GetAllCatalogs/>}/>
+                    <Route path="getById"      element={<GetCatalogById/>}/>
+                    <Route path="getByProduct" element={<GetCatalogsByProduct/>}/>
+                </Route>
 
-        {/* KPI Reports */}
-        <Route path="/kpireport" element={<KPIReportHome/>}>
-          <Route path="savereport"     element={<SaveReport/>}/>
-          <Route path="delete"         element={<DeleteKPIReport/>}/>
-          <Route path="getTrend"       element={<GetKPITrend/>}/>
-          <Route path="getById"        element={<GetKPIById/>}/>
-          <Route path="getAll"         element={<GetAllKPIReports/>}/>
-          <Route path="GetByDateRange" element={<GetKPIByDateRange/>}/>
-          <Route path="getLatest"      element={<GetKPILatestByScope/>}/>
-          <Route path="getPaginated"   element={<GetKPIPaginated/>}/>
-          <Route path="update/:id"    element={<UpdateKPIReport/>}/>
-        </Route>
+                {/* Product */}
+                <Route path='/Product' element={<ProductHome/>}>
+                    <Route path='add'        element={<AddProduct/>}/>
+                    <Route path='update'     element={<UpdateProduct/>}/>
+                    <Route path='update/:id' element={<UpdateProduct/>}/>
+                    <Route path='getById'    element={<GetProductById/>}/>
+                    <Route path='getAll'     element={<GetAllProducts/>}/>
+                    <Route path='delete'     element={<DeleteProduct/>}/>
+                    <Route path='delete/:id' element={<DeleteProduct/>}/>
+                </Route>
 
-        {/* Compliance Reports */}
-        <Route path="/compliance" element={<ComplianceReportHome/>}>
-          <Route path="insert"         element={<InsertComplianceReport/>}/>
-          <Route path="delete"         element={<DeleteComplianceReport/>}/>
-          <Route path="update/:rid"    element={<UpdateComplianceReport/>}/>
-          <Route path="getById"        element={<GetComplianceReportById/>}/>
-          <Route path="getAll"         element={<GetComplianceAllReports/>}/>
-          <Route path="getPaginated"   element={<GetCompliancePaginated/>}/>
-        </Route>
+                {/* Inventory */}
+                <Route path="/Inventory" element={<InventoryHome/>}>
+                    <Route path="insert"                  element={<AddInventory/>}/>
+                    <Route path="delete/:inventoryId"     element={<DeleteInventory/>}/>
+                    <Route path="update/:inventoryId"     element={<UpdateInventory/>}/>
+                    <Route path="getById"                 element={<GetInventoryById/>}/>
+                    <Route path="getAll"                  element={<GetAllInventory/>}/>
+                    <Route path="getLowStock"             element={<GetLowStock/>}/>
+                    <Route path="getByProduct"            element={<GetInventoryByProduct/>}/>
+                    <Route path="replenish"               element={<ReplenishStock/>}/>
+                </Route>
 
-      </Routes>
-    </Router>
-  );
+                {/* Purchase Order */}
+                <Route path="/PurchaseOrder" element={<PurchaseOrderHome/>}>
+                    <Route path="insert"                      element={<CreatePurchaseOrder/>}/>
+                    <Route path="delete/:purchaseOrderId"     element={<CancelPurchaseOrder/>}/>
+                    <Route path="update/:purchaseOrderId"     element={<UpdatePurchaseOrder/>}/>
+                    <Route path="getById"                     element={<GetPurchaseOrderById/>}/>
+                    <Route path="getAll"                      element={<GetAllPurchaseOrders/>}/>
+                    <Route path="getBySupplier"               element={<GetPurchaseBySupplier/>}/>
+                    <Route path="getByStatus"                 element={<GetPurchaseByStatus/>}/>
+                </Route>
+
+                {/* Sale */}
+                <Route path="/Sale" element={<SaleHome/>}>
+                    <Route path="insert"              element={<InsertSale/>}/>
+                    <Route path="delete"              element={<DeleteSale/>}/>
+                    <Route path="update"              element={<UpdateSale/>}/>
+                    <Route path="getById"             element={<GetSaleById/>}/>
+                    <Route path="getAll"              element={<GetAllSales/>}/>
+                    <Route path="getAllPaginated"      element={<GetAllSalesPaginated/>}/>
+                    <Route path="getSalesByCustomer"  element={<GetSalesByCustomer/>}/>
+                    <Route path="getSalesByDateRange" element={<GetSalesByDateRange/>}/>
+                </Route>
+
+                {/* Payment */}
+                <Route path="/Payment" element={<PaymentHome/>}>
+                    <Route path="insert"         element={<InsertPayment/>}/>
+                    <Route path="update"         element={<UpdatePayment/>}/>
+                    <Route path="delete"         element={<DeletePayment/>}/>
+                    <Route path="getPaymentById" element={<GetPaymentById/>}/>
+                    <Route path="getAll"         element={<GetAllPayments/>}/>
+                    <Route path="getByInvoice"   element={<GetByInvoice/>}/>
+                    <Route path="getPaginated"   element={<GetPaginatedPayments/>}/>
+                </Route>
+
+                {/* Invoice */}
+                <Route path="/Invoice" element={<InvoiceHome/>}>
+                    <Route path="insert"        element={<InsertInvoice/>}/>
+                    <Route path="update"        element={<UpdateInvoice/>}/>
+                    <Route path="delete"        element={<DeleteInvoice/>}/>
+                    <Route path="getAll"        element={<GetAllInvoices/>}/>
+                    <Route path="getById"       element={<GetInvoiceById/>}/>
+                    <Route path="getByDateRange"element={<GetInvoiceByDateRange/>}/>
+                    <Route path="getByStatus"   element={<GetInvoiceByStatus/>}/>
+                    <Route path="getPaginated"  element={<GetInvoicePaginated/>}/>
+                </Route>
+
+                {/* KPI Reports */}
+                <Route path="/kpireport" element={<KPIReportHome/>}>
+                    <Route path="savereport"     element={<SaveReport/>}/>
+                    <Route path="delete"         element={<DeleteKPIReport/>}/>
+                    <Route path="getTrend"       element={<GetKPITrend/>}/>
+                    <Route path="getById"        element={<GetKPIById/>}/>
+                    <Route path="getAll"         element={<GetAllKPIReports/>}/>
+                    <Route path="GetByDateRange" element={<GetKPIByDateRange/>}/>
+                    <Route path="getLatest"      element={<GetKPILatestByScope/>}/>
+                    <Route path="getPaginated"   element={<GetKPIPaginated/>}/>
+                    <Route path="update/:id"     element={<UpdateKPIReport/>}/>
+                </Route>
+
+                {/* Compliance Reports */}
+                <Route path="/compliance" element={<ComplianceReportHome/>}>
+                    <Route path="insert"       element={<InsertComplianceReport/>}/>
+                    <Route path="delete"       element={<DeleteComplianceReport/>}/>
+                    <Route path="update/:rid"  element={<UpdateComplianceReport/>}/>
+                    <Route path="getById"      element={<GetComplianceReportById/>}/>
+                    <Route path="getAll"       element={<GetComplianceAllReports/>}/>
+                    <Route path="getPaginated" element={<GetCompliancePaginated/>}/>
+                </Route>
+
+            </Routes>
+        </Router>
+    );
 }
 
 export default App;

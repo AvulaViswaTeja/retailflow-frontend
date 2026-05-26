@@ -21,3 +21,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# API config (contains personal JWT token)
+src/api.js
+
+#App.js
+src/App.js

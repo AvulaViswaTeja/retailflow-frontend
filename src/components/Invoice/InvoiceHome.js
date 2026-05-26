@@ -16,6 +16,9 @@ export default function InvoiceHome(){
                     <Link to="getAll">Get All Invoices</Link>
                 </li>
                 <li>
+                    <Link to="getById">Get Invoice By Id</Link>
+                </li>
+                <li>
                     <Link to="getByDateRange">Get By Date Range</Link>
                 </li>
                 <li>
