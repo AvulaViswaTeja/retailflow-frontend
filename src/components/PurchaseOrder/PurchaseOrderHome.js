@@ -14,6 +14,7 @@ export default function PurchaseOrderHOme(){
                 </ul>
 
             </nav>
+            <Outlet/>
         </div>
     )
 }

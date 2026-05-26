@@ -1,5 +1,5 @@
-export  default function GetPaginated(){
+export  default function GetAllReports(){
     return(<div>
-        <h1>Get paginated</h1>
+        <h1>Get All Reports</h1>
     </div>);
 } 
