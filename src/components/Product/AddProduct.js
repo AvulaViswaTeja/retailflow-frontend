@@ -6,7 +6,7 @@ export  default function AddProduct(){
     let [category, setCategory] = useState("");
     let [price, setPrice] = useState("");
     let [status, setStatus] = useState("");
-
+    const token = localStorage.getItem("token");
     let nameHandler = (e) => {
         setProductName(e.target.value);
     };
@@ -32,7 +32,11 @@ export  default function AddProduct(){
                 "status":status
             
         };
-        axios.post(url, data).then((response)=>{
+        axios.post(url, data, {
+            headers: {
+                "Authorization": `Bearer ${token}`
+            }
+        }).then((response)=>{
             alert("Product added successfully" + response.data);
         }); 
     }

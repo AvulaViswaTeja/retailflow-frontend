@@ -17,7 +17,7 @@ axios.get("http://localhost:8014/api/inventory", {
 });
     return(<div>
         <h1>Get All Inventory</h1>
-        <table border="1">
+        <table className='table table-striped'>
             <thead>
             <th>Inventory ID</th>
             <th>Product ID</th>

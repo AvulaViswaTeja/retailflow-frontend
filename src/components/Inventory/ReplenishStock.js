@@ -25,6 +25,7 @@ export default function ReplenishStock() {
       <label>Inventory ID:</label>
       <input
         type="text"
+        className="form-control"
         value={inventoryId}
         onChange={(e) => setInventoryId(e.target.value)}
       />
@@ -32,16 +33,19 @@ export default function ReplenishStock() {
       <label>Quantity to Add:</label>
       <input
         type="text"
+        className="form-control"
         value={quantity}
         onChange={(e) => setQuantity(e.target.value)}
       />
       <br />
-      <button onClick={replenishHandler}>Replenish</button>
+      <button className="btn btn-primary" onClick={replenishHandler}>
+        Replenish
+      </button>
 
       {updatedInventory && (
         <div>
           <h2>Updated Inventory Data</h2>
-          <table border="1">
+          <table className='table table-striped'>
             <thead>
               <tr>
                 <th>Inventory ID</th>

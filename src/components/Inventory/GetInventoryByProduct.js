@@ -26,13 +26,16 @@ let token = localStorage.getItem("token");
       <label>Product ID:</label>
       <input
         type="text"
+        className="form-control"
         value={productId}
         onChange={(e) => setProductId(e.target.value)}
       />
-      <button onClick={fetchInventory}>Show Inventory</button>
+      <button className="btn btn-primary" onClick={fetchInventory}>
+        Show Inventory
+      </button>
 
       {inventoryArr.length > 0 && (
-        <table border="1">
+        <table className='table table-striped'>
           <thead>
             <tr>
               <th>Inventory ID</th>

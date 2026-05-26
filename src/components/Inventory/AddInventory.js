@@ -31,22 +31,29 @@ export  default function AddInventory(){
 
     return(<div>
         <h1>Add Inventory</h1>
+        <div className="table table-striped">
         <label>Product ID:</label>
-        <input type="text" value={productId} onChange={(e)=>setProductId(e.target.value)} />
+        <input type="text" className="form-control" placeholder="Enter Product ID" value={productId} onChange={(e)=>setProductId(e.target.value)} />
         <br/>
         <label>Location ID:</label>
-        <input type="text" value={locationId} onChange={(e)=>setLocationId(e.target.value)} />
+        <input type="text" className="form-control" placeholder="Enter Location ID" value={locationId} onChange={(e)=>setLocationId(e.target.value)} />
         <br/>   
         <label>Quantity On Hand:</label>
-        <input type="text" value={quantityOnHand} onChange={(e)=>setQuantityOnHand(e.target.value)} />
+        <input type="text" className="form-control" placeholder="Enter Quantity On Hand" value={quantityOnHand} onChange={(e)=>setQuantityOnHand(e.target.value)} />
         <br/>
         <label>Safety Stock:</label>
-        <input type="text" value={safetyStock} onChange={(e)=>setSafetyStock(e.target.value)} />       
+        <input type="text" className="form-control" placeholder="Enter Safety Stock" value={safetyStock} onChange={(e)=>setSafetyStock(e.target.value)} />       
         <br/>
         <label>Status:</label>
-        <input type="text" value={status} onChange={(e)=>setStatus(e.target.value)} />
+        <input type="text" className="form-control" placeholder="Enter Status" value={status} onChange={(e)=>setStatus(e.target.value)} />
         <br/>
-        <button onClick={submitHandler}>Add Inventory</button>   
-
-    </div>);
+        </div>
+        <br/>
+        
+        <button className="btn btn-primary" onClick={submitHandler}>
+          Add Inventory
+        </button>   
+      
+    </div>
+  );
 } 

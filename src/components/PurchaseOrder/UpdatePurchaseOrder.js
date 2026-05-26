@@ -5,7 +5,7 @@ import axios from "axios";
 export default function UpdatePurchaseOrder() {
   let { purchaseOrderId } = useParams();
   let navigate = useNavigate();
-
+  const token = localStorage.getItem("token");
   // State variables for all fields
   let [expectedDeliveryDate, setExpectedDeliveryDate] = useState("");
   let [orderDate, setOrderDate] = useState("");
@@ -37,7 +37,11 @@ export default function UpdatePurchaseOrder() {
 
     console.log("Sending update:", purchaseorder);
 
-    axios.put(url, purchaseorder)
+    axios.put(url, purchaseorder, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then((response) => {
         alert("Updated Purchase Order: " + JSON.stringify(response.data));
         navigate('/PurchaseOrder/getAll'); // Redirect after successful update
@@ -51,7 +55,11 @@ export default function UpdatePurchaseOrder() {
   // Load existing purchase order by ID
   useEffect(() => {
     let url = `http://localhost:8014/api/purchase-orders/${purchaseOrderId}`;
-    axios.get(url)
+    axios.get(url, {
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
       .then((response) => {
         setExpectedDeliveryDate(response.data.expectedDeliveryDate);
         setOrderDate(response.data.orderDate);
@@ -71,30 +79,32 @@ export default function UpdatePurchaseOrder() {
       <h2>Editing Purchase Order ID: {purchaseOrderId}</h2>
 
       <label>Expected Delivery Date</label>
-      <input type="date" value={expectedDeliveryDate} onChange={expectedDeliveryHandler} />
+      <input type="date" className="form-control" value={expectedDeliveryDate} onChange={expectedDeliveryHandler} />
       <br />
 
       <label>Order Date</label>
-      <input type="date" value={orderDate} onChange={orderDateHandler} />
+      <input type="date" className="form-control" value={orderDate} onChange={orderDateHandler} />
       <br />
 
       <label>Product ID</label>
-      <input value={productId} onChange={productIdHandler} />
+      <input type="text" className="form-control" value={productId} onChange={productIdHandler} />
       <br />
 
       <label>Product Name</label>
-      <input value={productName} onChange={productNameHandler} />
+      <input type="text" className="form-control" value={productName} onChange={productNameHandler} />
       <br />
 
       <label>Status</label>
-      <input value={status} onChange={statusHandler} />
+      <input type="text" className="form-control" value={status} onChange={statusHandler} />
       <br />
 
       <label>Supplier ID</label>
-      <input value={supplierId} onChange={supplierHandler} />
+      <input type="text" className="form-control" value={supplierId} onChange={supplierHandler} />
       <br />
 
-      <button onClick={buttonHandler}>Update Purchase Order</button>
+      <button className="btn btn-primary" onClick={buttonHandler}>
+        Update Purchase Order
+      </button>
     </div>
   );
 }

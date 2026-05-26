@@ -141,8 +141,8 @@ function App() {
  
         
         axios.post("http://localhost:8014/api/auth/login", {
-            "email": "admin@retailflow.com",
-            "password": "admin123"
+            "email": "manager@1.com",
+            "password": "root"
         })
         .then((res) => {
             localStorage.setItem("token", res.data.token);

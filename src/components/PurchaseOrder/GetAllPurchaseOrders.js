@@ -21,7 +21,7 @@ export  default function GetAllPurchaseOrders(){
     return(<div>
         <h1>Get All products</h1>
         <table className='table table-striped '>
-            <thead>
+            <thead className='table-dark'>
                 <tr> 
                     <th>Purchase Order ID</th>   
                     <th>Supplier ID</th>

@@ -26,13 +26,16 @@ export default function GetInventoryById() {
       <label>Inventory ID:</label>
       <input
         type="text"
+        className="form-control"
         value={inventoryId}
         onChange={(e) => setInventoryId(e.target.value)}
       />
-      <button onClick={fetchInventory}>Show Inventory</button>
+      <button className="btn btn-primary" onClick={fetchInventory}>
+        Show Inventory
+      </button>
 
       {inventory && (
-        <table border="1">
+        <table className='table table-striped'>
           <thead>
             <tr>
               <th>Inventory ID</th>

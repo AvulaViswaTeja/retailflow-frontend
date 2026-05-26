@@ -68,26 +68,28 @@ let token = localStorage.getItem("token");
       <h2>Updating Inventory ID: {inventoryId}</h2>
 
       <label>Product ID</label>
-      <input value={productId} onChange={productHandler} />
+      <input className="form-control" value={productId} onChange={productHandler} />
       <br />
 
       <label>Location ID</label>
-      <input value={locationId} onChange={locationHandler} />
+      <input className="form-control" value={locationId} onChange={locationHandler} />
       <br />
 
       <label>Quantity On Hand</label>
-      <input value={quantityOnHand} onChange={quantityHandler} />
+      <input className="form-control" value={quantityOnHand} onChange={quantityHandler} />
       <br />
 
       <label>Safety Stock</label>
-      <input value={safetyStock} onChange={safetyHandler} />
+      <input className="form-control" value={safetyStock} onChange={safetyHandler} />
       <br />
 
       <label>Status</label>
-      <input value={status} onChange={statusHandler} />
+      <input className="form-control" value={status} onChange={statusHandler} />
       <br />
 
-      <button onClick={buttonHandler}>Update Inventory</button>
+      <button className="btn btn-primary" onClick={buttonHandler}>
+        Update Inventory
+      </button>
     </div>
   );
 }

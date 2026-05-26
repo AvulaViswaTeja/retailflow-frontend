@@ -21,9 +21,11 @@ let token = localStorage.getItem("token");
   return (
     <div>
       <h1>Low Stock Inventory</h1>
-      <button onClick={fetchLowStock}>Fetch Low Stock Items</button>
+      <button className="btn btn-primary" onClick={fetchLowStock}>
+        Fetch Low Stock Items
+      </button>
 
-      <table border="1">
+      <table className='table table-striped'>
         <thead>
           <tr>
             <th>Inventory ID</th>
