@@ -1,5 +1,5 @@
 import { useState } from "react";
-import api from "../../api";
+import axios from "axios";
 
 export default function GetSaleById() {
   const [saleId, setSaleId] = useState("");
@@ -11,7 +11,10 @@ export default function GetSaleById() {
     setError("");
 
     try {
-      const res = await api.get("/api/sales/" + saleId);
+      let token = localStorage.getItem("token");
+      const res = await axios.get("http://localhost:8014/api/sales/" + saleId,{
+            headers: { "Authorization": "Bearer " + token }
+        });
       console.log(res.data);
       setSale(res.data);
     } catch (err) {

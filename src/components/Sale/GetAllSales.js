@@ -1,12 +1,15 @@
+import axios from "axios";
 import { useState, useEffect } from "react";
-import api from "../../api";
 export default function GetAllSales() {
   const [sales, setSales] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   useEffect(() => {
-    api
-      .get("/api/sales")
+    let token = localStorage.getItem("token");
+    axios
+      .get("http://localhost:8014/api/sales",{
+            headers: { "Authorization": "Bearer " + token }
+        })
       .then((res) => {
         setSales(res.data);
         setLoading(false);

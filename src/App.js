@@ -1,4 +1,3 @@
-
 import {BrowserRouter as Router, Routes, Route, Outlet} from 'react-router-dom';
 
 
@@ -9,7 +8,9 @@ import UpdateCatalog from './components/Catalog/UpdateCatalog';
 import GetAllCatalogs from './components/Catalog/GetAllCatalogs';
 import GetCatalogById from './components/Catalog/GetCatalogById';
 import GetCatalogsByProduct from './components/Catalog/GetCatalogsByProduct';
-import GetAllCatalogsPaginated from './components/Catalog/GetAllCatalogsPaginated';
+
+
+
 
 
 import ProductHome from './components/Product/ProductHome';
@@ -18,8 +19,6 @@ import DeleteProduct from './components/Product/DeleteProduct';
 import UpdateProduct from './components/Product/UpdateProduct';
 import GetProductById from './components/Product/GetProductById';
 import GetAllProducts from './components/Product/GetAllProducts';
-import GetAllProductsPaginated from './components/Product/GetAllProductsPaginated';
-import GetProductsByCategory from './components/Product/GetProductsByCategory';
 
 // Inventory
 import InventoryHome from './components/Inventory/InventoryHome';
@@ -144,7 +143,7 @@ function App() {
  
         
         axios.post("http://localhost:8014/api/auth/login", {
-            "email": "admin@1.com",
+            "email": "admin@retailflow.com",
             "password": "admin123"
         })
         .then((res) => {
@@ -167,9 +166,48 @@ function App() {
     
     <Router>
       <Routes>
+
+       
+
+        
+
+        
+
+        {/* Audit Log */}
+        <Route path="/auditLog" element={<AuditLogHome/>}>
+          <Route path="getAuditLogs"   element={<GetAllAuditLogs/>}/>
+          <Route path="getAuditLogById"element={<GetAllAuditLogById/>}/>
+          <Route path="getByDate"      element={<GetAuditLogByDateRange/>}/>
+          <Route path="getByUser"      element={<GetByUser/>}/>
+          <Route path="getPaginated"   element={<GetAuditPaginated/>}/>
+        </Route>
+
+        {/* User */}
+        <Route path="/user" element={<UserHome/>}>
+          <Route path="addUser"          element={<AddUser/>}/>
+          <Route path="deleteUser"       element={<DeleteUser/>}/>
+          <Route path="updateUser"       element={<UpdateUser/>}/>
+          <Route path="getUserById"      element={<GetUserById/>}/>
+          <Route path="getUserPaginated" element={<GetPaginatedUsers/>}/>
+          <Route path="getAllUsers"      element={<GetAllUsers/>}/>
+        </Route>
+
+        {/* Notification */}
+        <Route path="/notification" element={<NotificationHome/>}>
+          <Route path="insert"                element={<InsertNotification/>}/>
+          <Route path="delete"                element={<DeleteNotification/>}/>
+          <Route path="getAllNotifications"   element={<GetAllNotifications/>}/>
+          <Route path="getNotificationById"   element={<GetNotificationById/>}/>
+          <Route path="getNotificationByUser" element={<GetNotificationByUser/>}/>
+        </Route>
+
+        
+
+        
+       
         <Route path="/Catalog" element={<CatalogHome/>}>
           <Route path="insert"       element={<InsertCatalog/>}/>
-          <Route path="delete"     element={<DeleteCatalog/>}/>   
+          <Route path="delete"     element={<DeleteCatalog/>}/>  
           <Route path="delete/:id" element={<DeleteCatalog/>}/>
           <Route path="update"       element={<UpdateCatalog/>}/>       
           <Route path="update/:id"   element={<UpdateCatalog/>}/>       
@@ -181,14 +219,12 @@ function App() {
 
         <Route path='/Product' element={<ProductHome/>}>
           <Route path='add'        element={<AddProduct/>}/>
-          <Route path='update'     element={<UpdateProduct/>}/>      
-          <Route path='update/:id' element={<UpdateProduct/>}/>      
+          <Route path='update'     element={<UpdateProduct/>}/>     
+          <Route path='update/:id' element={<UpdateProduct/>}/>     
           <Route path='getById'    element={<GetProductById/>}/>
           <Route path='getAll'     element={<GetAllProducts/>}/>
           <Route path='delete'     element={<DeleteProduct/>}/>
           <Route path='delete/:id' element={<DeleteProduct/>}/>
-          <Route path='getAllProductsPaginated' element={<GetAllProductsPaginated/>}/>
-          <Route path='getProductsByCategory' element={<GetProductsByCategory/>}/>
         </Route>
 
 
@@ -213,37 +249,20 @@ function App() {
           <Route path="getAll" element={<GetAllPurchaseOrders />} />
           <Route path="getBySupplier" element={<GetPurchaseBySupplier />} />
           <Route path="getByStatus" element={<GetPurchaseByStatus />} />
-        </Route>       
+        </Route>
+               
 
+        
+        
+
+        
 
         
 
         
-        <Route path="/auditLog" element={<AuditLogHome/>}>
-            <Route path="getAuditLogs" element={<GetAllAuditLogs/>} />
-            <Route path="getAuditLogById" element={<GetAllAuditLogById/>} />
-            <Route path="getByDate" element={<GetAuditLogByDateRange/>} />
-            <Route path="getByUser" element={<GetByUser/>} />
-            <Route path="getPaginated" element={<GetPaginated/>} />
-        </Route>
-      
-         <Route path="/user" element={<UserHome/>}>
-         
-            <Route path="addUser" element={<AddUser/>} />
-            <Route path="deleteUser" element={<DeleteUser/>} />
-            <Route path="updateUser" element={<UpdateUser/>} />
-            <Route path="getUserById" element={<GetUserById />} />
-            <Route path="getUserPaginated" element={<GetPaginatedUsers/>} />
-            <Route path="getAllUsers" element={<GetAllUsers/>} />
-        </Route>
-        <Route path="/notification" element={<NotificationHome/>}>
-            <Route path="insert" element={<InsertNotification/>} />
-            <Route path="delete" element={<DeleteNotification/>} />
-            <Route path="getAllNotifications" element={<GetAllNotifications/>} />
-            <Route path="getNotificationById" element={<GetNotificationById/>} />
-            <Route path="getNotificationByUser" element={<GetNotificationByUser/>} />
-            <Route path="markAsReadNotification" element={<MarkAsRead/>} />
-        </Route>
+
+        
+       
 
 
         {/* Sale Route */}
@@ -284,14 +303,15 @@ function App() {
 
          {/* KPI Reports — new */}
         <Route path="/kpireport" element={<KPIReportHome/>}>
-          <Route path="savereport"     element={<SaveReport/>}></Route>
-          <Route path="delete"         element={<DeleteKPIReport/>}></Route>
-          <Route path="getTrend"       element={<GetKPITrend/>}></Route>
-          <Route path="getById"        element={<GetKPIById/>}></Route>
-          <Route path="getAll"         element={<GetAllKPIReports/>}></Route>
-          <Route path="GetByDateRange" element={<GetKPIByDateRange/>}></Route>
-          <Route path="getLatest"      element={<GetKPILatestByScope/>}></Route>
-          <Route path="getPaginated"   element={<GetKPIPaginated/>}></Route>
+          <Route path="savereport"     element={<SaveReport/>}/>
+          <Route path="delete"         element={<DeleteKPIReport/>}/>
+          <Route path="getTrend"       element={<GetKPITrend/>}/>
+          <Route path="getById"        element={<GetKPIById/>}/>
+          <Route path="getAll"         element={<GetAllKPIReports/>}/>
+          <Route path="GetByDateRange" element={<GetKPIByDateRange/>}/>
+          <Route path="getLatest"      element={<GetKPILatestByScope/>}/>
+          <Route path="getPaginated"   element={<GetKPIPaginated/>}/>
+          <Route path="update/:id"    element={<UpdateKPIReport/>}/>
         </Route>
 
         {/* Compliance Reports */}
@@ -308,7 +328,6 @@ function App() {
 
        
       </Routes>
-
     </Router>
   );
 }

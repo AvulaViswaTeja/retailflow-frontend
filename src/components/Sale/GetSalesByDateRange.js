@@ -1,5 +1,5 @@
+import axios from "axios";
 import { useState } from "react";
-import api from "../../api";
 
 export default function GetSalesByDateRange() {
   const [startDate, setStartDate] = useState("");
@@ -14,12 +14,19 @@ export default function GetSalesByDateRange() {
     setError("");
 
     try {
-      const res = await api.get("/api/sales/date-range", {
-        params: {
-          start: startDate,
-          end: endDate,
+      let token = localStorage.getItem("token");
+      const res = await axios.get(
+        "http://localhost:8014/api/sales/date-range",
+        {
+          params: {
+            start: startDate,
+            end: endDate,
+          },
+          headers: {
+            Authorization: "Bearer " + token,
+          },
         },
-      });
+      );
       console.log(res.data);
       setSales(res.data);
     } catch (err) {
@@ -39,7 +46,8 @@ export default function GetSalesByDateRange() {
         onChange={(e) => setStartDate(e.target.value)}
       />
 
-      <br /><br />
+      <br />
+      <br />
 
       <label>End Date: </label>
       <input
@@ -48,14 +56,17 @@ export default function GetSalesByDateRange() {
         onChange={(e) => setEndDate(e.target.value)}
       />
 
-      <br /><br />
+      <br />
+      <br />
 
       <button onClick={handleSearch}>Search</button>
 
       {error && <p style={{ color: "red" }}>{error}</p>}
 
       {searched && sales.length === 0 && !error && (
-        <p>No sales found between {startDate} and {endDate}</p>
+        <p>
+          No sales found between {startDate} and {endDate}
+        </p>
       )}
 
       {sales.length > 0 && (
