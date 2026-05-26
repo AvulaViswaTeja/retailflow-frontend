@@ -24,6 +24,9 @@ export  default function AddProduct(){
     };
 
     let saveHandler=()=>{
+
+        let token = localStorage.getItem("token");
+
         let url="http://localhost:8014/api/products";
         let data={
                 "productName":productName,
@@ -32,7 +35,9 @@ export  default function AddProduct(){
                 "status":status
             
         };
-        axios.post(url, data).then((response)=>{
+        axios.post(url, data, {
+            headers: { "Authorization": "Bearer " + token }
+        }).then((response)=>{
             alert("Product added successfully" + response.data);
         }); 
     }

@@ -30,7 +30,12 @@ export default function UpdateProduct() {
     }, [id]);
 
     let fetchProduct = (pid) => {
-        axios.get("http://localhost:8014/api/products/" + pid)
+
+        let token = localStorage.getItem("token");
+
+        axios.get("http://localhost:8014/api/products/" + pid, {
+            headers: { "Authorization": "Bearer " + token }
+        })
             .then((response) => {
                 let product = response.data;
                 setProductId(product.productId);
@@ -47,6 +52,7 @@ export default function UpdateProduct() {
     };
 
     let searchHandler = () => {
+        
         if (!searchId) {
             alert("Please enter a Product ID");
             return;
@@ -55,11 +61,16 @@ export default function UpdateProduct() {
     };
 
     let updateHandler = () => {
+
+        let token = localStorage.getItem("token");
+
         axios.put("http://localhost:8014/api/products/" + productId, {
             productName,
             category,
             price: parseFloat(price),
             status
+        }, {
+            headers: { "Authorization": "Bearer " + token }
         })
         .then(() => {
             alert("Product updated successfully!");

@@ -7,12 +7,17 @@ export default function GetProductById() {
     let [error, setError] = useState("");
 
     let searchHandler = () => {
+
+        let token = localStorage.getItem("token");
+
         if (!productId) {
             alert("Please enter a Product ID");
             return;
         }
 
-        axios.get("http://localhost:8014/api/products/" + productId)
+        axios.get("http://localhost:8014/api/products/" + productId, {
+            headers: { "Authorization": "Bearer " + token }
+        })
             .then((response) => {
                 setProduct(response.data);
                 setError("");

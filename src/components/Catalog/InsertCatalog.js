@@ -23,7 +23,15 @@ export default function AddCatalog() {
         setProductId(e.target.value);
     };
 
-    let saveHandler = () => {
+    let saveHandler = (event) => {
+        event.preventDefault();
+        let token = localStorage.getItem("token");
+
+        if (!token) {
+            alert("Not logged in. Please refresh the page.");
+            return;
+        }
+
         let url = "http://localhost:8014/api/catalogs";
         let data = {
             "effectiveDate": effectiveDate,
@@ -31,7 +39,10 @@ export default function AddCatalog() {
             "status": status,
             "productId": productId
         };
-        axios.post(url, data).then((response) => {
+        axios.post(url, data, {
+            headers: { "Authorization": "Bearer " + token }
+        })
+        .then((response) => {
             alert("Catalog added successfully");
             console.log(response.data);
         }).catch((error) => {

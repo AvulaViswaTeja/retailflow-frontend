@@ -5,31 +5,41 @@ import { Link } from 'react-router-dom';
 export default function GetAllCatalogs() {
     let [catalogs, setCatalogs] = useState([]);
 
-    const fetchCatalogs = () => {
-        axios.get("http://localhost:8014/api/catalogs")
-            .then((response) => {
-                setCatalogs(response.data);
-            })
-            .catch((error) => {
-                console.error("Error fetching catalogs:", error);
-            });
+    let fetchCatalogs = () => {
+
+        let token = localStorage.getItem("token");
+
+        axios.get("http://localhost:8014/api/catalogs", {
+            headers: { "Authorization": "Bearer " + token }
+        })
+        .then((response) => {
+            setCatalogs(response.data);
+        })
+        .catch((error) => {
+            console.error("Error fetching catalogs:", error);
+        });
     };
 
     useEffect(() => {
         fetchCatalogs();
     }, []);
 
-    const deleteHandler = (id) => {
+    let deleteHandler = (id) => {
+
+        let token = localStorage.getItem("token");
+
         if (window.confirm("Are you sure you want to delete?")) {
-            axios.delete(`http://localhost:8014/api/catalogs/${id}`)
-                .then(() => {
-                    alert("Deleted successfully!");
-                    fetchCatalogs();
-                })
-                .catch((error) => {
-                    console.error("Error deleting catalog:", error);
-                    alert("Delete failed!");
-                });
+            axios.delete(`http://localhost:8014/api/catalogs/${id}`, {
+                headers: { "Authorization": "Bearer " + token }
+            })
+            .then(() => {
+                alert("Deleted successfully!");
+                fetchCatalogs();
+            })
+            .catch((error) => {
+                console.error("Error deleting catalog:", error);
+                alert("Delete failed!");
+            });
         }
     };
 

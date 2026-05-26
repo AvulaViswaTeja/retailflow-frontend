@@ -12,18 +12,22 @@ export default function GetCatalogById() {
             return;
         }
 
+        let token = localStorage.getItem("token");
+
         let url = "http://localhost:8014/api/catalogs/" + catalogId;
 
-        axios.get(url)
-            .then((response) => {
-                setCatalog(response.data);
-                setError("");
-            })
-            .catch((error) => {
-                setCatalog(null);
-                setError("Catalog not found with ID: " + catalogId);
-                console.error("Error:", error);
-            });
+        axios.get(url, {
+            headers: { "Authorization": "Bearer " + token }
+        })
+        .then((response) => {
+            setCatalog(response.data);
+            setError("");
+        })
+        .catch((error) => {
+            setCatalog(null);
+            setError("Catalog not found with ID: " + catalogId);
+            console.error("Error:", error);
+        });
     };
 
     return (

@@ -12,22 +12,26 @@ export default function GetCatalogsByProduct() {
             return;
         }
 
+        let token = localStorage.getItem("token");
+
         let url = "http://localhost:8014/api/catalogs/product/" + productId;
 
-        axios.get(url)
-            .then((response) => {
-                setCatalogs(response.data);
-                setError("");
+        axios.get(url, {
+            headers: { "Authorization": "Bearer " + token }
+        })
+        .then((response) => {
+            setCatalogs(response.data);
+            setError("");
 
-                if (response.data.length === 0) {
-                    setError("No catalogs found for Product ID: " + productId);
-                }
-            })
-            .catch((error) => {
-                setCatalogs([]);
+            if (response.data.length === 0) {
                 setError("No catalogs found for Product ID: " + productId);
-                console.error("Error:", error);
-            });
+            }
+        })
+        .catch((error) => {
+            setCatalogs([]);
+            setError("No catalogs found for Product ID: " + productId);
+            console.error("Error:", error);
+        });
     };
 
     return (

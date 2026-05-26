@@ -1,4 +1,10 @@
+<<<<<<< Updated upstream
 import {BrowserRouter as Router, Routes, Route,Outlet} from 'react-router-dom';
+=======
+import {BrowserRouter as Router, Routes, Route} from 'react-router-dom';
+
+
+>>>>>>> Stashed changes
 import CatalogHome from './components/Catalog/CatalogHome';
 import InsertCatalog from './components/Catalog/InsertCatalog';
 import DeleteCatalog from './components/Catalog/DeleteCatalog';
@@ -13,11 +19,48 @@ import UpdateCatalog from './components/Catalog/UpdateCatalog';
 import GetAllCatalogs from './components/Catalog/GetAllCatalogs';
 import GetCatalogById from './components/Catalog/GetCatalogById';
 import GetCatalogsByProduct from './components/Catalog/GetCatalogsByProduct';
+import GetAllCatalogsPaginated from './components/Catalog/GetAllCatalogsPaginated';
 
 
 
 
 
+<<<<<<< Updated upstream
+=======
+import ProductHome from './components/Product/ProductHome';
+import AddProduct from './components/Product/AddProduct';
+import DeleteProduct from './components/Product/DeleteProduct';
+import UpdateProduct from './components/Product/UpdateProduct';
+import GetProductById from './components/Product/GetProductById';
+import GetAllProducts from './components/Product/GetAllProducts';
+import GetAllProductsPaginated from './components/Product/GetAllProductsPaginated';
+import GetProductsByCategory from './components/Product/GetProductsByCategory';
+
+// Inventory
+import InventoryHome from './components/Inventory/InventoryHome';
+
+
+import AddInventory from './components/Inventory/AddInventory';
+import DeleteInventory from './components/Inventory/DeleteInventory';
+import UpdateInventory from './components/Inventory/UpdateInventory';
+import GetInventoryById from './components/Inventory/GetInventoryById';
+import GetAllInventory from './components/Inventory/GetAllInventory';
+import GetLowStock from './components/Inventory/GetLowStock';
+import GetInventoryByProduct from './components/Inventory/GetInventoryByProduct';
+import ReplenishStock from './components/Inventory/ReplenishStock';
+
+// Purchase Order
+import PurchaseOrderHome from './components/PurchaseOrder/PurchaseOrderHome';
+import CreatePurchaseOrder from './components/PurchaseOrder/CreatePurchaseOrder';
+import CancelPurchaseOrder from './components/PurchaseOrder/CancelPurchaseOrder';
+import UpdatePurchaseOrder from './components/PurchaseOrder/UpdatePurchaseOrder';
+import GetPurchaseOrderById from './components/PurchaseOrder/GetPurchaseOrderById';
+import GetAllPurchaseOrders from './components/PurchaseOrder/GetAllPurchaseOrders';
+import GetPurchaseBySupplier from './components/PurchaseOrder/GetPurchaseBySupplier';
+import GetPurchaseByStatus from './components/PurchaseOrder/GetPurchaseByStatus';
+
+// Audit Log
+>>>>>>> Stashed changes
 import AuditLogHome from './components/AuditLog/AuditLogHome';
 import GetAllAuditLogs from './components/AuditLog/GetAllAuditLogs';
 import GetAllAuditLogById from './components/AuditLog/GetAuditLogById';
@@ -51,7 +94,17 @@ import InsertInvoice from './components/Invoice/InsertInvoice';
 import UpdateInvoice from './components/Invoice/UpdateInvoice';
 import DeleteInvoice from './components/Invoice/DeleteInvoice';
 import GetAllInvoices from './components/Invoice/GetAllInvoices';
+<<<<<<< Updated upstream
 import GetByStatus from './components/Invoice/GetByStatus';
+=======
+import GetInvoiceByDateRange from './components/Invoice/GetInvoiceByDateRange';
+
+
+import GetInvoiceById from './components/Invoice/GetInvoiceById';
+import GetInvoiceByStatus from './components/Invoice/GetInvoiceByStatus';
+import GetInvoicePaginated from './components/Invoice/GetInvoicePaginated';
+
+>>>>>>> Stashed changes
 
 import UserHome from './components/User/UserHome';
 import NotificationHome from './components/Notification/NotificationHome';
@@ -62,8 +115,43 @@ import GetNotificationById from './components/Notification/GetNotificationById';
 import GetPaginatedUsers from './components/User/GetPaginatedUsers';
 import GetAllUsers from './components/User/GetAllUsers';
 import InsertNotification from './components/Notification/InsertNotification';
+<<<<<<< Updated upstream
 
 function App() {
+=======
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+
+
+
+function App() {
+   const [loading, setLoading] = useState(true); 
+ 
+    useEffect(() => {
+        
+        localStorage.clear(); 
+ 
+        
+        axios.post("http://localhost:8014/api/auth/login", {
+            "email": "admin@1.com",
+            "password": "admin123"
+        })
+        .then((res) => {
+            localStorage.setItem("token", res.data.token);
+            localStorage.setItem("role", res.data.role);
+            localStorage.setItem("userName", res.data.userName);
+            console.log("Auto logged in as Admin");
+            setLoading(false);
+        })
+        .catch((err) => {
+            console.log("Auto login failed: " + err.message);
+            setLoading(false);
+        });
+    }, []); 
+    if (loading) {
+        return <div>Logging in...</div>;
+    }
+>>>>>>> Stashed changes
   return (
     <Router>
       <Routes>
@@ -76,6 +164,7 @@ function App() {
           <Route path="getAll"       element={<GetAllCatalogs/>}/>
           <Route path="getById"      element={<GetCatalogById/>}/>
           <Route path="getByProduct" element={<GetCatalogsByProduct/>}/>
+          <Route path='getAllCatalogsPaginated' element={<GetAllCatalogsPaginated/>}/>
         </Route>
 
         <Route path='/Product' element={<ProductHome/>}>
@@ -85,8 +174,15 @@ function App() {
           <Route path='getById'    element={<GetProductById/>}/>
           <Route path='getAll'     element={<GetAllProducts/>}/>
           <Route path='delete'     element={<DeleteProduct/>}/>
+<<<<<<< Updated upstream
         <Route path='delete/:id' element={<DeleteProduct/>}/>
       </Route>
+=======
+          <Route path='delete/:id' element={<DeleteProduct/>}/>
+          <Route path='getAllProductsPaginated' element={<GetAllProductsPaginated/>}/>
+          <Route path='getProductsByCategory' element={<GetProductsByCategory/>}/>
+        </Route>
+>>>>>>> Stashed changes
 
 
 <<<<<<< Updated upstream

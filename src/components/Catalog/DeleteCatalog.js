@@ -15,28 +15,37 @@ export default function DeleteCatalog() {
             return;
         }
 
-        axios.get("http://localhost:8014/api/catalogs/" + searchId)
-            .then((response) => {
-                setCatalog(response.data);
-                setCatalogFound(true);
-            })
-            .catch(() => {
-                alert("Catalog not found with ID: " + searchId);
-                setCatalogFound(false);
-                setCatalog(null);
-            });
+        let token = localStorage.getItem("token");
+
+        axios.get("http://localhost:8014/api/catalogs/" + searchId, {
+            headers: { "Authorization": "Bearer " + token }
+        })
+        .then((response) => {
+            setCatalog(response.data);
+            setCatalogFound(true);
+        })
+        .catch(() => {
+            alert("Catalog not found with ID: " + searchId);
+            setCatalogFound(false);
+            setCatalog(null);
+        });
     };
 
     let deleteHandler = () => {
-        if (window.confirm("Are you sure you want to permanently delete this catalog?")) {
-            axios.delete("http://localhost:8014/api/catalogs/" + searchId)
-                .then(() => {
-                    alert("Catalog deleted successfully!");
-                    navigate("/Catalog/getAll");
-                })
-                .catch((error) => {
-                    alert("Delete failed: " + (error.response?.data?.message || "Server error"));
-                });
+
+        let token = localStorage.getItem("token");
+
+        if (window.confirm("Are you sure you want to delete this catalog?")) {
+            axios.delete("http://localhost:8014/api/catalogs/" + searchId, {
+                headers: { "Authorization": "Bearer " + token }
+            })
+            .then(() => {
+                alert("Catalog deleted successfully!");
+                navigate("/Catalog/getAll");
+            })
+            .catch((error) => {
+                alert("Delete failed: " + (error.response?.data?.message || "Server error"));
+            });
         }
     };
 

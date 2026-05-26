@@ -30,7 +30,12 @@ export default function UpdateCatalog() {
 }, [id]);
 
     let fetchCatalog = (catalogIdToFetch) => {
-        axios.get("http://localhost:8014/api/catalogs/" + catalogIdToFetch)
+
+        let token = localStorage.getItem("token");
+
+        axios.get("http://localhost:8014/api/catalogs/" + catalogIdToFetch, {
+            headers: { "Authorization": "Bearer " + token }
+        })
             .then((response) => {
                 let catalog = response.data;
                 setCatalogId(catalog.catalogId);
@@ -56,11 +61,16 @@ export default function UpdateCatalog() {
     };
 
     let updateHandler = () => {
+
+        let token = localStorage.getItem("token");
+
         axios.put("http://localhost:8014/api/catalogs/" + catalogId, {
             effectiveDate,
             expiryDate,
             status,
             productId: parseInt(productId)
+        }, {
+            headers: { "Authorization": "Bearer " + token }
         })
         .then(() => {
             alert("Catalog updated successfully!");

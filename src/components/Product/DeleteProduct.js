@@ -10,11 +10,16 @@ export default function DeleteProduct() {
     let [productFound, setProductFound] = useState(false);
 
     let searchHandler = () => {
+
+        let token = localStorage.getItem("token");
+
         if (!searchId) {
             alert("Please enter a Product ID");
             return;
         }
-        axios.get("http://localhost:8014/api/products/" + searchId)
+        axios.get("http://localhost:8014/api/products/" + searchId, {
+            headers: { "Authorization": "Bearer " + token }
+        })
             .then((response) => {
                 setProduct(response.data);
                 setProductFound(true);
@@ -27,8 +32,13 @@ export default function DeleteProduct() {
     };
 
     let deleteHandler = () => {
+
+        let token = localStorage.getItem("token");
+
         if (window.confirm("This will mark the product as INACTIVE. Continue?")) {
-            axios.delete("http://localhost:8014/api/products/" + searchId)
+            axios.delete("http://localhost:8014/api/products/" + searchId, {
+                headers: { "Authorization": "Bearer " + token }
+            })
                 .then(() => {
                     alert("Product marked as INACTIVE!");
                     navigate("/Product/getAll");
