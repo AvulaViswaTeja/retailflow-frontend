@@ -32,22 +32,26 @@ export default function GetCatalogById() {
 
     return (
         <div>
-
-            <label>Enter Catalog ID: </label>
+            <div className="mb-3">
+            <label className="form-label">Enter Catalog ID: </label>
             <input
                 type="number"
+                className="form-control"
                 value={catalogId}
                 onChange={(e) => setCatalogId(e.target.value)}
                 placeholder="Enter catalog ID"
             />
-            <button onClick={searchHandler}>Search</button>
+            </div>
+            <button className="btn btn-primary" onClick={searchHandler}>
+                Search
+            </button>
 
             
             {error && <p>{error}</p>}
 
             
             {catalog && (
-                <table border="1">
+                <table className="table table-border">
                     <thead>
                         <tr>
                             <th>ID</th>

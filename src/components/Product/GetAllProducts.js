@@ -42,8 +42,8 @@ export default function GetAllProducts() {
 
     return (
         <div>
-            <h1>All Products</h1>
-            <table border="1">
+            
+            <table className="table table-border">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -64,12 +64,14 @@ export default function GetAllProducts() {
                             <td>{product.status}</td>
                             <td>
                                 
-                                <button onClick={() => deleteHandler(product.productId)}>
+                                <button className="btn btn-danger" onClick={() => deleteHandler(product.productId)}>
                                     Delete
                                 </button>
                                 &nbsp;
                                 
-                                <Link to={`/Product/update/${product.productId}`}>Edit</Link>
+                                <Link className="btn btn-secondary" to={`/Product/update/${product.productId}`}>
+                                    Edit
+                                </Link>
                             </td>
                         </tr>
                     ))}

@@ -52,14 +52,20 @@ export default function DeleteCatalog() {
     return (
         <div>
 
-            <label>Enter Catalog ID: </label>
-            <input
+            <div className="mb-3">
+            <label className="form-label">Enter Catalog ID: </label>
+            <input className="form-control"
                 type="number"
                 value={searchId}
                 onChange={(e) => setSearchId(e.target.value)}
                 placeholder="Enter catalog ID"
             />
-            <button onClick={searchHandler}>Search</button>
+
+        </div>
+
+            <button className="btn btn-primary" onClick={searchHandler}>
+                Search
+            </button>
 
             <br /><br />
 
@@ -67,7 +73,7 @@ export default function DeleteCatalog() {
             {catalogFound && catalog && (
                 <div>
                     <h3>Catalog Details</h3>
-                    <table border="1">
+                    <table className="table table-border">
                         <thead>
                             <tr>
                                 <th>Catalog ID</th>
@@ -92,12 +98,13 @@ export default function DeleteCatalog() {
 
                     <button
                         onClick={deleteHandler}
+                        className="btn btn-danger"
                     >
-                        Delete
+                        Delete Catalog
                     </button>
                     <button
                         onClick={() => navigate("/Catalog/getAll")}
-                        
+                        className="btn btn-secondary"   
                     >
                         Cancel
                     </button>

@@ -36,22 +36,27 @@ export default function GetCatalogsByProduct() {
 
     return (
         <div>
-            
-            <label>Enter Product ID: </label>
+            <div className="mb-3">
+            <label className="form-label">Enter Product ID: </label>
             <input
                 type="number"
+                className="form-control"
                 value={productId}
                 onChange={(e) => setProductId(e.target.value)}
                 placeholder="Enter product ID"
             />
-            <button onClick={searchHandler}>Search</button>
+            </div>
+
+            <button className="btn btn-primary" onClick={searchHandler}>
+                Search
+            </button>
 
            
             {error && <p>{error}</p>}
 
            
             {catalogs.length > 0 && (
-                <table border="1">
+                <table className="table table-border">
                     <thead>
                         <tr>
                             <th>Catalog ID</th>

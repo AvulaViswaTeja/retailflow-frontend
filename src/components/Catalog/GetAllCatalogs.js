@@ -45,7 +45,7 @@ export default function GetAllCatalogs() {
 
     return (
         <div>
-            <table border="1">
+            <table className="table table-border">
                 <thead>
                     <tr>
                         <th>Catalog ID</th>
@@ -65,11 +65,11 @@ export default function GetAllCatalogs() {
                             <td>{catalog.status}</td>
                             <td>{catalog.productId}</td>
                             <td>
-                                <button onClick={() => deleteHandler(catalog.catalogId)}>
+                                <button className="btn btn-danger" onClick={() => deleteHandler(catalog.catalogId)}>
                                     Delete
                                 </button>
                                 &nbsp;
-                                <Link to={`/Catalog/update/${catalog.catalogId}`}>
+                                <Link className="btn btn-secondary" to={`/Catalog/update/${catalog.catalogId}`}>
                                     Edit
                                 </Link>
                             </td>

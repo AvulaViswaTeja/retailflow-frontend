@@ -40,10 +40,9 @@ export default function GetAllCatalogsPaginated() {
 
     return (
         <div>
-            <h1>All Catalogs — Paginated</h1>
             <p>Total Records: {totalElements}</p>
 
-            <table border="1" cellPadding="10" cellSpacing="0">
+            <table className="table table-border" >
                 <thead>
                     <tr>
                         <th>Catalog ID</th>

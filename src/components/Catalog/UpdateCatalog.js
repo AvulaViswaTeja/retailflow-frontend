@@ -86,15 +86,19 @@ export default function UpdateCatalog() {
 
             
             {!id && (
-                <div>
-                    <label>Enter Catalog ID: </label>
+                <div className="mb-3">
+                    <label className="form-label">Enter Catalog ID: </label>
                     <input
                         type="number"
+                        className="form-control"
                         value={searchId}
                         onChange={(e) => setSearchId(e.target.value)}
                         placeholder="Enter catalog ID"
                     />
-                    <button onClick={searchHandler}>Search</button>
+                    <br /><br />
+                    <button className="btn btn-primary" onClick={searchHandler}>
+                        Search
+                    </button>
                     <br /><br />
                 </div>
             )}
@@ -102,51 +106,65 @@ export default function UpdateCatalog() {
             
             {catalogFound && (
                 <div>
+                    <div className="mb-3">
                     <h3>Editing Catalog ID: {catalogId}</h3>
 
-                    <label>Effective Date: </label>
+                    <label className="form-label">Effective Date: </label>
                     <input
                         type="date"
                         value={effectiveDate}
                         onChange={(e) => setEffectiveDate(e.target.value)}
+                        className="form-control"
                     />
-                    <br /><br />
+                    </div>
 
-                    <label>Expiry Date: </label>
+                    <div className="mb-3">
+                    <label className="form-label">Expiry Date: </label>
                     <input
                         type="date"
                         value={expiryDate}
                         onChange={(e) => setExpiryDate(e.target.value)}
+                        className="form-control"
                     />
-                    <br /><br />
+                    </div>
 
-                    <label>Status: </label>
-                    <input
-                        type="text"
-                        value={status}
-                        onChange={(e) => setStatus(e.target.value)}
-                        placeholder="ACTIVE / INACTIVE"
-                    />
-                    <br /><br />
+                    <div className="mb-3">
+                        <label className="form-label fw-semibold">Status</label>
+                        <select
+                            className="form-select"
+                            value={status}
+                            onChange={(e) => setStatus(e.target.value)}>
+                            <option value="">-- Select Status --</option>
+                            <option value="ACTIVE">ACTIVE</option>
+                            <option value="INACTIVE">INACTIVE</option>
+                        </select>
+                    </div>
 
-                    <label>Product ID: </label>
+                    <div className="mb-3">
+
+                    <label className="form-label">Product ID: </label>
                     <input
                         type="number"
                         value={productId}
                         readOnly
-                        
+                        className="form-control"
                     />
                     <small>
                         (Product ID cannot be changed)
                     </small>
-                    <br /><br />
+                    </div>
 
-                    <button onClick={updateHandler}>Update Catalog</button>
+                    <div className="d-flex gap-2">
+                    <button className="btn btn-primary" onClick={updateHandler}>
+                        Update Catalog
+                    </button>
                     <button
+                        className="btn btn-secondary"
                         onClick={() => navigate("/Catalog/getAll")}
                     >
                         Cancel
                     </button>
+                    </div>
                 </div>
             )}
         </div>

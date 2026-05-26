@@ -34,24 +34,26 @@ export default function GetProductsByCategory() {
 
     return (
         <div>
-
-            <label>Enter Category: </label>
+            <div className="mb-3">
+            <label className="form-label">Enter Category: </label>
             <input
                 type="text"
+                className="form-control"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
                 placeholder="e.g. Food, Oil"
             />
-            <button onClick={searchHandler}>Search</button>
-
-            <br /><br />
+            </div>
+            <button className="btn btn-primary" onClick={searchHandler}>
+                Search
+            </button>
 
             
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {error && <p>{error}</p>}
 
           
             {products.length > 0 && (
-                <table border="1" cellPadding="10" cellSpacing="0">
+                <table className="table table-border" cellPadding="10" cellSpacing="0">
                     <thead>
                         <tr>
                             <th>Product ID</th>
