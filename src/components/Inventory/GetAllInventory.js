@@ -2,8 +2,11 @@ import axios from 'axios';
 import { useState} from 'react';
 import { Link } from 'react-router';
 export  default function GetAllInventory(){
+    let token = localStorage.getItem("token");
     let [inventoryArray, setInventoryData] = useState([]);
-axios.get("http://localhost:8014/api/inventory")
+axios.get("http://localhost:8014/api/inventory", {
+            headers: { "Authorization": "Bearer " + token }
+        })
 .then((response)=>{
     console.log(response.data);
     setInventoryData(response.data);
@@ -14,7 +17,7 @@ axios.get("http://localhost:8014/api/inventory")
 });
     return(<div>
         <h1>Get All Inventory</h1>
-        <table border="1">
+        <table className='table table-striped'>
             <thead>
             <th>Inventory ID</th>
             <th>Product ID</th>
