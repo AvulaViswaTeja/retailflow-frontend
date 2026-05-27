@@ -21,8 +21,8 @@ export default function GetAllSalesPaginated() {
             page: pageNumber,
             size: 5,
           },
-        },
-        {
+        
+      
           headers: { Authorization: "Bearer " + token },
         },
       )
