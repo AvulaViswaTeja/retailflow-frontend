@@ -2,10 +2,15 @@ import { useState,useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 export  default function GetAllPurchaseOrders(){
+    let token = localStorage.getItem("token");
     let [POArray, setPOdata] = useState([]);
    useEffect(()=>{
     let url="http://localhost:8014/api/purchase-orders"
-    axios.get(url)
+    axios.get(url, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        }
+    })
     .then((response)=>{
         setPOdata(response.data);
 
@@ -15,8 +20,8 @@ export  default function GetAllPurchaseOrders(){
    },[]);
     return(<div>
         <h1>Get All products</h1>
-        <table border="1">
-            <thead>
+        <table className='table table-striped '>
+            <thead className='table-dark'>
                 <tr> 
                     <th>Purchase Order ID</th>   
                     <th>Supplier ID</th>
