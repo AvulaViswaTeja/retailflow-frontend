@@ -1,5 +1,4 @@
 import { useState } from "react";
-
 import axios from "axios";
 
 export default function DeleteSale() {
@@ -15,9 +14,9 @@ export default function DeleteSale() {
 
     try {
       let token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:8014/api/sales/" + saleId,{
-            headers: { "Authorization": "Bearer " + token }
-        });
+      const res = await axios.get("http://localhost:8014/api/sales/" + saleId, {
+        headers: { "Authorization": "Bearer " + token },
+      });
       setCurrentSale(res.data);
     } catch (err) {
       setError(err.response?.data?.message || "Sale not found");
@@ -31,8 +30,8 @@ export default function DeleteSale() {
     try {
       let token = localStorage.getItem("token");
       await axios.delete("http://localhost:8014/api/sales/" + saleId, {
-            headers: { "Authorization": "Bearer " + token }
-        });
+        headers: { "Authorization": "Bearer " + token },
+      });
       setMessage("Sale ID: " + saleId + " cancelled successfully!");
       setCurrentSale(null);
       setSaleId("");
@@ -42,67 +41,91 @@ export default function DeleteSale() {
   };
 
   return (
-    <div>
-      <h1>Delete Sale</h1>
-
-      <label>Sale ID: </label>
-      <input
-        type="number"
-        value={saleId}
-        onChange={(e) => setSaleId(e.target.value)}
-        placeholder="Enter Sale ID"
-        min={1}
-      />
-      <button onClick={handleSearch}>Search</button>
-
-      <br /><br />
-
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {message && <p style={{ color: "green" }}>{message}</p>}
-
-      {currentSale && (
-        <div>
-          <table border={1}>
-            <thead>
-              <tr>
-                <th>Sale ID</th>
-                <th>Product</th>
-                <th>Customer ID</th>
-                <th>Quantity</th>
-                <th>Amount</th>
-                <th>Status</th>
-                <th>Invoice ID</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>{currentSale.saleId}</td>
-                <td>{currentSale.productName}</td>
-                <td>{currentSale.customerId}</td>
-                <td>{currentSale.quantity}</td>
-                <td>{currentSale.amount}</td>
-                <td>{currentSale.status}</td>
-                <td>{currentSale.invoiceId}</td>
-              </tr>
-            </tbody>
-          </table>
-
-          <br />
-
-          {currentSale.status === "CANCELLED" ? (
-            <p style={{ color: "orange" }}>
-              This sale is already cancelled!
-            </p>
-          ) : (
-            <button
-              onClick={handleDelete}
-              style={{ color: "white", backgroundColor: "red" }}
-            >
-              Cancel Sale
-            </button>
-          )}
+    <div className="container mt-4">
+      <div className="card shadow-sm">
+        <div className="card-header bg-danger text-white">
+          <h4 className="mb-0">Cancel Sale</h4>
         </div>
-      )}
+        <div className="card-body">
+
+          
+          <div className="input-group mb-3">
+            <input
+              type="number"
+              className="form-control"
+              value={saleId}
+              onChange={(e) => setSaleId(e.target.value)}
+              placeholder="Enter Sale ID"
+              min={1}
+            />
+            <button className="btn btn-primary" onClick={handleSearch}>
+              Search
+            </button>
+          </div>
+
+          
+          {error && <div className="alert alert-danger">{error}</div>}
+          {message && <div className="alert alert-success">{message}</div>}
+
+          
+          {currentSale && (
+            <div>
+              <h6 className="text-muted mb-2">Sale Details:</h6>
+              <div className="table-responsive mb-3">
+                <table className="table table-bordered table-hover">
+                  <thead className="table-dark">
+                    <tr>
+                      <th>Sale ID</th>
+                      <th>Product</th>
+                      <th>Customer ID</th>
+                      <th>Quantity</th>
+                      <th>Amount</th>
+                      <th>Status</th>
+                      <th>Invoice ID</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{currentSale.saleId}</td>
+                      <td>{currentSale.productName}</td>
+                      <td>{currentSale.customerId}</td>
+                      <td>{currentSale.quantity}</td>
+                      <td>₹{currentSale.amount}</td>
+                      <td>
+                        <span className={`badge ${
+                          currentSale.status === "COMPLETED" ? "bg-success" :
+                          currentSale.status === "PENDING" ? "bg-warning text-dark" :
+                          currentSale.status === "CANCELLED" ? "bg-danger" :
+                          "bg-secondary"
+                        }`}>
+                          {currentSale.status}
+                        </span>
+                      </td>
+                      <td>{currentSale.invoiceId || "-"}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              
+              {currentSale.status === "CANCELLED" ? (
+                <div className="alert alert-warning">
+                  ⚠️ This sale is already cancelled!
+                </div>
+              ) : (
+                <button
+                  className="btn btn-danger w-100"
+                  onClick={handleDelete}
+                >
+                  Cancel Sale
+                </button>
+              )}
+
+            </div>
+          )}
+
+        </div>
+      </div>
     </div>
   );
 }
