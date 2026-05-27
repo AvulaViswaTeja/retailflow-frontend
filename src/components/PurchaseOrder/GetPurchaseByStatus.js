@@ -7,8 +7,12 @@ export default function GetPurchaseOrdersByStatus() {
 
   const fetchPurchaseOrders = () => {
     if (!status) return;
-    let url = "http://localhost:8014/api/purchase-orders/status/" + status;
-    axios.get(url)
+    let url = "http://localhost:1405/api/purchase-orders/status/" + status;
+    axios.get(url, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
       .then((response) => {
         // assuming backend returns an array of purchase orders
         setPoArr(response.data);

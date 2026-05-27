@@ -37,7 +37,11 @@ export default function UpdatePurchaseOrder() {
 
     console.log("Sending update:", purchaseorder);
 
-    axios.put(url, purchaseorder)
+    axios.put(url, purchaseorder, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
       .then((response) => {
         alert("Updated Purchase Order: " + JSON.stringify(response.data));
         navigate('/PurchaseOrder/getAll'); // Redirect after successful update
@@ -50,8 +54,12 @@ export default function UpdatePurchaseOrder() {
 
   // Load existing purchase order by ID
   useEffect(() => {
-    let url = `http://localhost:8014/api/purchase-orders/${purchaseOrderId}`;
-    axios.get(url)
+    let url = `http://localhost:1405/api/purchase-orders/${purchaseOrderId}`;
+    axios.get(url, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
       .then((response) => {
         setExpectedDeliveryDate(response.data.expectedDeliveryDate);
         setOrderDate(response.data.orderDate);

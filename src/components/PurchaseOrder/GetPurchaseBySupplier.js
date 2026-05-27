@@ -7,8 +7,12 @@ export default function GetPurchaseOrdersBySupplier() {
 
   const fetchPurchaseOrders = () => {
     if (!supplierId) return;
-    let url = "http://localhost:8014/api/purchase-orders/supplier/" + supplierId;
-    axios.get(url)
+    let url = "http://localhost:1405/api/purchase-orders/supplier/" + supplierId;
+    axios.get(url, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
       .then((response) => {
         // assuming backend returns an array of purchase orders
         setPoArr(response.data);

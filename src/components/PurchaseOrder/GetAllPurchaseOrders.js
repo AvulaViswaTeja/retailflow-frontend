@@ -4,8 +4,12 @@ import axios from 'axios';
 export  default function GetAllPurchaseOrders(){
     let [POArray, setPOdata] = useState([]);
    useEffect(()=>{
-    let url="http://localhost:8014/api/purchase-orders"
-    axios.get(url)
+    let url="http://localhost:1405/api/purchase-orders"
+    axios.get(url, {
+        headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+        }
+    })
     .then((response)=>{
         setPOdata(response.data);
 

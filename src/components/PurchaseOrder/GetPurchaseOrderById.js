@@ -7,8 +7,12 @@ export default function GetPurchaseOrderById() {
 
   const fetchPurchaseOrder = () => {
     if (!poId) return;
-    let url = "http://localhost:8014/api/purchase-orders/" + poId;
-    axios.get(url)
+    let url = "http://localhost:1405/api/purchase-orders/" + poId;
+    axios.get(url, {
+      headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
+      }
+    })
       .then((response) => {
         setPurchaseOrder(response.data); // store single purchase order record
       })
