@@ -108,9 +108,7 @@ import GetNotificationById from './components/Notification/GetNotificationById';
 import InsertNotification from './components/Notification/InsertNotification';
 import MarkAsRead from './components/Notification/MarkAsRead';
 
-// -------------------------------------------------------
-// Role constants
-// -------------------------------------------------------
+
 const ALL_ROLES        = ["ADMIN","STORE_ASSOCIATE","INVENTORY_MANAGER","FINANCE_OFFICER","COMPLIANCE_OFFICER","STORE_MANAGER"];
 const ADMIN_ONLY       = ["ADMIN"];
 const ADMIN_INVENTORY  = ["ADMIN","INVENTORY_MANAGER"];
@@ -119,9 +117,7 @@ const ADMIN_COMPLIANCE = ["ADMIN","COMPLIANCE_OFFICER"];
 const ADMIN_MANAGER    = ["ADMIN","STORE_MANAGER"];
 const ADMIN_SALES      = ["ADMIN","STORE_ASSOCIATE","STORE_MANAGER"];
 
-// -------------------------------------------------------
-// ProtectedRoute
-// -------------------------------------------------------
+
 function ProtectedRoute({ children, allowedRoles }) {
     const token = localStorage.getItem("token");
     const role  = localStorage.getItem("role");
@@ -131,9 +127,7 @@ function ProtectedRoute({ children, allowedRoles }) {
     return children;
 }
 
-// -------------------------------------------------------
-// Unauthorized page
-// -------------------------------------------------------
+
 function Unauthorized() {
     return (
         <div className="d-flex flex-column align-items-center justify-content-center" style={{ minHeight: "60vh" }}>
@@ -144,9 +138,7 @@ function Unauthorized() {
     );
 }
 
-// -------------------------------------------------------
-// App
-// -------------------------------------------------------
+
 function App() {
     return (
         <Router>
