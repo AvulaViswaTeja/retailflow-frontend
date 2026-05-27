@@ -6,7 +6,7 @@ export default function GetAllCatalogs() {
     let [catalogs, setCatalogs] = useState([]);
 
     const fetchCatalogs = () => {
-        axios.get("http://localhost:8014/api/catalogs")
+        axios.get("http://localhost:1405/api/catalogs")
             .then((response) => {
                 setCatalogs(response.data);
             })
@@ -19,9 +19,12 @@ export default function GetAllCatalogs() {
         fetchCatalogs();
     }, []);
 
-    const deleteHandler = (id) => {
+    let deleteHandler = (id) => {
+
+        let token = localStorage.getItem("token");
+
         if (window.confirm("Are you sure you want to delete?")) {
-            axios.delete(`http://localhost:8014/api/catalogs/${id}`)
+            axios.delete(`http://localhost:1405/api/catalogs/${id}`)
                 .then(() => {
                     alert("Deleted successfully!");
                     fetchCatalogs();
@@ -35,7 +38,7 @@ export default function GetAllCatalogs() {
 
     return (
         <div>
-            <table border="1">
+            <table className="table table-border">
                 <thead>
                     <tr>
                         <th>Catalog ID</th>
@@ -55,11 +58,11 @@ export default function GetAllCatalogs() {
                             <td>{catalog.status}</td>
                             <td>{catalog.productId}</td>
                             <td>
-                                <button onClick={() => deleteHandler(catalog.catalogId)}>
+                                <button className="btn btn-danger" onClick={() => deleteHandler(catalog.catalogId)}>
                                     Delete
                                 </button>
                                 &nbsp;
-                                <Link to={`/Catalog/update/${catalog.catalogId}`}>
+                                <Link className="btn btn-secondary" to={`/Catalog/update/${catalog.catalogId}`}>
                                     Edit
                                 </Link>
                             </td>

@@ -16,7 +16,7 @@ export default function UpdateKPIReport() {
     });
 
     useEffect(() => {
-        let url = `http://localhost:8016/api/kpi-reports/${id}`;
+        let url = `http://localhost:1405/api/kpi-reports/${id}`;
         axios.get(url).then((response) => {
             setReport(response.data);
         }).catch((error) => {
@@ -27,7 +27,7 @@ export default function UpdateKPIReport() {
     let updateHandler = (e) => {
         e.preventDefault();
 
-        let url = `http://localhost:8016/api/kpi-reports/${id}`;
+        let url = `http://localhost:1405/api/kpi-reports/${id}`;
         let data = { scope: report.scope, metrics: report.metrics };
 
         axios.put(url, data).then(() => {

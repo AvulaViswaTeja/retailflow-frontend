@@ -12,7 +12,7 @@ export default function GetComplianceReportById() {
         e.preventDefault();
         setError(''); setReport(null); setLoading(true);
 
-        axios.get(`http://localhost:8016/api/compliance-reports/${id}`)
+        axios.get(`http://localhost:1405/api/compliance-reports/${id}`)
             .then((res) => { setReport(res.data); setLoading(false); })
             .catch(() => { setError(`Report not found with ID: ${id}`); setLoading(false); });
     }

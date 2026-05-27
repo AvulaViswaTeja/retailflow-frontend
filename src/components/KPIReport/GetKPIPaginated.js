@@ -9,7 +9,7 @@ export default function GetKPIPaginated() {
     let size = 5;
 
     useEffect(() => {
-        let url = `http://localhost:8016/api/kpi-reports/paginated?page=${page}&size=${size}`;
+        let url = `http://localhost:1405/api/kpi-reports/paginated?page=${page}&size=${size}`;
 
         axios.get(url).then((response) => {
             setReports(response.data.content || []);

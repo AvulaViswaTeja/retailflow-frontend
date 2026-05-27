@@ -4,13 +4,17 @@ import axios from "axios";
 export default function GetPurchaseOrdersByStatus() {
   const [status, setStatus] = useState("");
   const [poArr, setPoArr] = useState([]);
-
+  const token = localStorage.getItem("token");
   const fetchPurchaseOrders = () => {
     if (!status) return;
     let url = "http://localhost:1405/api/purchase-orders/status/" + status;
     axios.get(url, {
       headers: {
+<<<<<<< HEAD
         'Authorization': `Bearer ${localStorage.getItem('token')}`
+=======
+        'Authorization': `Bearer ${token}`
+>>>>>>> origin/main
       }
     })
       .then((response) => {
@@ -28,14 +32,18 @@ export default function GetPurchaseOrdersByStatus() {
       <label>Status:</label>
       <input
         type="text"
+        className="form-control"
+        placeholder="Enter Status"
         value={status}
         onChange={(e) => setStatus(e.target.value)}
       />
-      <button onClick={fetchPurchaseOrders}>Show Purchase Orders</button>
+      <button className="btn btn-primary" onClick={fetchPurchaseOrders}>
+        Show Purchase Orders
+      </button>
 
       {poArr.length > 0 && (
-        <table border="1">
-          <thead>
+        <table className="table table-striped">
+          <thead className="table-dark">
             <tr>
               <th>Purchase Order ID</th>
               <th>Supplier ID</th>

@@ -16,7 +16,7 @@ export default function UpdatePayment() {
     try {
       let token = localStorage.getItem("token");
       const res = await axios.get(
-        "http://localhost:8014/api/payments/" + paymentId,
+        "http://localhost:1405/api/payments/" + paymentId,
         {
           headers: { Authorization: "Bearer " + token },
         },
@@ -35,7 +35,7 @@ export default function UpdatePayment() {
     try {
       let token = localStorage.getItem("token");
       const res = await axios.put(
-        "http://localhost:8014/api/payments/" + paymentId,
+        "http://localhost:1405/api/payments/" + paymentId,
         {
           invoiceId: currentPayment.invoiceId,
           amount: currentPayment.amount,

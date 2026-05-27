@@ -5,7 +5,7 @@ import axios from "axios";
 export default function UpdateInventory() {
   let { inventoryId } = useParams();
   let navigate = useNavigate();
-
+let token = localStorage.getItem("token");
   // State variables for inventory fields
   let [productId, setProductId] = useState("");
   let [locationId, setLocationId] = useState("");
@@ -22,7 +22,7 @@ export default function UpdateInventory() {
 
   // Update button handler
   let buttonHandler = () => {
-    let url = "http://localhost:8014/api/inventory/" + inventoryId;
+    let url = "http://localhost:1405/api/inventory/" + inventoryId;
     let inventory = {
       productId: productId,
       locationId: locationId,
@@ -31,7 +31,9 @@ export default function UpdateInventory() {
       status: status,
     };
 
-    axios.put(url, inventory)
+    axios.put(url, inventory, {
+            headers: { "Authorization": "Bearer " + token }
+        })
       .then((response) => {
         alert("Updated Inventory: " + JSON.stringify(response.data));
         navigate('/Inventory/getAll'); // Redirect after successful update
@@ -44,8 +46,10 @@ export default function UpdateInventory() {
 
   // Load existing inventory by ID
   useEffect(() => {
-    let url = "http://localhost:8014/api/inventory/" + inventoryId;
-    axios.get(url)
+    let url = "http://localhost:1405/api/inventory/" + inventoryId;
+    axios.get(url, {
+            headers: { "Authorization": "Bearer " + token }
+        })
       .then((response) => {
         setProductId(response.data.productId);
         setLocationId(response.data.locationId);
@@ -64,26 +68,28 @@ export default function UpdateInventory() {
       <h2>Updating Inventory ID: {inventoryId}</h2>
 
       <label>Product ID</label>
-      <input value={productId} onChange={productHandler} />
+      <input className="form-control" value={productId} onChange={productHandler} />
       <br />
 
       <label>Location ID</label>
-      <input value={locationId} onChange={locationHandler} />
+      <input className="form-control" value={locationId} onChange={locationHandler} />
       <br />
 
       <label>Quantity On Hand</label>
-      <input value={quantityOnHand} onChange={quantityHandler} />
+      <input className="form-control" value={quantityOnHand} onChange={quantityHandler} />
       <br />
 
       <label>Safety Stock</label>
-      <input value={safetyStock} onChange={safetyHandler} />
+      <input className="form-control" value={safetyStock} onChange={safetyHandler} />
       <br />
 
       <label>Status</label>
-      <input value={status} onChange={statusHandler} />
+      <input className="form-control" value={status} onChange={statusHandler} />
       <br />
 
-      <button onClick={buttonHandler}>Update Inventory</button>
+      <button className="btn btn-primary" onClick={buttonHandler}>
+        Update Inventory
+      </button>
     </div>
   );
 }

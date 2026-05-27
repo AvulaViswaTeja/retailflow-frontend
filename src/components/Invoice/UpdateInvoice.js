@@ -16,7 +16,7 @@ export default function UpdateInvoice() {
 
     try {
       let token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:8014/api/invoices/" + invoiceId,{
+      const res = await axios.get("http://localhost:1405/api/invoices/" + invoiceId,{
             headers: { "Authorization": "Bearer " + token }
         });
       setCurrentInvoice(res.data);
@@ -33,7 +33,7 @@ export default function UpdateInvoice() {
 
     try {
       let token = localStorage.getItem("token");
-      const res = await axios.put("http://localhost:8014/api/invoices/" + invoiceId, {
+      const res = await axios.put("http://localhost:1405/api/invoices/" + invoiceId, {
         saleId: currentInvoice.saleId,
         amount: parseFloat(amount),
         status: status,

@@ -4,13 +4,17 @@ import axios from "axios";
 export default function GetPurchaseOrderById() {
   const [poId, setPoId] = useState("");
   const [purchaseOrder, setPurchaseOrder] = useState(null);
-
+  const token = localStorage.getItem("token");
   const fetchPurchaseOrder = () => {
     if (!poId) return;
     let url = "http://localhost:1405/api/purchase-orders/" + poId;
     axios.get(url, {
       headers: {
+<<<<<<< HEAD
         'Authorization': `Bearer ${localStorage.getItem('token')}`
+=======
+        'Authorization': `Bearer ${token}`
+>>>>>>> origin/main
       }
     })
       .then((response) => {
@@ -27,14 +31,18 @@ export default function GetPurchaseOrderById() {
       <label>Purchase Order ID:</label>
       <input
         type="text"
+        className="form-control"
+        placeholder="Enter Purchase Order ID"
         value={poId}
         onChange={(e) => setPoId(e.target.value)}
       />
-      <button onClick={fetchPurchaseOrder}>Show Purchase Order</button>
+      <button className="btn btn-primary" onClick={fetchPurchaseOrder}>
+        Show Purchase Order
+      </button>
 
       {purchaseOrder && (
-        <table border="1">
-          <thead>
+        <table className="table table-striped">
+          <thead className="table-dark">
             <tr>
               <th>Purchase Order ID</th>
               <th>Supplier ID</th>

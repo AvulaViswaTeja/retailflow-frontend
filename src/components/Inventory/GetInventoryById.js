@@ -4,11 +4,14 @@ import axios from "axios";
 export default function GetInventoryById() {
   const [inventoryId, setInventoryId] = useState("");
   const [inventory, setInventory] = useState(null);
+    let token = localStorage.getItem("token");
 
   const fetchInventory = () => {
     if (!inventoryId) return;
-    let url = "http://localhost:8014/api/inventory/" + inventoryId;
-    axios.get(url)
+    let url = "http://localhost:1405/api/inventory/" + inventoryId;
+    axios.get(url, {
+            headers: { "Authorization": "Bearer " + token }
+        })
       .then((response) => {
         setInventory(response.data); // store single inventory record
       })
@@ -23,13 +26,16 @@ export default function GetInventoryById() {
       <label>Inventory ID:</label>
       <input
         type="text"
+        className="form-control"
         value={inventoryId}
         onChange={(e) => setInventoryId(e.target.value)}
       />
-      <button onClick={fetchInventory}>Show Inventory</button>
+      <button className="btn btn-primary" onClick={fetchInventory}>
+        Show Inventory
+      </button>
 
       {inventory && (
-        <table border="1">
+        <table className='table table-striped'>
           <thead>
             <tr>
               <th>Inventory ID</th>

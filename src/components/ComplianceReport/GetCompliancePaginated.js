@@ -13,7 +13,7 @@ export default function GetCompliancePaginated() {
     }, [page]);
 
     let loadPage = (p) => {
-        let url = `http://localhost:8016/api/compliance-reports/paginated?page=${p}&size=${size}`;
+        let url = `http://localhost:1405/api/compliance-reports/paginated?page=${p}&size=${size}`;
 
         axios.get(url).then((response) => {
             setReports(response.data.content || []);

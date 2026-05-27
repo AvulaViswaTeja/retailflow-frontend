@@ -10,11 +10,14 @@ export default function DeleteProduct() {
     let [productFound, setProductFound] = useState(false);
 
     let searchHandler = () => {
+
+        let token = localStorage.getItem("token");
+
         if (!searchId) {
             alert("Please enter a Product ID");
             return;
         }
-        axios.get("http://localhost:8014/api/products/" + searchId)
+        axios.get("http://localhost:1405/api/products/" + searchId)
             .then((response) => {
                 setProduct(response.data);
                 setProductFound(true);
@@ -27,8 +30,11 @@ export default function DeleteProduct() {
     };
 
     let deleteHandler = () => {
+
+        let token = localStorage.getItem("token");
+
         if (window.confirm("This will mark the product as INACTIVE. Continue?")) {
-            axios.delete("http://localhost:8014/api/products/" + searchId)
+            axios.delete("http://localhost:1405/api/products/" + searchId)
                 .then(() => {
                     alert("Product marked as INACTIVE!");
                     navigate("/Product/getAll");
@@ -41,23 +47,27 @@ export default function DeleteProduct() {
 
     return (
         <div>
-            <h1>Delete Product</h1>
-
-            <label>Enter Product ID: </label>
+            <div className="mb-3">
+            <label className="form-label">Enter Product ID: </label>
             <input
                 type="number"
+                className="form-control"
                 value={searchId}
                 onChange={(e) => setSearchId(e.target.value)}
                 placeholder="Enter product ID"
             />
-            <button onClick={searchHandler}>Search</button>
+            </div>
+            
+            <button onClick={searchHandler} className="btn btn-primary">
+                Search
+            </button>
 
             <br /><br />
 
             {productFound && product && (
                 <div>
                     <h3>Product Details</h3>
-                    <table border="1">
+                    <table className="table table-border">
                         <thead>
                             <tr>
                                 <th>Product ID</th>
@@ -82,11 +92,13 @@ export default function DeleteProduct() {
 
                     <button
                         onClick={deleteHandler}
+                        className="btn btn-danger"
                     >
                         Delete Product
                     </button>
                     <button
                         onClick={() => navigate("/Product/getAll")}
+                        className="btn btn-secondary"
                     >
                         Cancel
                     </button>

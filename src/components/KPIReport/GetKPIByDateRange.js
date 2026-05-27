@@ -14,7 +14,7 @@ export default function GetKPIByDateRange() {
     let searchHandler = (e) => {
         e.preventDefault();
 
-        let url = `http://localhost:8016/api/kpi-reports/date-range?start=${start}&end=${end}`;
+        let url = `http://localhost:1405/api/kpi-reports/date-range?start=${start}&end=${end}`;
 
         axios.get(url).then((response) => {
             setReports(response.data);

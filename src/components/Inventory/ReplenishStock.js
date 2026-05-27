@@ -5,10 +5,12 @@ export default function ReplenishStock() {
   const [inventoryId, setInventoryId] = useState("");
   const [quantity, setQuantity] = useState("");
   const [updatedInventory, setUpdatedInventory] = useState(null);
-
+    let token = localStorage.getItem("token");
   const replenishHandler = () => {
-    let url = `http://localhost:8014/api/inventory/${inventoryId}/replenish?quantity=${quantity}`;
-    axios.patch(url)
+    let url = `http://localhost:1405/api/inventory/${inventoryId}/replenish?quantity=${quantity}`;
+    axios.patch(url, null, {
+            headers: { "Authorization": "Bearer " + token }
+        })
       .then((response) => {
         setUpdatedInventory(response.data); // store updated inventory object
       })
@@ -23,6 +25,7 @@ export default function ReplenishStock() {
       <label>Inventory ID:</label>
       <input
         type="text"
+        className="form-control"
         value={inventoryId}
         onChange={(e) => setInventoryId(e.target.value)}
       />
@@ -30,16 +33,19 @@ export default function ReplenishStock() {
       <label>Quantity to Add:</label>
       <input
         type="text"
+        className="form-control"
         value={quantity}
         onChange={(e) => setQuantity(e.target.value)}
       />
       <br />
-      <button onClick={replenishHandler}>Replenish</button>
+      <button className="btn btn-primary" onClick={replenishHandler}>
+        Replenish
+      </button>
 
       {updatedInventory && (
         <div>
           <h2>Updated Inventory Data</h2>
-          <table border="1">
+          <table className='table table-striped'>
             <thead>
               <tr>
                 <th>Inventory ID</th>

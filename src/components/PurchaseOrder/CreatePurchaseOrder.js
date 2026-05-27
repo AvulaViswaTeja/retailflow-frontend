@@ -5,7 +5,7 @@ export default function CreatePurchaseOrder() {
     let[expectedDeliveryDate, setExpectedDeliveryDate] = useState("");
     let[status, setStatus] = useState("");
     let [productId, setProductId] = useState("");
-    
+    const token = localStorage.getItem("token");
     let supplierIdHandler = (e) => {
         setSupplierId(e.target.value);
     }      
@@ -20,14 +20,16 @@ export default function CreatePurchaseOrder() {
     }
     let submitHandler = (e) => {
         e.preventDefault();
-        let url="http://localhost:8014/api/purchase-orders"
+        let url="http://localhost:1405/api/purchase-orders"
         let purchaseorder = {
             "supplierId":supplierId,
             "expectedDeliveryDate":expectedDeliveryDate,
             "status":status,
             "productId": productId
         };
-        axios.post(url, purchaseorder)
+        axios.post(url, purchaseorder, {
+            headers: { "Authorization": "Bearer " + token }
+        })
         .then((response)=>{
             alert("Purchase Order Created Successfully"+response.data)
         });
@@ -35,18 +37,21 @@ export default function CreatePurchaseOrder() {
         return(
             <div>
                 <h1>Create Purchase Order</h1>
+                <div className='table table-striped'>
                 <label>Supplier ID:</label>
-                <input type="text" value={supplierId} onChange={supplierIdHandler} />
+                <input className="form-control" type="text" placeholder="Enter Supplier ID" value={supplierId} onChange={supplierIdHandler} />
                 <br/>
                 <label>Expected Delivery Date:</label>
-                <input type="date" value={expectedDeliveryDate} onChange={expectedDeliveryDateHandler} />
+                <input className="form-control" type="date" placeholder="Enter Expected Delivery Date" value={expectedDeliveryDate} onChange={expectedDeliveryDateHandler} />
                 <br/>
                 <label>Status:</label>
-                <input type="text" value={status} onChange={statusHandler} />
+                <input className="form-control" type="text" placeholder="Enter Status" value={status} onChange={statusHandler} />
                 <br/>
                 <label>Product ID:</label>
-                <input type="text" value={productId} onChange={productIdHandler} />
-                <button onClick={submitHandler}>Save</button>
+                <input className="form-control" type="text" placeholder="Enter Product ID" value={productId} onChange={productIdHandler} />
+                </div>
+                <br/>
+                <button className="btn btn-primary" onClick={submitHandler}>Save</button>
             </div>
         )
 }

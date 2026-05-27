@@ -12,7 +12,7 @@ export default function GetById() {
         setError(''); setReport(null); setLoading(true);
 
         // Direct endpoint — calls GET /api/kpi-reports/{id}
-        axios.get(`http://localhost:8016/api/kpi-reports/${id}`)
+        axios.get(`http://localhost:1405/api/kpi-reports/${id}`)
             .then((res) => {
                 setReport(res.data);
                 setLoading(false);

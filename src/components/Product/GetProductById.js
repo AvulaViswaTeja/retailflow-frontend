@@ -7,12 +7,15 @@ export default function GetProductById() {
     let [error, setError] = useState("");
 
     let searchHandler = () => {
+
+        let token = localStorage.getItem("token");
+
         if (!productId) {
             alert("Please enter a Product ID");
             return;
         }
 
-        axios.get("http://localhost:8014/api/products/" + productId)
+        axios.get("http://localhost:1405/api/products/" + productId)
             .then((response) => {
                 setProduct(response.data);
                 setError("");
@@ -25,25 +28,28 @@ export default function GetProductById() {
 
     return (
         <div>
-            <h1>Get Product By ID</h1>
-
-            <label>Enter Product ID: </label>
+            <div className="mb-3">
+            <label className="form-label">Enter Product ID: </label>
             <input
                 type="number"
+                className="form-control"
                 value={productId}
                 onChange={(e) => setProductId(e.target.value)}
                 placeholder="Enter product ID"
             />
-            <button onClick={searchHandler}>Search</button>
+            </div>
+            <button className="btn btn-primary" onClick={searchHandler}>
+                Search
+            </button>
 
-            <br /><br />
+            
 
             
             {error && <p>{error}</p>}
 
             
             {product && (
-                <table border="1">
+                <table className="table table-border">
                     <thead>
                         <tr>
                             <th>Product ID</th>

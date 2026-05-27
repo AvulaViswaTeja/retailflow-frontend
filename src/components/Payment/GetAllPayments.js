@@ -9,7 +9,7 @@ export  default function GetAllPayments(){
 
     useEffect(()=>{
         let token = localStorage.getItem("token");
-        axios.get("http://localhost:8014/api/payments", {
+        axios.get("http://localhost:1405/api/payments", {
             headers: { "Authorization": "Bearer " + token }
         }).then((res)=>{
             console.log(res);

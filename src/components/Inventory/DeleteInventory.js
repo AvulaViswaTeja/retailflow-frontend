@@ -3,12 +3,15 @@ import {  useEffect } from 'react';
 import { useParams,useNavigate } from 'react-router-dom';
 
 export  default function DeleteInventory(){
+    let token = localStorage.getItem("token");
     let {inventoryId} = useParams();
     const navigate = useNavigate();
 
     useEffect(()=>{
-        const url = `http://localhost:8014/api/inventory/${inventoryId}`;   
-        axios.delete(url)
+        const url = `http://localhost:1405/api/inventory/${inventoryId}`;   
+        axios.delete(url, {
+            headers: { "Authorization": "Bearer " + token }
+        })
         .then((response)=>{
             alert("Inventory Deleted Successfully");
             navigate('/Inventory/getAll');

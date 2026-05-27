@@ -12,42 +12,49 @@ export default function GetCatalogsByProduct() {
             return;
         }
 
-        let url = "http://localhost:8014/api/catalogs/product/" + productId;
+        let url = "http://localhost:1405/api/catalogs/product/" + productId;
 
-        axios.get(url)
-            .then((response) => {
-                setCatalogs(response.data);
-                setError("");
+        axios.get(url, {
+            headers: { "Authorization": "Bearer " + token }
+        })
+        .then((response) => {
+            setCatalogs(response.data);
+            setError("");
 
-                if (response.data.length === 0) {
-                    setError("No catalogs found for Product ID: " + productId);
-                }
-            })
-            .catch((error) => {
-                setCatalogs([]);
+            if (response.data.length === 0) {
                 setError("No catalogs found for Product ID: " + productId);
-                console.error("Error:", error);
-            });
+            }
+        })
+        .catch((error) => {
+            setCatalogs([]);
+            setError("No catalogs found for Product ID: " + productId);
+            console.error("Error:", error);
+        });
     };
 
     return (
         <div>
-            
-            <label>Enter Product ID: </label>
+            <div className="mb-3">
+            <label className="form-label">Enter Product ID: </label>
             <input
                 type="number"
+                className="form-control"
                 value={productId}
                 onChange={(e) => setProductId(e.target.value)}
                 placeholder="Enter product ID"
             />
-            <button onClick={searchHandler}>Search</button>
+            </div>
+
+            <button className="btn btn-primary" onClick={searchHandler}>
+                Search
+            </button>
 
            
             {error && <p>{error}</p>}
 
            
             {catalogs.length > 0 && (
-                <table border="1">
+                <table className="table table-border">
                     <thead>
                         <tr>
                             <th>Catalog ID</th>

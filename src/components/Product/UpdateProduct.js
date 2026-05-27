@@ -30,7 +30,7 @@ export default function UpdateProduct() {
     }, [id]);
 
     let fetchProduct = (pid) => {
-        axios.get("http://localhost:8014/api/products/" + pid)
+        axios.get("http://localhost:1405/api/products/" + pid)
             .then((response) => {
                 let product = response.data;
                 setProductId(product.productId);
@@ -47,6 +47,7 @@ export default function UpdateProduct() {
     };
 
     let searchHandler = () => {
+        
         if (!searchId) {
             alert("Please enter a Product ID");
             return;
@@ -55,11 +56,13 @@ export default function UpdateProduct() {
     };
 
     let updateHandler = () => {
-        axios.put("http://localhost:8014/api/products/" + productId, {
+        axios.put("http://localhost:1405/api/products/" + productId, {
             productName,
             category,
             price: parseFloat(price),
             status
+        }, {
+            headers: { "Authorization": "Bearer " + token }
         })
         .then(() => {
             alert("Product updated successfully!");
@@ -72,19 +75,21 @@ export default function UpdateProduct() {
 
     return (
         <div>
-            <h1>Update Product</h1>
-
-      
+           
             {!id && (
-                <div>
-                    <label>Enter Product ID: </label>
+                <div className="mb-3">
+                    <label className="form-label">Enter Product ID: </label>
                     <input
                         type="number"
+                        className="form-control"
                         value={searchId}
                         onChange={(e) => setSearchId(e.target.value)}
                         placeholder="Enter product ID"
                     />
-                    <button onClick={searchHandler}>Search</button>
+                    <br /><br />
+                    <button className="btn btn-primary" onClick={searchHandler}>
+                        Search
+                    </button>
                     <br /><br />
                 </div>
             )}
@@ -92,51 +97,66 @@ export default function UpdateProduct() {
             
             {productFound && (
                 <div>
-                    <h3>Editing Product ID: {productId}</h3>
-
-                    <label>Product Name: </label>
+                    <div className="mb-3">
+                        <h3>Editing Product ID: {productId}</h3>
+                    </div>
+                    <div className="mb-3">
+                    <label className="form-label">Product Name: </label>
                     <input
                         type="text"
+                        className="form-control"
                         value={productName}
                         onChange={(e) => setProductName(e.target.value)}
                         placeholder="Enter product name"
                     />
-                    <br /><br />
-
-                    <label>Category: </label>
+                    </div>
+                    
+                    <div className="mb-3">
+                    <label className="form-label">Category: </label>
                     <input
                         type="text"
+                        className="form-control"
                         value={category}
                         onChange={(e) => setCategory(e.target.value)}
                         placeholder="Enter category"
                     />
-                    <br /><br />
+                    </div>
 
-                    <label>Price: </label>
+                    <div className="mb-3">
+
+                    <label className="form-label">Price: </label>
                     <input
                         type="number"
+                        className="form-control"
                         value={price}
                         onChange={(e) => setPrice(e.target.value)}
                         placeholder="Enter price"
                     />
-                    <br /><br />
+                    </div>
 
-                    <label>Status: </label>
-                    <input
-                        type="text"
-                        value={status}
-                        onChange={(e) => setStatus(e.target.value)}
-                        placeholder="ACTIVE / INACTIVE"
-                    />
-                    <br /><br />
+                    <div className="mb-3">
+                        <label className="form-label fw-semibold">Status</label>
+                        <select
+                            className="form-select"
+                            value={status}
+                            onChange={(e) => setStatus(e.target.value)}>
+                            <option value="">-- Select Status --</option>
+                            <option value="ACTIVE">ACTIVE</option>
+                            <option value="INACTIVE">INACTIVE</option>
+                        </select>
+                    </div>
 
-                    <button onClick={updateHandler}>Update Product</button>
+                    <div className="d-flex gap-2">
+                    <button onClick={updateHandler} className="btn btn-primary">
+                        Update Product
+                    </button>
                     <button
                         onClick={() => navigate("/Product/getAll")}
-                        style={{ marginLeft: "10px" }}
+                        className="btn btn-secondary"
                     >
                         Cancel
                     </button>
+                    </div>
                 </div>
             )}
         </div>

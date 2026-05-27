@@ -4,11 +4,13 @@ import axios from "axios";
 export default function GetInventoryByProduct() {
   const [productId, setProductId] = useState("");
   const [inventoryArr, setInventoryArr] = useState([]);
-
+let token = localStorage.getItem("token");
   const fetchInventory = () => {
     if (!productId) return;
-    let url = "http://localhost:8014/api/inventory/product/" + productId;
-    axios.get(url)
+    let url = "http://localhost:1405/api/inventory/product/" + productId;
+    axios.get(url, {
+            headers: { "Authorization": "Bearer " + token }
+        })
       .then((response) => {
         // assuming backend returns an array of inventory records
         setInventoryArr(response.data);
@@ -24,13 +26,16 @@ export default function GetInventoryByProduct() {
       <label>Product ID:</label>
       <input
         type="text"
+        className="form-control"
         value={productId}
         onChange={(e) => setProductId(e.target.value)}
       />
-      <button onClick={fetchInventory}>Show Inventory</button>
+      <button className="btn btn-primary" onClick={fetchInventory}>
+        Show Inventory
+      </button>
 
       {inventoryArr.length > 0 && (
-        <table border="1">
+        <table className='table table-striped'>
           <thead>
             <tr>
               <th>Inventory ID</th>

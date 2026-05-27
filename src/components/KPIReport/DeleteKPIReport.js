@@ -10,7 +10,7 @@ export default function DeleteKPIReport() {
     useEffect(() => {
         if (!id) return;
 
-        let url = `http://localhost:8016/api/kpi-reports/${id}`;
+        let url = `http://localhost:1405/api/kpi-reports/${id}`;
 
         axios.delete(url).then(() => {
             alert("KPI Report #" + id + " archived successfully.");

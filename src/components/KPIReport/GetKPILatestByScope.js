@@ -11,7 +11,7 @@ export default function GetKPILatestByScope() {
     let searchHandler = (e) => {
         e.preventDefault();
 
-        let url = `http://localhost:8016/api/kpi-reports/scope/${scope}/latest`;
+        let url = `http://localhost:1405/api/kpi-reports/scope/${scope}/latest`;
 
         axios.get(url).then((response) => {
             setReport(response.data);
