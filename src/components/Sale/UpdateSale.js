@@ -1,5 +1,6 @@
+import axios from "axios";
 import { useState } from "react";
-import api from "../../api";
+
 
 export default function UpdateSale() {
   const [saleId, setSaleId] = useState("");
@@ -15,7 +16,10 @@ export default function UpdateSale() {
     setCurrentSale(null);
 
     try {
-      const res = await api.get("/api/sales/" + saleId);
+      let token = localStorage.getItem("token");
+      const res = await axios.get("http://localhost:8014/api/sales/" + saleId,{
+            headers: { "Authorization": "Bearer " + token }
+        });
       setCurrentSale(res.data);
       setQuantity(res.data.quantity);
       setStatus(res.data.status);
@@ -29,12 +33,15 @@ export default function UpdateSale() {
     setError("");
 
     try {
-      const res = await api.put("/api/sales/" + saleId, {
+      let token = localStorage.getItem("token");
+      const res = await axios.put("http://localhost:8014/api/sales/" + saleId, {
         productId: currentSale.productId,
         customerId: currentSale.customerId,
         quantity: parseInt(quantity),
         status: status,
-      });
+      },{
+            headers: { "Authorization": "Bearer " + token }
+        });
 
       setCurrentSale(res.data);
       setQuantity(res.data.quantity);

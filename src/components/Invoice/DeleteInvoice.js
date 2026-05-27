@@ -1,5 +1,5 @@
+import axios from "axios";
 import { useState } from "react";
-import api from "../../api";
 
 export default function DeleteInvoice() {
   const [invoiceId, setInvoiceId] = useState("");
@@ -13,7 +13,13 @@ export default function DeleteInvoice() {
     setCurrentInvoice(null);
 
     try {
-      const res = await api.get("/api/invoices/" + invoiceId);
+      let token = localStorage.getItem("token");
+      const res = await axios.get(
+        "http://localhost:8014/api/invoices/" + invoiceId,
+        {
+          headers: { Authorization: "Bearer " + token },
+        },
+      );
       setCurrentInvoice(res.data);
     } catch (err) {
       setError(err.response?.data?.message || "Invoice not found");
@@ -25,7 +31,10 @@ export default function DeleteInvoice() {
     setError("");
 
     try {
-      await api.delete("/api/invoices/" + invoiceId);
+      let token = localStorage.getItem("token");
+      await axios.delete("http://localhost:8014/api/invoices/" + invoiceId, {
+        headers: { Authorization: "Bearer " + token },
+      });
       setMessage("Invoice ID: " + invoiceId + " cancelled successfully!");
       setCurrentInvoice(null);
       setInvoiceId("");
@@ -49,7 +58,8 @@ export default function DeleteInvoice() {
       />
       <button onClick={handleSearch}>Search</button>
 
-      <br /><br />
+      <br />
+      <br />
 
       {error && <p style={{ color: "red" }}>{error}</p>}
       {message && <p style={{ color: "green" }}>{message}</p>}
@@ -82,11 +92,8 @@ export default function DeleteInvoice() {
 
           <br />
 
-            
           {currentInvoice.status === "PAID" ? (
-            <p style={{ color: "orange" }}>
-              Cannot cancel a PAID invoice!
-            </p>
+            <p style={{ color: "orange" }}>Cannot cancel a PAID invoice!</p>
           ) : currentInvoice.status === "CANCELLED" ? (
             <p style={{ color: "orange" }}>
               This invoice is already cancelled!
