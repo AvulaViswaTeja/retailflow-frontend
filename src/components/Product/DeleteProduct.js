@@ -49,65 +49,88 @@ export default function DeleteProduct() {
         }
     };
 
-    return (
-        <div>
-            <div className="mb-3">
-            <label className="form-label">Enter Product ID: </label>
-            <input
-                type="number"
-                className="form-control"
-                value={searchId}
-                onChange={(e) => setSearchId(e.target.value)}
-                placeholder="Enter product ID"
-            />
+   return (
+    <div className="container mt-4">
+        <div className="card shadow-sm">
+            <div className="card-header bg-danger text-white">
+                <h4 className="mb-0">Delete Product</h4>
             </div>
-            
-            <button onClick={searchHandler} className="btn btn-primary">
-                Search
-            </button>
+            <div className="card-body">
 
-            <br /><br />
-
-            {productFound && product && (
-                <div>
-                    <h3>Product Details</h3>
-                    <table className="table table-border">
-                        <thead>
-                            <tr>
-                                <th>Product ID</th>
-                                <th>Product Name</th>
-                                <th>Category</th>
-                                <th>Price</th>
-                                <th>Status</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{product.productId}</td>
-                                <td>{product.productName}</td>
-                                <td>{product.category}</td>
-                                <td>{product.price}</td>
-                                <td>{product.status}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <br />
-
-                    <button
-                        onClick={deleteHandler}
-                        className="btn btn-danger"
-                    >
-                        Delete Product
-                    </button>
-                    <button
-                        onClick={() => navigate("/Product/getAll")}
-                        className="btn btn-secondary"
-                    >
-                        Cancel
+                <div className="input-group mb-3">
+                    <input
+                        type="number"
+                        className="form-control"
+                        value={searchId}
+                        onChange={(e) => setSearchId(e.target.value)}
+                        placeholder="Enter Product ID"
+                        min={1}
+                    />
+                    <button className="btn btn-primary" onClick={searchHandler}>
+                        Search
                     </button>
                 </div>
-            )}
+
+                {productFound && product && (
+                    <div>
+                        <h6 className="text-muted mb-2">Product Details:</h6>
+                        <div className="table-responsive mb-3">
+                            <table className="table table-bordered table-hover">
+                                <thead className="table-dark">
+                                    <tr>
+                                        <th>Product ID</th>
+                                        <th>Product Name</th>
+                                        <th>Category</th>
+                                        <th>Price</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{product.productId}</td>
+                                        <td>{product.productName}</td>
+                                        <td>{product.category}</td>
+                                        <td>{product.price}</td>
+                                        <td>
+                                            <span className={`badge ${
+                                                product.status === "ACTIVE" ? "bg-success" :
+                                                product.status === "INACTIVE" ? "bg-danger" :
+                                                "bg-secondary"
+                                            }`}>
+                                                {product.status}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {product.status === "INACTIVE" ? (
+                            <div className="alert alert-warning">
+                                This product is already inactive!
+                            </div>
+                        ) : (
+                            <div className="d-flex gap-2">
+                                <button
+                                    className="btn btn-danger w-100"
+                                    onClick={deleteHandler}
+                                >
+                                    Delete Product
+                                </button>
+                                <button
+                                    className="btn btn-secondary w-100"
+                                    onClick={() => navigate("/Product/getAll")}
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        )}
+
+                    </div>
+                )}
+
+            </div>
         </div>
-    );
+    </div>
+);
 }

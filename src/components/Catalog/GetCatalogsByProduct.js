@@ -34,50 +34,66 @@ export default function GetCatalogsByProduct() {
     };
 
     return (
-        <div>
-            <div className="mb-3">
-            <label className="form-label">Enter Product ID: </label>
-            <input
-                type="number"
-                className="form-control"
-                value={productId}
-                onChange={(e) => setProductId(e.target.value)}
-                placeholder="Enter product ID"
-            />
+    <div className="container mt-4">
+        <div className="card shadow-sm">
+            <div className="card-header bg-primary text-white">
+                <h4 className="mb-0">Get Catalogs By Product</h4>
             </div>
+            <div className="card-body">
 
-            <button className="btn btn-primary" onClick={searchHandler}>
-                Search
-            </button>
+                <div className="input-group mb-3">
+                    <input
+                        type="number"
+                        className="form-control"
+                        value={productId}
+                        onChange={(e) => setProductId(e.target.value)}
+                        placeholder="Enter Product ID"
+                        min={1}
+                    />
+                    <button className="btn btn-primary" onClick={searchHandler}>
+                        Search
+                    </button>
+                </div>
 
-           
-            {error && <p>{error}</p>}
+                {error && <div className="alert alert-danger">{error}</div>}
 
-           
-            {catalogs.length > 0 && (
-                <table className="table table-border">
-                    <thead>
-                        <tr>
-                            <th>Catalog ID</th>
-                            <th>Effective Date</th>
-                            <th>Expiry Date</th>
-                            <th>Status</th>
-                            <th>Product ID</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {catalogs.map((catalog) => (
-                            <tr key={catalog.catalogId}>
-                                <td>{catalog.catalogId}</td>
-                                <td>{catalog.effectiveDate}</td>
-                                <td>{catalog.expiryDate}</td>
-                                <td>{catalog.status}</td>
-                                <td>{catalog.productId}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            )}
+                {catalogs.length > 0 && (
+                    <div className="table-responsive">
+                        <table className="table table-bordered table-hover">
+                            <thead className="table-dark">
+                                <tr>
+                                    <th>Catalog ID</th>
+                                    <th>Effective Date</th>
+                                    <th>Expiry Date</th>
+                                    <th>Status</th>
+                                    <th>Product ID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {catalogs.map((catalog) => (
+                                    <tr key={catalog.catalogId}>
+                                        <td>{catalog.catalogId}</td>
+                                        <td>{catalog.effectiveDate}</td>
+                                        <td>{catalog.expiryDate}</td>
+                                        <td>
+                                            <span className={`badge ${
+                                                catalog.status === "ACTIVE" ? "bg-success" :
+                                                catalog.status === "INACTIVE" ? "bg-danger" :
+                                                "bg-secondary"
+                                            }`}>
+                                                {catalog.status}
+                                            </span>
+                                        </td>
+                                        <td>{catalog.productId}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+
+            </div>
         </div>
-    );
+    </div>
+);
 }
