@@ -1,30 +1,55 @@
-import { Link, Outlet } from "react-router";
+import { Link, Outlet } from "react-router-dom";
 
-export default function AuditLogHome(){
-
-
-    return(
+export default function AuditLogHome() {
+    return (
         <div>
-            <nav>
-                <ul>
-                    <li>
-                        <Link to="getAuditLogs">Get AuditLogs</Link>
-                    </li>
-                    <li>
-                        <Link to="getAuditLogById">Get AuditLogs By Id</Link>
-                    </li>
-                    <li>
-                        <Link to="getByDate">Get AuditLogs By Date</Link>
-                    </li>
-                    <li>
-                        <Link to="getByUser">Get AuditLogs By User</Link>
-                    </li>
-                    <li>
-                        <Link to="getPaginated">Get AuditLogs Paginated</Link>
-                    </li>
-                </ul>
+            <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div className="container-fluid">
+
+                    <Link className="navbar-brand" to="/auditLog">
+                        Audit Log
+                    </Link>
+
+                    <div className="collapse navbar-collapse">
+                        <ul className="navbar-nav">
+
+                            <li className="nav-item">
+                                <Link className="nav-link" to="getAuditLogs">
+                                    Get Audit Logs
+                                </Link>
+                            </li>
+
+                            <li className="nav-item">
+                                <Link className="nav-link" to="getAuditLogById">
+                                    Get By Id
+                                </Link>
+                            </li>
+
+                            <li className="nav-item">
+                                <Link className="nav-link" to="getByDate">
+                                    Get By Date
+                                </Link>
+                            </li>
+
+                            <li className="nav-item">
+                                <Link className="nav-link" to="getByUser">
+                                    Get By User
+                                </Link>
+                            </li>
+
+                            <li className="nav-item">
+                                <Link className="nav-link" to="getPaginated">
+                                    Get Paginated
+                                </Link>
+                            </li>
+
+                        </ul>
+                    </div>
+
+                </div>
             </nav>
-            <Outlet></Outlet>
+
+            <Outlet />
         </div>
-    )
+    );
 }

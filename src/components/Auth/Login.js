@@ -26,20 +26,12 @@ export default function Login() {
             "password": password
         })
         .then((res) => {
-            // Store token and user info
             localStorage.setItem("token", res.data.token);
-            localStorage.setItem("role",  res.data.role);
+            localStorage.setItem("role", res.data.role);
             localStorage.setItem("userName", res.data.userName);
 
-            // Redirect based on role
-            const role = res.data.role;
-            if (role === "ADMIN")                navigate("/user/getAllUsers");
-            else if (role === "INVENTORY_MANAGER") navigate("/Inventory/getAll");
-            else if (role === "FINANCE_OFFICER")   navigate("/Invoice/getAll");
-            else if (role === "COMPLIANCE_OFFICER")navigate("/auditLog/getAuditLogs");
-            else if (role === "STORE_MANAGER")     navigate("/kpireport/getAll");
-            else if (role === "STORE_ASSOCIATE")   navigate("/Sale/getAll");
-            else                                   navigate("/Product/getAll");
+            
+            navigate("/dashboard");
         })
         .catch(() => {
             setError("Invalid email or password. Please try again.");
@@ -52,13 +44,11 @@ export default function Login() {
             <div className="card shadow-sm" style={{ width: "100%", maxWidth: 420 }}>
                 <div className="card-body p-4">
 
-                    {/* Header */}
                     <div className="text-center mb-4">
                         <h4 className="fw-semibold mb-1">RetailFlow</h4>
                         <p className="text-muted small">Sign in to your account</p>
                     </div>
 
-                    {/* Error */}
                     {error && (
                         <div className="alert alert-danger py-2 small" role="alert">
                             {error}
@@ -67,7 +57,6 @@ export default function Login() {
 
                     <form onSubmit={login}>
 
-                        {/* Email */}
                         <div className="mb-3">
                             <label className="form-label fw-medium">Email address</label>
                             <input
@@ -79,7 +68,6 @@ export default function Login() {
                             />
                         </div>
 
-                        {/* Password */}
                         <div className="mb-4">
                             <label className="form-label fw-medium">Password</label>
                             <input
@@ -91,12 +79,7 @@ export default function Login() {
                             />
                         </div>
 
-                        {/* Button */}
-                        <button
-                            type="submit"
-                            className="btn btn-primary w-100"
-                            disabled={loading}
-                        >
+                        <button type="submit" className="btn btn-primary w-100" disabled={loading}>
                             {loading ? (
                                 <>
                                     <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
@@ -107,10 +90,8 @@ export default function Login() {
 
                     </form>
 
-                    {/* Divider */}
                     <hr className="my-3" />
 
-                    {/* Register link */}
                     <p className="text-center text-muted small mb-0">
                         Don't have an account?{" "}
                         <Link to="/register" className="text-primary fw-medium text-decoration-none">
