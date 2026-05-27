@@ -21,83 +21,102 @@ export default function InsertSale() {
 
     try {
       let token = localStorage.getItem("token");
-      const res = await axios.post("http://localhost:8014/api/sales", req_data,{
-            headers: { "Authorization": "Bearer " + token }
-        });
+      const res = await axios.post("http://localhost:8014/api/sales", req_data, {
+        headers: { "Authorization": "Bearer " + token },
+      });
       const sale = res.data;
+      setError("");
       setMessage(
         "Sale created! " +
-          "Sale ID: " +
-          sale.saleId +
-          " | " +
-          "Product: " +
-          sale.productName +
-          " | " +
-          "Amount: " +
-          sale.amount +
-          " | " +
-          "Invoice ID: " +
-          sale.invoiceId,
+          "Sale ID: " + sale.saleId +
+          " | Product: " + sale.productName +
+          " | Amount: ₹" + sale.amount +
+          " | Invoice ID: " + sale.invoiceId
       );
     } catch (err) {
-      console.log("Error:", err.response?.data);
-      setError(err.response?.data?.message || 'Something went wrong');
+      setMessage("");
+      setError(err.response?.data?.message || "Something went wrong");
     }
   };
 
   return (
-    <div>
-      {message && <p style={{ color: 'green' }}>{message}</p>}
-      {error && <p style={{ color: 'red' }}>{error}</p>}
-      <form onSubmit={handleSubmit}>
-        <label>ProductId:</label>
-        <input
-          type="number"
-          min={1}
-          value={productId}
-          onChange={(e) => setProductId(e.target.value)}
-          required
-        />
+    <div className="container mt-4">
+      <div className="card shadow-sm">
+        <div className="card-header bg-primary text-white">
+          <h4 className="mb-0">Create New Sale</h4>
+        </div>
+        <div className="card-body">
 
-        <br></br>
+          {message && (
+            <div className="alert alert-success alert-dismissible">
+              {message}
+            </div>
+          )}
+          {error && (
+            <div className="alert alert-danger alert-dismissible">
+              {error}
+            </div>
+          )}
 
-        <label>CustomerId:</label>
-        <input
-          type="number"
-          min={1}
-          value={customerId}
-          onChange={(e) => setCustomerId(e.target.value)}
-          required
-        />
+          <form onSubmit={handleSubmit}>
+            <div className="mb-3">
+              <label className="form-label">Product ID</label>
+              <input
+                type="number"
+                className="form-control"
+                min={1}
+                value={productId}
+                onChange={(e) => setProductId(e.target.value)}
+                placeholder="Enter Product ID"
+                required
+              />
+            </div>
 
-        <br></br>
+            <div className="mb-3">
+              <label className="form-label">Customer ID</label>
+              <input
+                type="number"
+                className="form-control"
+                min={1}
+                value={customerId}
+                onChange={(e) => setCustomerId(e.target.value)}
+                placeholder="Enter Customer ID"
+                required
+              />
+            </div>
 
-        <label>Quantity:</label>
-        <input
-          type="number"
-          min={1}
-          value={quantity}
-          onChange={(e) => setQuantity(e.target.value)}
-          required
-        />
+            <div className="mb-3">
+              <label className="form-label">Quantity</label>
+              <input
+                type="number"
+                className="form-control"
+                min={1}
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+                placeholder="Enter Quantity"
+                required
+              />
+            </div>
 
-        <br></br>
+            <div className="mb-3">
+              <label className="form-label">Status</label>
+              <select
+                className="form-select"
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}
+              >
+                <option value="COMPLETED">COMPLETED</option>
+                <option value="PENDING">PENDING</option>
+              </select>
+            </div>
 
-        <label htmlFor="status">Select status:</label>
-        <select
-          name="status"
-          id="status"
-          value={status}
-          onChange={(e) => setStatus(e.target.value)}
-        >
-          <option value="COMPLETED">COMPLETED</option>
-          <option value="PENDING">PENDING</option>
-        </select>
+            <button type="submit" className="btn btn-primary w-100">
+              Create Sale
+            </button>
+          </form>
 
-        <br></br>
-
-        <button type="submit">Submit</button>
-      </form>
+        </div>
+      </div>
     </div>
   );
 }
