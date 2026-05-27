@@ -9,7 +9,6 @@ export default function GetByDateRange() {
     const [endDate, setEndDate] = useState(null);
     const [auditLogs, setAuditLogs] = useState([]);
 
-    
     let formatDate = (date, endOfDay) => {
         let d = new Date(date);
         let year = d.getFullYear();
@@ -38,8 +37,8 @@ export default function GetByDateRange() {
         axios.get("http://localhost:1405/api/audit-logs/date-range", {
             headers: { "Authorization": "Bearer " + token },
             params: {
-                start: formatDate(startDate, false),  
-                end: formatDate(endDate, true)         
+                start: formatDate(startDate, false),
+                end: formatDate(endDate, true)
             }
         })
         .then((res) => {
@@ -61,75 +60,101 @@ export default function GetByDateRange() {
     }
 
     return (
-        <div>
-            <h1>Get Audit Logs By Date Range</h1>
+        <div className="container mt-4">
+            <div className="card shadow-sm">
+                <div className="card-body">
 
-            <form>
-                <label>Start Date</label><br />
-                <DatePicker
-                    selected={startDate}
-                    onChange={(date) => setStartDate(date)}
-                    selectsStart
-                    startDate={startDate}
-                    endDate={endDate}
-                    placeholderText="select start date"
-                    dateFormat="yyyy-MM-dd"
-                    showMonthDropdown
-                    showYearDropdown
-                    dropdownMode="select"
-                    isClearable
-                />
+                    <h5 className="card-title mb-4">Get Audit Logs By Date Range</h5>
 
-                <br /><br />
+                    {/* Search Form */}
+                    <form onSubmit={fetchByDateRange}>
+                        <div className="row g-3 mb-3">
 
-                <label>End Date</label><br />
-                <DatePicker
-                    selected={endDate}
-                    onChange={(date) => setEndDate(date)}
-                    selectsEnd
-                    startDate={startDate}
-                    endDate={endDate}
-                    minDate={startDate}   
-                    placeholderText="select end date"
-                    dateFormat="yyyy-MM-dd"
-                    showMonthDropdown
-                    showYearDropdown
-                    dropdownMode="select"
-                    isClearable
-                />
+                            <div className="col-md-6">
+                                <label className="form-label">Start Date</label><br />
+                                <DatePicker
+                                    selected={startDate}
+                                    onChange={(date) => setStartDate(date)}
+                                    selectsStart
+                                    startDate={startDate}
+                                    endDate={endDate}
+                                    placeholderText="select start date"
+                                    dateFormat="yyyy-MM-dd"
+                                    showMonthDropdown
+                                    showYearDropdown
+                                    dropdownMode="select"
+                                    isClearable
+                                    className="form-control"
+                                />
+                            </div>
 
-                <br /><br />
+                            <div className="col-md-6">
+                                <label className="form-label">End Date</label><br />
+                                <DatePicker
+                                    selected={endDate}
+                                    onChange={(date) => setEndDate(date)}
+                                    selectsEnd
+                                    startDate={startDate}
+                                    endDate={endDate}
+                                    minDate={startDate}
+                                    placeholderText="select end date"
+                                    dateFormat="yyyy-MM-dd"
+                                    showMonthDropdown
+                                    showYearDropdown
+                                    dropdownMode="select"
+                                    isClearable
+                                    className="form-control"
+                                />
+                            </div>
 
-                <button onClick={fetchByDateRange}>Search</button>
-                <button onClick={reset} type="button">Reset</button>
-            </form>
+                        </div>
 
-            <br />
+                        <div className="d-flex gap-2">
+                            <button type="submit" className="btn btn-primary">
+                                Search
+                            </button>
+                            <button type="button" className="btn btn-secondary" onClick={reset}>
+                                Reset
+                            </button>
+                        </div>
+                    </form>
 
-            {auditLogs.length > 0 && (
-                <table border="1" cellPadding="10" cellSpacing="0">
-                    <thead>
-                        <tr>
-                            <th>Audit ID</th>
-                            <th>User ID</th>
-                            <th>User Name</th>
-                            <th>Action</th>
-                            <th>Timestamp</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {auditLogs.map((log) => (
-                            <tr key={log.auditId}>
-                                <td>{log.auditId}</td>
-                                <td>{log.userId}</td>
-                                <td>{log.userName}</td>
-                                <td>{log.action}</td>
-                                <td>{log.timeStamp}</td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
-            )}
+                    {/* Results Table */}
+                    {auditLogs.length > 0 && (
+                        <div className="table-responsive mt-4">
+                            <div className="d-flex justify-content-between align-items-center mb-2">
+                                <h6 className="text-muted mb-0">Results</h6>
+                                <span className="badge bg-secondary">
+                                    {auditLogs.length} records found
+                                </span>
+                            </div>
+                            <table className="table table-bordered table-hover table-sm align-middle">
+                                <thead className="table-dark">
+                                    <tr>
+                                        <th>Audit ID</th>
+                                        <th>User ID</th>
+                                        <th>User Name</th>
+                                        <th>Action</th>
+                                        <th>Timestamp</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {auditLogs.map((log) => (
+                                        <tr key={log.auditId}>
+                                            <td>{log.auditId}</td>
+                                            <td>{log.userId}</td>
+                                            <td>{log.userName}</td>
+                                            <td>{log.action}</td>
+                                            <td>{log.timeStamp}</td>
+                                        </tr>
+                                    ))}
+                                </tbody>
+                            </table>
+                        </div>
+                    )}
+
+                </div>
+            </div>
         </div>
     );
 }

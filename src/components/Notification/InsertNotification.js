@@ -26,9 +26,8 @@ export default function InsertNotification() {
         axios.post("http://localhost:1405/api/notifications", data, {
             headers: { "Authorization": "Bearer " + token }
         })
-        .then((res) => {
+        .then(() => {
             alert("Notification created successfully!");
-            console.log(res.data);
             setUserId("");
             setMessage("");
             setCategory("");
@@ -44,37 +43,59 @@ export default function InsertNotification() {
     }
 
     return (
-        <div>
-            <h1>Insert Notification</h1>
+        <div className="container mt-4">
+            <div className="card shadow-sm" style={{ maxWidth: 500 }}>
+                <div className="card-body">
 
-            <form>
-                <label>User ID</label>
-                <input
-                    type="number"
-                    placeholder="enter user id"
-                    value={userId}
-                    onChange={(e) => setUserId(e.target.value)}
-                /><br />
+                    <h5 className="card-title mb-4">Insert Notification</h5>
 
-                <label>Message</label>
-                <input
-                    placeholder="enter message"
-                    value={message}
-                    onChange={(e) => setMessage(e.target.value)}
-                /><br />
+                    <form onSubmit={saveNotification}>
 
-                <label>Category</label>
-                <select value={category} onChange={(e) => setCategory(e.target.value)}>
-                    <option value="">Select Category</option>
-                    <option value="STOCK_ALERT">Stock Alert</option>
-                    <option value="PAYMENT">Payment</option>
-                    <option value="SALES">Sales</option>
-                    <option value="COMPLIANCE">Compliance</option>
-                    <option value="GENERAL">General</option>
-                </select><br /><br />
+                        <div className="mb-3">
+                            <label className="form-label">User ID</label>
+                            <input
+                                type="number"
+                                className="form-control"
+                                placeholder="enter user id"
+                                value={userId}
+                                onChange={(e) => setUserId(e.target.value)}
+                            />
+                        </div>
 
-                <button onClick={saveNotification}>Save Notification</button>
-            </form>
+                        <div className="mb-3">
+                            <label className="form-label">Message</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="enter message"
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                            />
+                        </div>
+
+                        <div className="mb-4">
+                            <label className="form-label">Category</label>
+                            <select
+                                className="form-select"
+                                value={category}
+                                onChange={(e) => setCategory(e.target.value)}
+                            >
+                                <option value="">Select Category</option>
+                                <option value="STOCK_ALERT">Stock Alert</option>
+                                <option value="PAYMENT">Payment</option>
+                                <option value="SALES">Sales</option>
+                                <option value="COMPLIANCE">Compliance</option>
+                                <option value="GENERAL">General</option>
+                            </select>
+                        </div>
+
+                        <button type="submit" className="btn btn-primary w-100">
+                            Save Notification
+                        </button>
+
+                    </form>
+                </div>
+            </div>
         </div>
     );
 }

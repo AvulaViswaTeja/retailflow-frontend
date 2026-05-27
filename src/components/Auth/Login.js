@@ -30,8 +30,7 @@ export default function Login() {
             localStorage.setItem("role", res.data.role);
             localStorage.setItem("userName", res.data.userName);
 
-            // All roles go to dashboard
-            // Dashboard reads role and shows allowed modules
+            
             navigate("/dashboard");
         })
         .catch(() => {
