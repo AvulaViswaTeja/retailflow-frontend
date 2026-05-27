@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 export default function GetAllKPIReports() {
     const [reports, setReports] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [error, setError] = useState("");
+    const [error,   setError]   = useState("");
     const navigate = useNavigate();
 
     useEffect(() => { loadReports(); }, []);
@@ -13,8 +13,10 @@ export default function GetAllKPIReports() {
     const loadReports = async () => {
         const token = localStorage.getItem("token");
         try {
-            const res = await axios.get("http://localhost:1405/api/kpi-reports",
-                { headers: { Authorization: "Bearer " + token } });
+            const res = await axios.get(
+                "http://localhost:1405/api/kpi-reports",
+                { headers: { Authorization: "Bearer " + token } }
+            );
             setReports(res.data);
             setLoading(false);
         } catch (err) {
@@ -27,12 +29,22 @@ export default function GetAllKPIReports() {
         if (!window.confirm("Archive KPI Report #" + id + "?")) return;
         const token = localStorage.getItem("token");
         try {
-            await axios.delete(`http://localhost:1405/api/kpi-reports/${id}`,
-                { headers: { Authorization: "Bearer " + token } });
+            await axios.delete(
+                `http://localhost:1405/api/kpi-reports/${id}`,
+                { headers: { Authorization: "Bearer " + token } }
+            );
             setReports(reports.filter(r => r.reportId !== id));
         } catch (err) {
             alert("Failed to archive report");
         }
+    };
+
+    const runComplianceCheck = (r) => {
+        const params = new URLSearchParams({
+            metrics: r.metrics,
+            scope:   r.scope
+        });
+        navigate(`/compliance/insert?${params.toString()}`);
     };
 
     const kpiColor = (value, min, max) => {
@@ -68,27 +80,63 @@ export default function GetAllKPIReports() {
                             <table className="table table-striped table-hover mb-0">
                                 <thead className="table-dark">
                                     <tr>
-                                        <th>ID</th><th>Scope</th><th>Stock Turnover</th>
-                                        <th>Sales Growth</th><th>Shrinkage</th>
-                                        <th>Metrics</th><th>Date</th><th>Status</th><th>Actions</th>
+                                        <th>ID</th>
+                                        <th>Scope</th>
+                                        <th>Stock Turnover</th>
+                                        <th>Sales Growth</th>
+                                        <th>Shrinkage</th>
+                                        <th>Date</th>
+                                        <th>Status</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {reports.map((r) => (
                                         <tr key={r.reportId}>
                                             <td>{r.reportId}</td>
-                                            <td><span className="badge bg-info text-dark">{r.scope}</span></td>
-                                            <td><span className={`badge bg-${kpiColor(r.stockTurnover, 2)}`}>{r.stockTurnover}</span></td>
-                                            <td><span className={`badge bg-${kpiColor(r.salesGrowth, 0)}`}>{r.salesGrowth}%</span></td>
-                                            <td><span className={`badge bg-${kpiColor(r.shrinkageRate, null, 5)}`}>{r.shrinkageRate}%</span></td>
-                                            <td><small className="text-muted">{r.metrics}</small></td>
-                                            <td>{r.generatedDate}</td>
-                                            <td><span className={`badge ${r.status === 'ACTIVE' ? 'bg-success' : 'bg-secondary'}`}>{r.status}</span></td>
                                             <td>
-                                                <button className="btn btn-warning btn-sm me-1"
-                                                    onClick={() => navigate(`/kpireport/update/${r.reportId}`)}>Edit</button>
-                                                <button className="btn btn-danger btn-sm"
-                                                    onClick={() => handleDelete(r.reportId)}>Archive</button>
+                                                <span className="badge bg-info text-dark">
+                                                    {r.scope}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span className={`badge bg-${kpiColor(r.stockTurnover, 2)}`}>
+                                                    {r.stockTurnover}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span className={`badge bg-${kpiColor(r.salesGrowth, 0)}`}>
+                                                    {r.salesGrowth}%
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span className={`badge bg-${kpiColor(r.shrinkageRate, null, 5)}`}>
+                                                    {r.shrinkageRate}%
+                                                </span>
+                                            </td>
+                                            <td>{r.generatedDate}</td>
+                                            <td>
+                                                <span className={`badge ${r.status === 'ACTIVE' ? 'bg-success' : 'bg-secondary'}`}>
+                                                    {r.status}
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <button
+                                                    className="btn btn-success btn-sm me-1"
+                                                    onClick={() => runComplianceCheck(r)}
+                                                    title="Run compliance check for this report">
+                                                    🛡️
+                                                </button>
+                                                <button
+                                                    className="btn btn-warning btn-sm me-1"
+                                                    onClick={() => navigate(`/kpireport/update/${r.reportId}`)}>
+                                                    Edit
+                                                </button>
+                                                <button
+                                                    className="btn btn-danger btn-sm"
+                                                    onClick={() => handleDelete(r.reportId)}>
+                                                    Archive
+                                                </button>
                                             </td>
                                         </tr>
                                     ))}
