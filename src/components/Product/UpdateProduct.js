@@ -30,7 +30,10 @@ export default function UpdateProduct() {
     }, [id]);
 
     let fetchProduct = (pid) => {
-        axios.get("http://localhost:1405/api/products/" + pid)
+        let token = localStorage.getItem("token");
+        axios.get("http://localhost:1405/api/products/" + pid, {
+            headers: { "Authorization": "Bearer " + token }
+        })
             .then((response) => {
                 let product = response.data;
                 setProductId(product.productId);
@@ -56,6 +59,7 @@ export default function UpdateProduct() {
     };
 
     let updateHandler = () => {
+        let token = localStorage.getItem("token");
         axios.put("http://localhost:1405/api/products/" + productId, {
             productName,
             category,

@@ -27,6 +27,7 @@ export default function InsertCatalog() {
             "status": status,
             "productId": productId
         };
+        let token = localStorage.getItem("token");
         axios.post(url, data, {
             headers: { "Authorization": "Bearer " + token }
         })

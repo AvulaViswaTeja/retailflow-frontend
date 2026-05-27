@@ -11,6 +11,7 @@ export default function GetCatalogById() {
             alert("Please enter a Catalog ID");
             return;
         }
+        let token = localStorage.getItem("token");
 
         let url = "http://localhost:1405/api/catalogs/" + catalogId;
 

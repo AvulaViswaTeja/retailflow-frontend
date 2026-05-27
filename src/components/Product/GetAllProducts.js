@@ -6,7 +6,10 @@ export default function GetAllProducts() {
     let [products, setProducts] = useState([]);
 
     const fetchProducts = () => {
-        axios.get("http://localhost:1405/api/products/fetchAll")
+        let token = localStorage.getItem("token");
+        axios.get("http://localhost:1405/api/products/fetchAll", {
+            headers: { "Authorization": "Bearer " + token }
+        })
             .then((response) => {
                 setProducts(response.data);
             })
@@ -24,7 +27,9 @@ export default function GetAllProducts() {
         let token = localStorage.getItem("token");
 
         if (window.confirm("This will mark the product as INACTIVE. Continue?")) {
-            axios.delete("http://localhost:1405/api/products/" + id)
+            axios.delete("http://localhost:1405/api/products/" + id, {
+            headers: { "Authorization": "Bearer " + token }
+        })
                 .then(() => {
                     alert("Product marked as INACTIVE!");
                     fetchProducts(); 
