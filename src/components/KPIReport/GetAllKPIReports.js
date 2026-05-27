@@ -26,7 +26,7 @@ export default function GetAllKPIReports() {
 
         let url = `http://localhost:8016/api/kpi-reports/${id}`;
         axios.delete(url).then(() => {
-            alert("KPI Report #" + id + " archived successfully!");
+            alert("KPI Report #" + id + " archived!");
             setReports(reports.filter((r) => r.reportId !== id));
         }).catch((error) => {
             alert("Failed to archive: " + error.message);
@@ -44,29 +44,47 @@ export default function GetAllKPIReports() {
                     <tr>
                         <th>ID</th>
                         <th>Scope</th>
+                        <th>Stock Turnover</th>
+                        <th>Sales Growth</th>
+                        <th>Shrinkage</th>
                         <th>Metrics</th>
                         <th>Status</th>
-                        <th>Generated Date</th>
+                        <th>Date</th>
                         <th>Actions</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {reports.map((r) => {
-                        return (
-                            <tr key={r.reportId}>
-                                <td>{r.reportId}</td>
-                                <td>{r.scope}</td>
-                                <td>{r.metrics}</td>
-                                <td>{r.status}</td>
-                                <td>{r.generatedDate}</td>
-                                <td>
-                                    <button onClick={() => navigate(`/kpireport/update/${r.reportId}`)}>Edit</button>
-                                    &nbsp;&nbsp;
-                                    <button onClick={() => deleteHandler(r.reportId)}>Delete</button>
-                                </td>
-                            </tr>
-                        );
-                    })}
+                    {reports.length === 0 ? (
+                        <tr>
+                            <td colSpan="9">No KPI reports found</td>
+                        </tr>
+                    ) : (
+                        reports.map((r) => {
+                            return (
+                                <tr key={r.reportId}>
+                                    <td>{r.reportId}</td>
+                                    <td>{r.scope}</td>
+                                    <td style={{ color: r.stockTurnover >= 2 ? "green" : "red" }}>
+                                        {r.stockTurnover}
+                                    </td>
+                                    <td style={{ color: r.salesGrowth >= 0 ? "green" : "red" }}>
+                                        {r.salesGrowth}%
+                                    </td>
+                                    <td style={{ color: r.shrinkageRate <= 5 ? "green" : "red" }}>
+                                        {r.shrinkageRate}%
+                                    </td>
+                                    <td>{r.metrics}</td>
+                                    <td>{r.status}</td>
+                                    <td>{r.generatedDate}</td>
+                                    <td>
+                                        <button onClick={() => navigate(`/kpireport/update/${r.reportId}`)}>Edit</button>
+                                        &nbsp;&nbsp;
+                                        <button onClick={() => deleteHandler(r.reportId)}>Delete</button>
+                                    </td>
+                                </tr>
+                            );
+                        })
+                    )}
                 </tbody>
             </table>
         </div>
