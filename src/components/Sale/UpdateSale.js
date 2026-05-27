@@ -17,7 +17,7 @@ export default function UpdateSale() {
 
     try {
       let token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:8014/api/sales/" + saleId,{
+      const res = await axios.get("http://localhost:1405/api/sales/" + saleId,{
             headers: { "Authorization": "Bearer " + token }
         });
       setCurrentSale(res.data);
@@ -34,7 +34,7 @@ export default function UpdateSale() {
 
     try {
       let token = localStorage.getItem("token");
-      const res = await axios.put("http://localhost:8014/api/sales/" + saleId, {
+      const res = await axios.put("http://localhost:1405/api/sales/" + saleId, {
         productId: currentSale.productId,
         customerId: currentSale.customerId,
         quantity: parseInt(quantity),

@@ -7,7 +7,7 @@ export default function GetPurchaseOrdersBySupplier() {
 const token = localStorage.getItem("token");
   const fetchPurchaseOrders = () => {
     if (!supplierId) return;
-    let url = "http://localhost:8014/api/purchase-orders/supplier/" + supplierId;
+    let url = "http://localhost:1405/api/purchase-orders/supplier/" + supplierId;
     axios.get(url, {
       headers: {
         'Authorization': `Bearer ${token}`

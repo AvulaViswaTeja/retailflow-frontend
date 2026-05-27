@@ -7,7 +7,7 @@ export default function GetAllInvoices() {
   useEffect(() => {
     let token = localStorage.getItem("token");
     axios
-      .get("http://localhost:8014/api/invoices", {
+      .get("http://localhost:1405/api/invoices", {
         headers: { Authorization: "Bearer " + token },
       })
       .then((res) => {

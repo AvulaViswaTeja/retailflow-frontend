@@ -6,7 +6,7 @@ export default function GetAllCatalogs() {
     let [catalogs, setCatalogs] = useState([]);
 
     const fetchCatalogs = () => {
-        axios.get("http://localhost:8014/api/catalogs")
+        axios.get("http://localhost:1405/api/catalogs")
             .then((response) => {
                 setCatalogs(response.data);
             })
@@ -21,7 +21,7 @@ export default function GetAllCatalogs() {
 
     const deleteHandler = (id) => {
         if (window.confirm("Are you sure you want to delete?")) {
-            axios.delete(`http://localhost:8014/api/catalogs/${id}`)
+            axios.delete(`http://localhost:1405/api/catalogs/${id}`)
                 .then(() => {
                     alert("Deleted successfully!");
                     fetchCatalogs();

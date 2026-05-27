@@ -5,7 +5,7 @@ export  default function GetAllPurchaseOrders(){
     let token = localStorage.getItem("token");
     let [POArray, setPOdata] = useState([]);
    useEffect(()=>{
-    let url="http://localhost:8014/api/purchase-orders"
+    let url="http://localhost:1405/api/purchase-orders"
     axios.get(url, {
         headers: {
             'Authorization': `Bearer ${token}`

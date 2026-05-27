@@ -16,7 +16,7 @@ export default function InsertReport() {
         setResult(null);
         setLoading(true);
 
-        let url = "http://localhost:8016/api/compliance-reports";
+        let url = "http://localhost:1405/api/compliance-reports";
         let data = { scope: scope, metrics: metrics };
 
         axios.post(url, data).then((response) => {

@@ -13,7 +13,7 @@ export default function GetKPITrend() {
     let searchHandler = (e) => {
         e.preventDefault();
 
-        let url = `http://localhost:8016/api/kpi-reports/scope/${scope}/trend?lastXDays=${days}`;
+        let url = `http://localhost:1405/api/kpi-reports/scope/${scope}/trend?lastXDays=${days}`;
 
         axios.get(url).then((response) => {
             setReports(response.data);

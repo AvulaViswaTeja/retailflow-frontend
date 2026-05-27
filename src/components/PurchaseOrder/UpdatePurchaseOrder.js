@@ -24,7 +24,7 @@ export default function UpdatePurchaseOrder() {
 
   // Update button handler
   let buttonHandler = () => {
-    let url = `http://localhost:8014/api/purchase-orders/${purchaseOrderId}`;
+    let url = `http://localhost:1405/api/purchase-orders/${purchaseOrderId}`;
     let purchaseorder = {
       expectedDeliveryDate: expectedDeliveryDate,
       orderDate: orderDate,
@@ -54,7 +54,7 @@ export default function UpdatePurchaseOrder() {
 
   // Load existing purchase order by ID
   useEffect(() => {
-    let url = `http://localhost:8014/api/purchase-orders/${purchaseOrderId}`;
+    let url = `http://localhost:1405/api/purchase-orders/${purchaseOrderId}`;
     axios.get(url, {
       headers: {
         'Authorization': `Bearer ${token}`

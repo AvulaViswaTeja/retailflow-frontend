@@ -13,7 +13,7 @@ export default function GetPaginatedPayments() {
         setLoading(true);
         setError("");
         let token = localStorage.getItem("token");
-        axios.get("http://localhost:8014/api/payments/paginated", {
+        axios.get("http://localhost:1405/api/payments/paginated", {
             params: {
                 page: pageNumber,
                 size: 3,

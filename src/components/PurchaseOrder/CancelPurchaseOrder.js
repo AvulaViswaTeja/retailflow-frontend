@@ -9,7 +9,7 @@ export default function CancelPurchaseOrder() {
     useEffect(() => {
         // Append the ID directly to the URL path to match standard Spring Boot @PathVariable
        
-        const url = `http://localhost:8014/api/purchase-orders/${purchaseOrderId}`;
+        const url = `http://localhost:1405/api/purchase-orders/${purchaseOrderId}`;
 
         axios.delete(url, {
             headers: { "Authorization": "Bearer " + token }

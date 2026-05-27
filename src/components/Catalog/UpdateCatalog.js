@@ -30,7 +30,7 @@ export default function UpdateCatalog() {
 }, [id]);
 
     let fetchCatalog = (catalogIdToFetch) => {
-        axios.get("http://localhost:8014/api/catalogs/" + catalogIdToFetch)
+        axios.get("http://localhost:1405/api/catalogs/" + catalogIdToFetch)
             .then((response) => {
                 let catalog = response.data;
                 setCatalogId(catalog.catalogId);
@@ -56,7 +56,7 @@ export default function UpdateCatalog() {
     };
 
     let updateHandler = () => {
-        axios.put("http://localhost:8014/api/catalogs/" + catalogId, {
+        axios.put("http://localhost:1405/api/catalogs/" + catalogId, {
             effectiveDate,
             expiryDate,
             status,

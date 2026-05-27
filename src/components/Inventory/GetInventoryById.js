@@ -8,7 +8,7 @@ export default function GetInventoryById() {
 
   const fetchInventory = () => {
     if (!inventoryId) return;
-    let url = "http://localhost:8014/api/inventory/" + inventoryId;
+    let url = "http://localhost:1405/api/inventory/" + inventoryId;
     axios.get(url, {
             headers: { "Authorization": "Bearer " + token }
         })

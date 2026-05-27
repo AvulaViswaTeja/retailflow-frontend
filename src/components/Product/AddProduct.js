@@ -24,7 +24,7 @@ export  default function AddProduct(){
     };
 
     let saveHandler=()=>{
-        let url="http://localhost:8014/api/products";
+        let url="http://localhost:1405/api/products";
         let data={
                 "productName":productName,
                 "category":category,

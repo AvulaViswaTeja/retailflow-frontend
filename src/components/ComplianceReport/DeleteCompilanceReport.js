@@ -10,7 +10,7 @@ export default function DeleteComplianceReport() {
     useEffect(() => {
         if (!rid) return;
 
-        let url = `http://localhost:8016/api/compliance-reports/${rid}`;
+        let url = `http://localhost:1405/api/compliance-reports/${rid}`;
 
         axios.delete(url).then(() => {
             alert("Compliance Report #" + rid + " archived successfully.");

@@ -12,7 +12,7 @@ export default function GetAllComplianceReports() {
     }, []);
 
     let loadReports = () => {
-        let url = "http://localhost:8016/api/compliance-reports";
+        let url = "http://localhost:1405/api/compliance-reports";
         axios.get(url).then((response) => {
             setReports(response.data);
         }).catch((error) => {
@@ -24,7 +24,7 @@ export default function GetAllComplianceReports() {
         let confirmDelete = window.confirm("Archive Compliance Report ID: " + id + "?");
         if (!confirmDelete) return;
 
-        let url = `http://localhost:8016/api/compliance-reports/${id}`;
+        let url = `http://localhost:1405/api/compliance-reports/${id}`;
         axios.delete(url).then(() => {
             alert("Compliance Report #" + id + " archived successfully!");
             setReports(reports.filter((r) => r.reportId !== id));

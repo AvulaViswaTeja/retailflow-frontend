@@ -15,7 +15,7 @@ export default function DeleteInvoice() {
     try {
       let token = localStorage.getItem("token");
       const res = await axios.get(
-        "http://localhost:8014/api/invoices/" + invoiceId,
+        "http://localhost:1405/api/invoices/" + invoiceId,
         {
           headers: { Authorization: "Bearer " + token },
         },
@@ -32,7 +32,7 @@ export default function DeleteInvoice() {
 
     try {
       let token = localStorage.getItem("token");
-      await axios.delete("http://localhost:8014/api/invoices/" + invoiceId, {
+      await axios.delete("http://localhost:1405/api/invoices/" + invoiceId, {
         headers: { Authorization: "Bearer " + token },
       });
       setMessage("Invoice ID: " + invoiceId + " cancelled successfully!");

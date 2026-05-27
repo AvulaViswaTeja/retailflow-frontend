@@ -12,7 +12,7 @@ export default function GetProductById() {
             return;
         }
 
-        axios.get("http://localhost:8014/api/products/" + productId)
+        axios.get("http://localhost:1405/api/products/" + productId)
             .then((response) => {
                 setProduct(response.data);
                 setError("");

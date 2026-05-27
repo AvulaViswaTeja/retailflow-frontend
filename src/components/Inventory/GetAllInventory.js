@@ -4,7 +4,7 @@ import { Link } from 'react-router';
 export  default function GetAllInventory(){
     let token = localStorage.getItem("token");
     let [inventoryArray, setInventoryData] = useState([]);
-axios.get("http://localhost:8014/api/inventory", {
+axios.get("http://localhost:1405/api/inventory", {
             headers: { "Authorization": "Bearer " + token }
         })
 .then((response)=>{

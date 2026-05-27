@@ -5,7 +5,7 @@ export default function GetLowStock() {
   let [inventoryArr, setInventoryArr] = useState([]);
 let token = localStorage.getItem("token");
   const fetchLowStock = () => {
-    let url = "http://localhost:8014/api/inventory/low-stock";
+    let url = "http://localhost:1405/api/inventory/low-stock";
     axios.get(url, {
             headers: { "Authorization": "Bearer " + token }
         })

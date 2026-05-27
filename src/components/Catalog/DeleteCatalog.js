@@ -15,7 +15,7 @@ export default function DeleteCatalog() {
             return;
         }
 
-        axios.get("http://localhost:8014/api/catalogs/" + searchId)
+        axios.get("http://localhost:1405/api/catalogs/" + searchId)
             .then((response) => {
                 setCatalog(response.data);
                 setCatalogFound(true);
@@ -29,7 +29,7 @@ export default function DeleteCatalog() {
 
     let deleteHandler = () => {
         if (window.confirm("Are you sure you want to permanently delete this catalog?")) {
-            axios.delete("http://localhost:8014/api/catalogs/" + searchId)
+            axios.delete("http://localhost:1405/api/catalogs/" + searchId)
                 .then(() => {
                     alert("Catalog deleted successfully!");
                     navigate("/Catalog/getAll");

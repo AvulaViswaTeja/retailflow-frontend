@@ -9,7 +9,7 @@ export  default function AddInventory(){
    let token = localStorage.getItem("token");
     let submitHandler = (e) => {
         e.preventDefault();
-        let url = "http://localhost:8014/api/inventory";
+        let url = "http://localhost:1405/api/inventory";
         let inventory = {
             "productId": productId,
             "locationId": locationId,

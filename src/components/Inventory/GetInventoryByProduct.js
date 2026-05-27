@@ -7,7 +7,7 @@ export default function GetInventoryByProduct() {
 let token = localStorage.getItem("token");
   const fetchInventory = () => {
     if (!productId) return;
-    let url = "http://localhost:8014/api/inventory/product/" + productId;
+    let url = "http://localhost:1405/api/inventory/product/" + productId;
     axios.get(url, {
             headers: { "Authorization": "Bearer " + token }
         })

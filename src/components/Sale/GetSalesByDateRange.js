@@ -16,7 +16,7 @@ export default function GetSalesByDateRange() {
     try {
       let token = localStorage.getItem("token");
       const res = await axios.get(
-        "http://localhost:8014/api/sales/date-range",
+        "http://localhost:1405/api/sales/date-range",
         {
           params: {
             start: startDate,

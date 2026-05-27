@@ -12,7 +12,7 @@ export default function GetAllKPIReports() {
     }, []);
 
     let loadReports = () => {
-        let url = "http://localhost:8016/api/kpi-reports";
+        let url = "http://localhost:1405/api/kpi-reports";
         axios.get(url).then((response) => {
             setReports(response.data);
         }).catch((error) => {
@@ -24,7 +24,7 @@ export default function GetAllKPIReports() {
         let confirmDelete = window.confirm("Archive KPI Report ID: " + id + "?");
         if (!confirmDelete) return;
 
-        let url = `http://localhost:8016/api/kpi-reports/${id}`;
+        let url = `http://localhost:1405/api/kpi-reports/${id}`;
         axios.delete(url).then(() => {
             alert("KPI Report #" + id + " archived!");
             setReports(reports.filter((r) => r.reportId !== id));

@@ -15,7 +15,7 @@ export default function DeleteSale() {
 
     try {
       let token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:8014/api/sales/" + saleId,{
+      const res = await axios.get("http://localhost:1405/api/sales/" + saleId,{
             headers: { "Authorization": "Bearer " + token }
         });
       setCurrentSale(res.data);
@@ -30,7 +30,7 @@ export default function DeleteSale() {
 
     try {
       let token = localStorage.getItem("token");
-      await axios.delete("http://localhost:8014/api/sales/" + saleId, {
+      await axios.delete("http://localhost:1405/api/sales/" + saleId, {
             headers: { "Authorization": "Bearer " + token }
         });
       setMessage("Sale ID: " + saleId + " cancelled successfully!");

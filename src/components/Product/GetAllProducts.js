@@ -6,7 +6,7 @@ export default function GetAllProducts() {
     let [products, setProducts] = useState([]);
 
     const fetchProducts = () => {
-        axios.get("http://localhost:8014/api/products/fetchAll")
+        axios.get("http://localhost:1405/api/products/fetchAll")
             .then((response) => {
                 setProducts(response.data);
             })
@@ -21,7 +21,7 @@ export default function GetAllProducts() {
 
     const deleteHandler = (id) => {
         if (window.confirm("This will mark the product as INACTIVE. Continue?")) {
-            axios.delete("http://localhost:8014/api/products/" + id)
+            axios.delete("http://localhost:1405/api/products/" + id)
                 .then(() => {
                     alert("Product marked as INACTIVE!");
                     fetchProducts(); 

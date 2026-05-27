@@ -15,7 +15,7 @@ export default function GetAllSalesPaginated() {
     let token = localStorage.getItem("token");
     axios
       .get(
-        "http://localhost:8014/api/sales/paginated",
+        "http://localhost:1405/api/sales/paginated",
         {
           params: {
             page: pageNumber,

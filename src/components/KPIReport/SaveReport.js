@@ -25,7 +25,7 @@ export default function SaveReport() {
         if (!form.scope) { alert("Please select a scope"); return; }
         setResult(null); setLoading(true);
 
-        axios.post("http://localhost:8016/api/kpi-reports", form)
+        axios.post("http://localhost:1405/api/kpi-reports", form)
             .then((res) => { setResult(res.data); setLoading(false); })
             .catch((err) => { alert("Failed: " + err.message); setLoading(false); });
     }

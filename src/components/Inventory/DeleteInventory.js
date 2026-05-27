@@ -8,7 +8,7 @@ export  default function DeleteInventory(){
     const navigate = useNavigate();
 
     useEffect(()=>{
-        const url = `http://localhost:8014/api/inventory/${inventoryId}`;   
+        const url = `http://localhost:1405/api/inventory/${inventoryId}`;   
         axios.delete(url, {
             headers: { "Authorization": "Bearer " + token }
         })

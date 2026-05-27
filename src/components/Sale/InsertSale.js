@@ -21,7 +21,7 @@ export default function InsertSale() {
 
     try {
       let token = localStorage.getItem("token");
-      const res = await axios.post("http://localhost:8014/api/sales", req_data,{
+      const res = await axios.post("http://localhost:1405/api/sales", req_data,{
             headers: { "Authorization": "Bearer " + token }
         });
       const sale = res.data;

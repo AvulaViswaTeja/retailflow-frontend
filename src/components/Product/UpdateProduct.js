@@ -30,7 +30,7 @@ export default function UpdateProduct() {
     }, [id]);
 
     let fetchProduct = (pid) => {
-        axios.get("http://localhost:8014/api/products/" + pid)
+        axios.get("http://localhost:1405/api/products/" + pid)
             .then((response) => {
                 let product = response.data;
                 setProductId(product.productId);
@@ -55,7 +55,7 @@ export default function UpdateProduct() {
     };
 
     let updateHandler = () => {
-        axios.put("http://localhost:8014/api/products/" + productId, {
+        axios.put("http://localhost:1405/api/products/" + productId, {
             productName,
             category,
             price: parseFloat(price),

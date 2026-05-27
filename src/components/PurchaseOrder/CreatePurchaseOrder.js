@@ -20,7 +20,7 @@ export default function CreatePurchaseOrder() {
     }
     let submitHandler = (e) => {
         e.preventDefault();
-        let url="http://localhost:8014/api/purchase-orders"
+        let url="http://localhost:1405/api/purchase-orders"
         let purchaseorder = {
             "supplierId":supplierId,
             "expectedDeliveryDate":expectedDeliveryDate,

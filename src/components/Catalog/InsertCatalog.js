@@ -24,7 +24,7 @@ export default function AddCatalog() {
     };
 
     let saveHandler = () => {
-        let url = "http://localhost:8014/api/catalogs";
+        let url = "http://localhost:1405/api/catalogs";
         let data = {
             "effectiveDate": effectiveDate,
             "expiryDate": expiryDate,

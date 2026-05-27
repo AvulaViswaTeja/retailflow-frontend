@@ -16,7 +16,7 @@ export default function UpdateComplianceReport() {
     });
 
     useEffect(() => {
-        let url = `http://localhost:8016/api/compliance-reports/${rid}`;
+        let url = `http://localhost:1405/api/compliance-reports/${rid}`;
         axios.get(url).then((response) => {
             setReport(response.data);
         }).catch((error) => {
@@ -27,7 +27,7 @@ export default function UpdateComplianceReport() {
     let updateHandler = (e) => {
         e.preventDefault();
 
-        let url = `http://localhost:8016/api/compliance-reports/${rid}`;
+        let url = `http://localhost:1405/api/compliance-reports/${rid}`;
 
         let data = {
             scope: report.scope,

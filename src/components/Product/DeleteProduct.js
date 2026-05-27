@@ -14,7 +14,7 @@ export default function DeleteProduct() {
             alert("Please enter a Product ID");
             return;
         }
-        axios.get("http://localhost:8014/api/products/" + searchId)
+        axios.get("http://localhost:1405/api/products/" + searchId)
             .then((response) => {
                 setProduct(response.data);
                 setProductFound(true);
@@ -28,7 +28,7 @@ export default function DeleteProduct() {
 
     let deleteHandler = () => {
         if (window.confirm("This will mark the product as INACTIVE. Continue?")) {
-            axios.delete("http://localhost:8014/api/products/" + searchId)
+            axios.delete("http://localhost:1405/api/products/" + searchId)
                 .then(() => {
                     alert("Product marked as INACTIVE!");
                     navigate("/Product/getAll");

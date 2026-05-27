@@ -12,7 +12,7 @@ export default function GetCatalogById() {
             return;
         }
 
-        let url = "http://localhost:8014/api/catalogs/" + catalogId;
+        let url = "http://localhost:1405/api/catalogs/" + catalogId;
 
         axios.get(url)
             .then((response) => {

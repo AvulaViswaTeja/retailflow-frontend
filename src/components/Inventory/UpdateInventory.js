@@ -22,7 +22,7 @@ let token = localStorage.getItem("token");
 
   // Update button handler
   let buttonHandler = () => {
-    let url = "http://localhost:8014/api/inventory/" + inventoryId;
+    let url = "http://localhost:1405/api/inventory/" + inventoryId;
     let inventory = {
       productId: productId,
       locationId: locationId,
@@ -46,7 +46,7 @@ let token = localStorage.getItem("token");
 
   // Load existing inventory by ID
   useEffect(() => {
-    let url = "http://localhost:8014/api/inventory/" + inventoryId;
+    let url = "http://localhost:1405/api/inventory/" + inventoryId;
     axios.get(url, {
             headers: { "Authorization": "Bearer " + token }
         })

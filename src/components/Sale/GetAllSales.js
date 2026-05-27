@@ -7,7 +7,7 @@ export default function GetAllSales() {
   useEffect(() => {
     let token = localStorage.getItem("token");
     axios
-      .get("http://localhost:8014/api/sales",{
+      .get("http://localhost:1405/api/sales",{
             headers: { "Authorization": "Bearer " + token }
         })
       .then((res) => {
