@@ -15,7 +15,6 @@ export default function GetLowStock() {
       })
       .catch((error) => {
         console.error("Error fetching low stock inventory:", error);
-        alert("Failed to pull low-stock alerts: " + (error.response?.data?.message || error.message));
       });
   };
 
