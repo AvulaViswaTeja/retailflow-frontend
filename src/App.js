@@ -10,9 +10,9 @@ import UpdateCatalog from './components/Catalog/UpdateCatalog';
 import GetAllCatalogs from './components/Catalog/GetAllCatalogs';
 import GetCatalogById from './components/Catalog/GetCatalogById';
 import GetCatalogsByProduct from './components/Catalog/GetCatalogsByProduct';
-import GetAllCatalogsPaginated from './components/Catalog/GetAllCatalogsPaginated'; 
-
-
+import GetAllCatalogsPaginated from './components/Catalog/GetAllCatalogsPaginated';
+ 
+ 
 import ProductHome from './components/Product/ProductHome';
 import AddProduct from './components/Product/AddProduct';
 import DeleteProduct from './components/Product/DeleteProduct';
@@ -20,10 +20,10 @@ import UpdateProduct from './components/Product/UpdateProduct';
 import GetProductById from './components/Product/GetProductById';
 import GetAllProducts from './components/Product/GetAllProducts';
 import GetProductsByCategory from './components/Product/GetProductsByCategory';
-import GetAllProductsPaginated from './components/Product/GetAllProductsPaginated'; 
-
-
-
+import GetAllProductsPaginated from './components/Product/GetAllProductsPaginated';
+ 
+ 
+ 
 import InventoryHome from './components/Inventory/InventoryHome';
 import AddInventory from './components/Inventory/AddInventory';
 import DeleteInventory from './components/Inventory/DeleteInventory';
@@ -196,7 +196,7 @@ function App() {
                     <Route path="getById"       element={<GetCatalogById />} />
                     <Route path="getByProduct"  element={<GetCatalogsByProduct />} />
                     <Route path='getAllCatalogsPaginated' element={<GetAllCatalogsPaginated/>}/>
-
+ 
                 </Route>
  
                 {/* Product — all roles */}

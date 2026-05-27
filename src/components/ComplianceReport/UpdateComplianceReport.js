@@ -34,7 +34,7 @@ export default function UpdateComplianceReport() {
             metrics: report.metrics
         };
 
-        axios.put(url, data).then((response) => {
+        axios.put(url, data).then(() => {
             alert("Compliance Report #" + rid + " updated successfully!");
             navigate("/compliance/getAll");
         }).catch((error) => {
@@ -69,7 +69,7 @@ export default function UpdateComplianceReport() {
                 onChange={(e) => setReport({ ...report, metrics: e.target.value })}
                 style={{ width: "400px" }}
             />
-            <br />
+            <br /><br />
 
             <button onClick={updateHandler}>UPDATE</button>
             &nbsp;&nbsp;

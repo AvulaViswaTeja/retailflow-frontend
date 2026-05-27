@@ -3,10 +3,12 @@ import axios from "axios";
 
 export default function GetLowStock() {
   let [inventoryArr, setInventoryArr] = useState([]);
-
+let token = localStorage.getItem("token");
   const fetchLowStock = () => {
     let url = "http://localhost:8014/api/inventory/low-stock";
-    axios.get(url)
+    axios.get(url, {
+            headers: { "Authorization": "Bearer " + token }
+        })
       .then((response) => {
         // assuming backend returns an array of inventory records
         setInventoryArr(response.data);
@@ -19,9 +21,11 @@ export default function GetLowStock() {
   return (
     <div>
       <h1>Low Stock Inventory</h1>
-      <button onClick={fetchLowStock}>Fetch Low Stock Items</button>
+      <button className="btn btn-primary" onClick={fetchLowStock}>
+        Fetch Low Stock Items
+      </button>
 
-      <table border="1">
+      <table className='table table-striped'>
         <thead>
           <tr>
             <th>Inventory ID</th>
