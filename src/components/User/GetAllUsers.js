@@ -24,37 +24,51 @@ export default function GetAllUsers() {
     }
 
     return (
-        <div>
-            <h1>Get All Users</h1>
+        <div className="container mt-4">
+            <div className="card shadow-sm">
+                <div className="card-body">
 
-            <table className="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>User ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Phone</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {users.length === 0 ? (
-                        <tr>
-                            <td colSpan="5">No users found</td>
-                        </tr>
-                    ) : (
-                        users.map((user) => (
-                            <tr key={user.userId}>
-                                <td>{user.userId}</td>
-                                <td>{user.userName}</td>
-                                <td>{user.email}</td>
-                                <td>{user.role}</td>
-                                <td>{user.phoneNumber}</td>
-                            </tr>
-                        ))
-                    )}
-                </tbody>
-            </table>
+                    <h5 className="card-title mb-4">All Users</h5>
+
+                    <div className="table-responsive">
+                        <table className="table table-bordered table-hover table-sm align-middle">
+                            <thead className="table-dark">
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Phone</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {users.length === 0 ? (
+                                    <tr>
+                                        <td colSpan="5" className="text-center text-muted">
+                                            No users found
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    users.map((user) => (
+                                        <tr key={user.userId}>
+                                            <td>{user.userId}</td>
+                                            <td>{user.userName}</td>
+                                            <td>{user.email}</td>
+                                            <td>
+                                                <span className="badge bg-secondary">
+                                                    {user.role}
+                                                </span>
+                                            </td>
+                                            <td>{user.phoneNumber}</td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </div>
         </div>
     );
 }
