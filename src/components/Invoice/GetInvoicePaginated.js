@@ -1,5 +1,6 @@
-import {useState,useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios';
+
 export default function GetPaginated() {
   const [invoices, setInvoices] = useState([]);
   const [page, setPage] = useState(0);
@@ -14,17 +15,13 @@ export default function GetPaginated() {
     let token = localStorage.getItem("token");
     axios
       .get("http://localhost:1405/api/invoices/paginated", {
-        params: {
-          page: pageNumber,
-          size: 3,
-        },
+        params: { page: pageNumber, size: 3 },
         headers: { Authorization: "Bearer " + token },
       })
       .then((res) => {
-        console.log(res);
         setInvoices(res.data.content);
         setTotalElements(res.data.totalElements);
-        setTotalPages(res.data.totalPages)
+        setTotalPages(res.data.totalPages);
         setLoading(false);
       })
       .catch((err) => {
@@ -34,56 +31,114 @@ export default function GetPaginated() {
   };
 
   const handlePrevious = () => {
-    if (page > 0) {
-      setPage(page - 1);
-    }
+    if (page > 0) setPage(page - 1);
   };
 
   const handleNext = () => {
-    if (page < totalPages - 1) {
-      setPage(page + 1);
-    }
+    if (page < totalPages - 1) setPage(page + 1);
   };
 
   useEffect(() => {
     fetchInvoices(page);
   }, [page]);
 
-   if(loading) return <p>Loading...</p>
-    if(error) return <p style={{color:"red"}}>{error}</p>
-    if(invoices.length===0) return <p>No invoices found</p>
-  return (
-    <div>
-      <h1>All Invoices Paginated</h1>
-        <table border={1}>
-            <thead>
-                <tr>
-                    <th>Invoice Id</th>
-                    <th>Customer Id</th>
-                    <th>Sale Id</th>
-                    <th>Date</th>
-                    <th>amount</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody>
-                {invoices.map((invoice)=>{
-                    return (<tr key={invoice.invoiceId}>
-                        <td>{invoice.invoiceId}</td>
-                        <td>{invoice.customerId}</td>
-                        <td>{invoice.saleId}</td>
-                        <td>{invoice.date}</td>
-                        <td>{invoice.amount}</td>
-                        <td>{invoice.status}</td>
-                        
-                    </tr>)
-                })}
-            </tbody>
-        </table>
+  if (loading) {
+    return (
+      <div className="container mt-4 text-center">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+        <p className="mt-2">Loading invoices...</p>
+      </div>
+    );
+  }
 
-        <button onClick={handlePrevious} disabled={page===0}>prev</button>
-        <span style={{ margin: "0 10px" }}>{page+1} out of {totalPages} | Total records : {totalElements}</span>
-        <button onClick={handleNext} disabled={page===totalPages-1 }>next</button>
+  if (error) {
+    return (
+      <div className="container mt-4">
+        <div className="alert alert-danger">{error}</div>
+      </div>
+    );
+  }
+
+  if (invoices.length === 0) {
+    return (
+      <div className="container mt-4">
+        <div className="alert alert-warning">No invoices found!</div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="container mt-4">
+      <div className="card shadow-sm">
+        <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+          <h4 className="mb-0">All Invoices Paginated</h4>
+          <span className="badge bg-light text-primary">
+            Total: {totalElements} records
+          </span>
+        </div>
+        <div className="card-body p-0">
+          <div className="table-responsive">
+            <table className="table table-striped table-hover mb-0">
+              <thead className="table-dark">
+                <tr>
+                  <th>Invoice ID</th>
+                  <th>Customer ID</th>
+                  <th>Sale ID</th>
+                  <th>Date</th>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {invoices.map((invoice) => (
+                  <tr key={invoice.invoiceId}>
+                    <td>{invoice.invoiceId}</td>
+                    <td>{invoice.customerId}</td>
+                    <td>{invoice.saleId}</td>
+                    <td>{invoice.date}</td>
+                    <td>₹{invoice.amount}</td>
+                    <td>
+                      <span className={`badge ${
+                        invoice.status === "PAID" ? "bg-success" :
+                        invoice.status === "PENDING" ? "bg-warning text-dark" :
+                        invoice.status === "PARTIALLY_PAID" ? "bg-info text-dark" :
+                        invoice.status === "CANCELLED" ? "bg-danger" :
+                        "bg-secondary"
+                      }`}>
+                        {invoice.status}
+                      </span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          
+          <div className="d-flex justify-content-between align-items-center p-3">
+            <button
+              className="btn btn-outline-primary"
+              onClick={handlePrevious}
+              disabled={page === 0}
+            >
+              ← Previous
+            </button>
+            <span className="text-muted">
+              Page <strong>{page + 1}</strong> of <strong>{totalPages}</strong>
+            </span>
+            <button
+              className="btn btn-outline-primary"
+              onClick={handleNext}
+              disabled={page === totalPages - 1}
+            >
+              Next →
+            </button>
+          </div>
+
+        </div>
+      </div>
     </div>
   );
 }
