@@ -103,7 +103,7 @@ export default function UpdateInventory() {
               <div className="col-12">
                 <label className="form-label fw-semibold">Status</label>
                 <select className="form-select" value={status} onChange={statusHandler} required>
-                  <option value="" disabled>Select Status</option>
+                  <option value="" >Select Status</option>
                   <option value="In Stock">In Stock</option>
                   <option value="Low Stock">Low Stock</option>
                   <option value="Out of Stock">Out of Stock</option>
