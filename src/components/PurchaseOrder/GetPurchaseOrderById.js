@@ -10,11 +10,7 @@ export default function GetPurchaseOrderById() {
     let url = "http://localhost:1405/api/purchase-orders/" + poId;
     axios.get(url, {
       headers: {
-<<<<<<< HEAD
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-=======
         'Authorization': `Bearer ${token}`
->>>>>>> origin/main
       }
     })
       .then((response) => {

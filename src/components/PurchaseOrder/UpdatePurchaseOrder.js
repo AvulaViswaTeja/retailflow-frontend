@@ -39,11 +39,7 @@ export default function UpdatePurchaseOrder() {
 
     axios.put(url, purchaseorder, {
       headers: {
-<<<<<<< HEAD
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-=======
         'Authorization': `Bearer ${token}`
->>>>>>> origin/main
       }
     })
       .then((response) => {
@@ -61,11 +57,7 @@ export default function UpdatePurchaseOrder() {
     let url = `http://localhost:1405/api/purchase-orders/${purchaseOrderId}`;
     axios.get(url, {
       headers: {
-<<<<<<< HEAD
-        'Authorization': `Bearer ${localStorage.getItem('token')}`
-=======
         'Authorization': `Bearer ${token}`
->>>>>>> origin/main
       }
     })
       .then((response) => {

@@ -8,11 +8,7 @@ export  default function GetAllPurchaseOrders(){
     let url="http://localhost:1405/api/purchase-orders"
     axios.get(url, {
         headers: {
-<<<<<<< HEAD
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-=======
             'Authorization': `Bearer ${token}`
->>>>>>> origin/main
         }
     })
     .then((response)=>{
