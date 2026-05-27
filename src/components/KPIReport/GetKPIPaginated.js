@@ -1,69 +1,89 @@
-import axios from 'axios';
-import { useEffect, useState } from 'react';
+import axios from "axios";
+import { useState, useEffect } from "react";
 
 export default function GetKPIPaginated() {
+    const [reports, setReports] = useState([]);
+    const [page, setPage] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const [totalElements, setTotalElements] = useState(0);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState("");
 
-    let [reports, setReports] = useState([]);
-    let [page, setPage] = useState(0);
-    let [totalPages, setTotalPages] = useState(0);
-    let size = 5;
+    const fetchReports = async (pageNumber) => {
+        setLoading(true); setError("");
+        const token = localStorage.getItem("token");
+        try {
+            const res = await axios.get("http://localhost:1405/api/kpi-reports/paginated",
+                { params: { page: pageNumber, size: 5 },
+                  headers: { Authorization: "Bearer " + token } });
+            setReports(res.data.content);
+            setTotalPages(res.data.totalPages);
+            setTotalElements(res.data.totalElements);
+        } catch (err) {
+            setError("Failed to fetch KPI reports");
+        } finally {
+            setLoading(false);
+        }
+    };
 
-    useEffect(() => {
-        let url = `http://localhost:1405/api/kpi-reports/paginated?page=${page}&size=${size}`;
+    useEffect(() => { fetchReports(page); }, [page]);
 
-        axios.get(url).then((response) => {
-            setReports(response.data.content || []);
-            setTotalPages(response.data.totalPages || 0);
-        }).catch((error) => {
-            console.error("Error fetching paginated KPI reports:", error);
-            alert("Failed to load reports.");
-        });
+    const kpiColor = (value, min, max) => {
+        if (max !== undefined && max !== null) return value <= max ? "success" : "danger";
+        return value >= min ? "success" : "danger";
+    };
 
-    }, [page]);
+    if (loading) return (
+        <div className="container mt-4 text-center">
+            <div className="spinner-border text-primary" role="status"></div>
+            <p className="mt-2">Loading...</p>
+        </div>
+    );
+
+    if (error) return <div className="container mt-4"><div className="alert alert-danger">{error}</div></div>;
 
     return (
-        <div>
-            <h2>KPI Reports - Paginated</h2>
-            <p>Page {page + 1} of {totalPages}</p>
-
-            <button
-                onClick={() => setPage(p => Math.max(0, p - 1))}
-                disabled={page === 0}
-            >Previous</button>
-
-            &nbsp;&nbsp;
-
-            <button
-                onClick={() => setPage(p => p + 1)}
-                disabled={page >= totalPages - 1}
-            >Next</button>
-
-            <br /><br />
-
-            <table border="1" cellPadding="8">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Scope</th>
-                        <th>Metrics</th>
-                        <th>Status</th>
-                        <th>Generated Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {reports.map((r) => {
-                        return (
-                            <tr key={r.reportId}>
-                                <td>{r.reportId}</td>
-                                <td>{r.scope}</td>
-                                <td>{r.metrics}</td>
-                                <td>{r.status}</td>
-                                <td>{r.generatedDate}</td>
-                            </tr>
-                        );
-                    })}
-                </tbody>
-            </table>
+        <div className="container mt-4">
+            <div className="card shadow-sm">
+                <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 className="mb-0">KPI Reports Paginated</h4>
+                    <span className="badge bg-light text-primary">Total: {totalElements}</span>
+                </div>
+                <div className="card-body p-0">
+                    <div className="table-responsive">
+                        <table className="table table-striped table-hover mb-0">
+                            <thead className="table-dark">
+                                <tr>
+                                    <th>ID</th><th>Scope</th><th>Stock Turnover</th>
+                                    <th>Sales Growth</th><th>Shrinkage</th>
+                                    <th>Metrics</th><th>Date</th><th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {reports.map((r) => (
+                                    <tr key={r.reportId}>
+                                        <td>{r.reportId}</td>
+                                        <td><span className="badge bg-info text-dark">{r.scope}</span></td>
+                                        <td><span className={`badge bg-${kpiColor(r.stockTurnover, 2)}`}>{r.stockTurnover}</span></td>
+                                        <td><span className={`badge bg-${kpiColor(r.salesGrowth, 0)}`}>{r.salesGrowth}%</span></td>
+                                        <td><span className={`badge bg-${kpiColor(r.shrinkageRate, null, 5)}`}>{r.shrinkageRate}%</span></td>
+                                        <td><small className="text-muted">{r.metrics}</small></td>
+                                        <td>{r.generatedDate}</td>
+                                        <td><span className={`badge ${r.status === 'ACTIVE' ? 'bg-success' : 'bg-secondary'}`}>{r.status}</span></td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    <div className="d-flex justify-content-between align-items-center p-3">
+                        <button className="btn btn-outline-primary"
+                            onClick={() => setPage(page - 1)} disabled={page === 0}>← Previous</button>
+                        <span className="text-muted">Page <strong>{page + 1}</strong> of <strong>{totalPages}</strong></span>
+                        <button className="btn btn-outline-primary"
+                            onClick={() => setPage(page + 1)} disabled={page === totalPages - 1}>Next →</button>
+                    </div>
+                </div>
+            </div>
         </div>
     );
 }
