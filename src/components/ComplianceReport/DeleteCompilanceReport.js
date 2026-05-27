@@ -1,22 +1,30 @@
 import axios from 'axios';
-import { useParams } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 
 export default function DeleteComplianceReport() {
 
     let { rid } = useParams();
+    let navigate = useNavigate();
 
-    let url = `http://localhost:8016/api/compliance-reports/${rid}`;
+    useEffect(() => {
+        if (!rid) return;
 
-    axios.delete(url).then((response) => {
-        alert("Compliance Report #" + rid + " archived successfully.");
-    }).catch((error) => {
-        console.error("Error archiving report:", error);
-        alert("Failed to archive report.");
-    });
+        let url = `http://localhost:8016/api/compliance-reports/${rid}`;
+
+        axios.delete(url).then(() => {
+            alert("Compliance Report #" + rid + " archived successfully.");
+            navigate("/compliance/getAll");
+        }).catch((error) => {
+            console.error("Error archiving report:", error);
+            alert("Failed to archive report.");
+            navigate("/compliance/getAll");
+        });
+    }, [rid]);
 
     return (
         <div>
-            <span>Archiving Compliance Report ID: {rid}</span>
+            <span>Archiving Compliance Report ID: {rid}...</span>
         </div>
     );
 }

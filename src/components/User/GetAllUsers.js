@@ -27,7 +27,7 @@ export default function GetAllUsers() {
         <div>
             <h1>Get All Users</h1>
 
-            <table border="1">
+            <table className="table table-bordered">
                 <thead>
                     <tr>
                         <th>User ID</th>
