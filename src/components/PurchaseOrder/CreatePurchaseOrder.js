@@ -102,9 +102,9 @@ export default function CreatePurchaseOrder() {
                                     onChange={statusHandler} 
                                     required
                                 >
-                                    <option value="Pending">Pending</option>
-                                    <option value="Processing">Processing</option>
-                                    <option value="Completed">Completed</option>
+                                    <option value="PENDING">PENDING</option>
+                                    <option value="DELIVERED">DELIVERED</option>
+                                    <option value="CANCELLED">CANCELLED</option>
                                 </select>
                             </div>
 
