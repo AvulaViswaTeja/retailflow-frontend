@@ -11,8 +11,7 @@ export default function GetAllAuditLogs() {
 
     let fetchAllAuditLogs = () => {
         let token = localStorage.getItem("token");
-        localStorage.getItem("token")   // should show token string
-localStorage.getItem("role")    // should show "ADMIN"
+          
 
         axios.get("http://localhost:1405/api/audit-logs", {
             headers: { "Authorization": "Bearer " + token }

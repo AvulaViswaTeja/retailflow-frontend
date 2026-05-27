@@ -12,38 +12,46 @@ export default function GetCatalogById() {
             return;
         }
 
+        let token = localStorage.getItem("token");
+
         let url = "http://localhost:8014/api/catalogs/" + catalogId;
 
-        axios.get(url)
-            .then((response) => {
-                setCatalog(response.data);
-                setError("");
-            })
-            .catch((error) => {
-                setCatalog(null);
-                setError("Catalog not found with ID: " + catalogId);
-                console.error("Error:", error);
-            });
+        axios.get(url, {
+            headers: { "Authorization": "Bearer " + token }
+        })
+        .then((response) => {
+            setCatalog(response.data);
+            setError("");
+        })
+        .catch((error) => {
+            setCatalog(null);
+            setError("Catalog not found with ID: " + catalogId);
+            console.error("Error:", error);
+        });
     };
 
     return (
         <div>
-
-            <label>Enter Catalog ID: </label>
+            <div className="mb-3">
+            <label className="form-label">Enter Catalog ID: </label>
             <input
                 type="number"
+                className="form-control"
                 value={catalogId}
                 onChange={(e) => setCatalogId(e.target.value)}
                 placeholder="Enter catalog ID"
             />
-            <button onClick={searchHandler}>Search</button>
+            </div>
+            <button className="btn btn-primary" onClick={searchHandler}>
+                Search
+            </button>
 
             
             {error && <p>{error}</p>}
 
             
             {catalog && (
-                <table border="1">
+                <table className="table table-border">
                     <thead>
                         <tr>
                             <th>ID</th>
