@@ -5,8 +5,13 @@ import { Link } from 'react-router-dom';
 export default function GetAllProducts() {
     let [products, setProducts] = useState([]);
 
-    const fetchProducts = () => {
-        axios.get("http://localhost:8014/api/products/fetchAll")
+    let fetchProducts = () => {
+
+        let token = localStorage.getItem("token");
+
+        axios.get("http://localhost:8014/api/products", {
+            headers: { "Authorization": "Bearer " + token }
+        })
             .then((response) => {
                 setProducts(response.data);
             })
@@ -19,9 +24,14 @@ export default function GetAllProducts() {
         fetchProducts();
     }, []);
 
-    const deleteHandler = (id) => {
+    let deleteHandler = (id) => {
+
+        let token = localStorage.getItem("token");
+
         if (window.confirm("This will mark the product as INACTIVE. Continue?")) {
-            axios.delete("http://localhost:8014/api/products/" + id)
+            axios.delete("http://localhost:8014/api/products/" + id, {
+                headers: { "Authorization": "Bearer " + token }
+            })
                 .then(() => {
                     alert("Product marked as INACTIVE!");
                     fetchProducts(); 
@@ -32,8 +42,8 @@ export default function GetAllProducts() {
 
     return (
         <div>
-            <h1>All Products</h1>
-            <table border="1">
+            
+            <table className="table table-border">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -54,12 +64,14 @@ export default function GetAllProducts() {
                             <td>{product.status}</td>
                             <td>
                                 
-                                <button onClick={() => deleteHandler(product.productId)}>
+                                <button className="btn btn-danger" onClick={() => deleteHandler(product.productId)}>
                                     Delete
                                 </button>
                                 &nbsp;
                                 
-                                <Link to={`/Product/update/${product.productId}`}>Edit</Link>
+                                <Link className="btn btn-secondary" to={`/Product/update/${product.productId}`}>
+                                    Edit
+                                </Link>
                             </td>
                         </tr>
                     ))}

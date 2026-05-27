@@ -15,42 +15,57 @@ export default function DeleteCatalog() {
             return;
         }
 
-        axios.get("http://localhost:8014/api/catalogs/" + searchId)
-            .then((response) => {
-                setCatalog(response.data);
-                setCatalogFound(true);
-            })
-            .catch(() => {
-                alert("Catalog not found with ID: " + searchId);
-                setCatalogFound(false);
-                setCatalog(null);
-            });
+        let token = localStorage.getItem("token");
+
+        axios.get("http://localhost:8014/api/catalogs/" + searchId, {
+            headers: { "Authorization": "Bearer " + token }
+        })
+        .then((response) => {
+            setCatalog(response.data);
+            setCatalogFound(true);
+        })
+        .catch(() => {
+            alert("Catalog not found with ID: " + searchId);
+            setCatalogFound(false);
+            setCatalog(null);
+        });
     };
 
     let deleteHandler = () => {
-        if (window.confirm("Are you sure you want to permanently delete this catalog?")) {
-            axios.delete("http://localhost:8014/api/catalogs/" + searchId)
-                .then(() => {
-                    alert("Catalog deleted successfully!");
-                    navigate("/Catalog/getAll");
-                })
-                .catch((error) => {
-                    alert("Delete failed: " + (error.response?.data?.message || "Server error"));
-                });
+
+        let token = localStorage.getItem("token");
+
+        if (window.confirm("Are you sure you want to delete this catalog?")) {
+            axios.delete("http://localhost:8014/api/catalogs/" + searchId, {
+                headers: { "Authorization": "Bearer " + token }
+            })
+            .then(() => {
+                alert("Catalog deleted successfully!");
+                navigate("/Catalog/getAll");
+            })
+            .catch((error) => {
+                alert("Delete failed: " + (error.response?.data?.message || "Server error"));
+            });
         }
     };
 
     return (
         <div>
 
-            <label>Enter Catalog ID: </label>
-            <input
+            <div className="mb-3">
+            <label className="form-label">Enter Catalog ID: </label>
+            <input className="form-control"
                 type="number"
                 value={searchId}
                 onChange={(e) => setSearchId(e.target.value)}
                 placeholder="Enter catalog ID"
             />
-            <button onClick={searchHandler}>Search</button>
+
+        </div>
+
+            <button className="btn btn-primary" onClick={searchHandler}>
+                Search
+            </button>
 
             <br /><br />
 
@@ -58,7 +73,7 @@ export default function DeleteCatalog() {
             {catalogFound && catalog && (
                 <div>
                     <h3>Catalog Details</h3>
-                    <table border="1">
+                    <table className="table table-border">
                         <thead>
                             <tr>
                                 <th>Catalog ID</th>
@@ -83,12 +98,13 @@ export default function DeleteCatalog() {
 
                     <button
                         onClick={deleteHandler}
+                        className="btn btn-danger"
                     >
-                        Delete
+                        Delete Catalog
                     </button>
                     <button
                         onClick={() => navigate("/Catalog/getAll")}
-                        
+                        className="btn btn-secondary"   
                     >
                         Cancel
                     </button>

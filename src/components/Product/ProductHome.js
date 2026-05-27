@@ -10,8 +10,9 @@ export default function ProductHome(){
                     <li><Link to="delete">Delete Product</Link></li>
                     <li><Link to="update">Update Product</Link></li>
                     <li><Link to="getById">Get Product By Id</Link></li>
+                    <li><Link to="getProductsByCategory">Get Products By Category</Link></li>
                     <li><Link to="getAll">Get All Products</Link></li>
-                   
+                    <li><Link to="getAllProductsPaginated">Get All Products Paginated</Link></li>
                     
                 </ul>
             </nav>
