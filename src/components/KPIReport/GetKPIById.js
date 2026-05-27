@@ -1,86 +1,103 @@
-import axios from 'axios';
-import { useState } from 'react';
+import axios from "axios";
+import { useState } from "react";
 
-export default function GetById() {
-    let [id, setId] = useState('');
-    let [report, setReport] = useState(null);
-    let [error, setError] = useState('');
-    let [loading, setLoading] = useState(false);
+export default function GetKPIById() {
+    const [reportId, setReportId] = useState("");
+    const [report, setReport] = useState(null);
+    const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
+    const [copied, setCopied] = useState(false);
 
-    let searchHandler = (e) => {
-        e.preventDefault();
-        setError(''); setReport(null); setLoading(true);
+    const handleSearch = async () => {
+        setReport(null); setError(""); setLoading(true);
+        const token = localStorage.getItem("token");
+        try {
+            const res = await axios.get(`http://localhost:1405/api/kpi-reports/${reportId}`,
+                { headers: { Authorization: "Bearer " + token } });
+            setReport(res.data);
+        } catch (err) {
+            setError("KPI Report not found with ID: " + reportId);
+        } finally {
+            setLoading(false);
+        }
+    };
 
-        // Direct endpoint — calls GET /api/kpi-reports/{id}
-        axios.get(`http://localhost:1405/api/kpi-reports/${id}`)
-            .then((res) => {
-                setReport(res.data);
-                setLoading(false);
-            })
-            .catch((err) => {
-                setError(`Report not found with ID: ${id}`);
-                setLoading(false);
-            });
-    }
+    const copyMetrics = () => {
+        navigator.clipboard.writeText(report.metrics);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+    };
+
+    const kpiColor = (value, min, max) => {
+        if (max !== undefined && max !== null) return value <= max ? "success" : "danger";
+        return value >= min ? "success" : "danger";
+    };
 
     return (
-        <div>
-            <h2>Get KPI Report By ID</h2>
-            <br />
-
-            {error && (
-                <div style={{ background: '#FCEBEB', border: '1px solid #f87171', borderRadius: '8px', padding: '10px 14px', color: '#A32D2D', fontSize: '13px', marginBottom: '16px' }}>
-                    {error}
+        <div className="container mt-4">
+            <div className="card shadow-sm">
+                <div className="card-header bg-primary text-white">
+                    <h4 className="mb-0">Get KPI Report By ID</h4>
                 </div>
-            )}
-
-            <form onSubmit={searchHandler} style={{ display: 'flex', gap: '10px', alignItems: 'flex-end', marginBottom: '24px' }}>
-                <div>
-                    <label style={{ fontSize: '12px', color: '#6b7280', display: 'block', marginBottom: '6px' }}>Report ID</label>
-                    <input
-                        type="number"
-                        placeholder="e.g. 3"
-                        value={id}
-                        onChange={e => setId(e.target.value)}
-                        required
-                        style={{ padding: '8px 12px', border: '1px solid #e5e7eb', borderRadius: '8px', fontSize: '13px', width: '140px' }}
-                    />
-                </div>
-                <button type="submit" disabled={loading}
-                    style={{ padding: '9px 18px', background: '#111827', color: 'white', border: 'none', borderRadius: '8px', fontSize: '13px', cursor: 'pointer' }}>
-                    {loading ? 'Searching...' : 'Search'}
-                </button>
-            </form>
-
-            {report && (
-                <div style={{ background: 'white', border: '1px solid #e5e7eb', borderRadius: '10px', padding: '20px', maxWidth: '500px' }}>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '16px' }}>
-                        <span style={{ fontWeight: 600 }}>Report #{report.reportId}</span>
-                        <span style={{ background: '#E6F1FB', color: '#185FA5', padding: '2px 8px', borderRadius: '20px', fontSize: '11px' }}>{report.scope}</span>
+                <div className="card-body">
+                    <div className="input-group mb-3">
+                        <input type="number" className="form-control" value={reportId}
+                            min={1} onChange={(e) => setReportId(e.target.value)}
+                            placeholder="Enter Report ID" />
+                        <button className="btn btn-primary" onClick={handleSearch} disabled={loading}>
+                            {loading ? (<><span className="spinner-border spinner-border-sm me-2" role="status"></span>Searching...</>) : "Search"}
+                        </button>
                     </div>
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: '10px', marginBottom: '14px' }}>
-                        {[
-                            ['Stock Turnover', report.stockTurnover, report.stockTurnover >= 2],
-                            ['Sales Growth', `${report.salesGrowth}%`, report.salesGrowth >= 0],
-                            ['Shrinkage', `${report.shrinkageRate}%`, report.shrinkageRate <= 5]
-                        ].map(([label, value, ok]) => (
-                            <div key={label} style={{ background: '#f9fafb', borderRadius: '8px', padding: '12px' }}>
-                                <div style={{ fontSize: '11px', color: '#9ca3af', marginBottom: '4px' }}>{label}</div>
-                                <div style={{ fontSize: '18px', fontWeight: 600, color: ok ? '#3B6D11' : '#A32D2D' }}>{value}</div>
+
+                    {error && <div className="alert alert-danger">{error}</div>}
+
+                    {report && (
+                        <div>
+                            <div className="table-responsive">
+                                <table className="table table-bordered table-hover">
+                                    <thead className="table-dark">
+                                        <tr>
+                                            <th>ID</th><th>Scope</th><th>Stock Turnover</th>
+                                            <th>Sales Growth</th><th>Shrinkage</th>
+                                            <th>Generated Date</th><th>Status</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>{report.reportId}</td>
+                                            <td><span className="badge bg-info text-dark">{report.scope}</span></td>
+                                            <td><span className={`badge bg-${kpiColor(report.stockTurnover, 2)}`}>{report.stockTurnover}</span></td>
+                                            <td><span className={`badge bg-${kpiColor(report.salesGrowth, 0)}`}>{report.salesGrowth}%</span></td>
+                                            <td><span className={`badge bg-${kpiColor(report.shrinkageRate, null, 5)}`}>{report.shrinkageRate}%</span></td>
+                                            <td>{report.generatedDate}</td>
+                                            <td><span className={`badge ${report.status === 'ACTIVE' ? 'bg-success' : 'bg-secondary'}`}>{report.status}</span></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
                             </div>
-                        ))}
-                    </div>
-                    <div style={{ fontSize: '12px', color: '#9ca3af' }}>
-                        Period: {report.currentStart} → {report.currentEnd}<br />
-                        Generated: {report.generatedDate} &nbsp;|&nbsp; Status: {report.status}
-                    </div>
-                    {report.metrics && (
-                        <div style={{ marginTop: '12px', padding: '10px', background: '#f9fafb', borderRadius: '8px', fontSize: '12px', color: '#6b7280', fontFamily: 'monospace' }}>
-                            {report.metrics}
+                            <div className="alert alert-light border mt-2">
+                                <small className="text-muted">
+                                    <strong>Period:</strong> {report.currentStart} → {report.currentEnd}
+                                    &nbsp;|&nbsp;
+                                    <strong>Previous:</strong> {report.previousStart} → {report.previousEnd}
+                                </small>
+                            </div>
+                            {report.metrics && (
+                                <div className="mt-3">
+                                    <label className="form-label fw-semibold">Metrics string — copy to use in compliance check</label>
+                                    <div className="input-group">
+                                        <input className="form-control font-monospace" value={report.metrics} readOnly />
+                                        <button className={`btn ${copied ? 'btn-success' : 'btn-outline-secondary'}`} onClick={copyMetrics}>
+                                            {copied ? "✓ Copied!" : "Copy"}
+                                        </button>
+                                    </div>
+                                    <small className="text-muted">Go to Compliance → Run Compliance Check → paste this string</small>
+                                </div>
+                            )}
                         </div>
                     )}
                 </div>
-            )}
+            </div>
         </div>
     );
 }
