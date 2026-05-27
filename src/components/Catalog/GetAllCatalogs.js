@@ -6,7 +6,10 @@ export default function GetAllCatalogs() {
     let [catalogs, setCatalogs] = useState([]);
 
     const fetchCatalogs = () => {
-        axios.get("http://localhost:1405/api/catalogs")
+        let token = localStorage.getItem("token");
+        axios.get("http://localhost:1405/api/catalogs", {
+            headers: { "Authorization": "Bearer " + token }
+        })
             .then((response) => {
                 setCatalogs(response.data);
             })
@@ -24,7 +27,9 @@ export default function GetAllCatalogs() {
         let token = localStorage.getItem("token");
 
         if (window.confirm("Are you sure you want to delete?")) {
-            axios.delete(`http://localhost:1405/api/catalogs/${id}`)
+            axios.delete(`http://localhost:1405/api/catalogs/${id}`, {
+            headers: { "Authorization": "Bearer " + token }
+        })
                 .then(() => {
                     alert("Deleted successfully!");
                     fetchCatalogs();

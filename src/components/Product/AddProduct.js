@@ -28,6 +28,7 @@ export  default function AddProduct(){
                 "status":status
             
         };
+        let token = localStorage.getItem("token");
         axios.post(url, data, {
             headers: { "Authorization": "Bearer " + token }
         }).then((response)=>{
