@@ -7,7 +7,7 @@ export default function GetAllProducts() {
 
     const fetchProducts = () => {
         let token = localStorage.getItem("token");
-        axios.get("http://localhost:1405/api/products/fetchAll", {
+        axios.get("http://localhost:1405/api/products", {
             headers: { "Authorization": "Bearer " + token }
         })
             .then((response) => {
@@ -39,42 +39,64 @@ export default function GetAllProducts() {
     };
 
     return (
-        <div>
-            
-            <table className="table table-border">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Product Name</th>
-                        <th>Category</th>
-                        <th>Price</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {products.map((product) => (
-                        <tr key={product.productId}>
-                            <td>{product.productId}</td>
-                            <td>{product.productName}</td>
-                            <td>{product.category}</td>
-                            <td>{product.price}</td>
-                            <td>{product.status}</td>
-                            <td>
-                                
-                                <button className="btn btn-danger" onClick={() => deleteHandler(product.productId)}>
-                                    Delete
-                                </button>
-                                &nbsp;
-                                
-                                <Link className="btn btn-secondary" to={`/Product/update/${product.productId}`}>
-                                    Edit
-                                </Link>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
+    <div className="container mt-4">
+        <div className="card shadow-sm">
+            <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h4 className="mb-0">All Products</h4>
+                <span className="badge bg-light text-primary">
+                    Total: {products.length}
+                </span>
+            </div>
+            <div className="card-body p-0">
+                <div className="table-responsive">
+                    <table className="table table-striped table-hover mb-0">
+                        <thead className="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Product Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {products.map((product) => (
+                                <tr key={product.productId}>
+                                    <td>{product.productId}</td>
+                                    <td>{product.productName}</td>
+                                    <td>{product.category}</td>
+                                    <td>₹{product.price}</td>
+                                    <td>
+                                        <span className={`badge ${
+                                            product.status === "ACTIVE" ? "bg-success" :
+                                            product.status === "INACTIVE" ? "bg-danger" :
+                                            "bg-secondary"
+                                        }`}>
+                                            {product.status}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <button
+                                            className="btn btn-danger btn-sm me-2"
+                                            onClick={() => deleteHandler(product.productId)}
+                                        >
+                                            Delete
+                                        </button>
+                                        <Link
+                                            className="btn btn-secondary btn-sm"
+                                            to={`/Product/update/${product.productId}`}
+                                        >
+                                            Edit
+                                        </Link>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
-    );
+    </div>
+);
 }

@@ -47,66 +47,87 @@ export default function DeleteCatalog() {
     };
 
     return (
-        <div>
+    <div className="container mt-4">
+        <div className="card shadow-sm">
+            <div className="card-header bg-danger text-white">
+                <h4 className="mb-0">Delete Catalog</h4>
+            </div>
+            <div className="card-body">
 
-            <div className="mb-3">
-            <label className="form-label">Enter Catalog ID: </label>
-            <input className="form-control"
-                type="number"
-                value={searchId}
-                onChange={(e) => setSearchId(e.target.value)}
-                placeholder="Enter catalog ID"
-            />
-
-        </div>
-
-            <button className="btn btn-primary" onClick={searchHandler}>
-                Search
-            </button>
-
-            <br /><br />
-
-
-            {catalogFound && catalog && (
-                <div>
-                    <h3>Catalog Details</h3>
-                    <table className="table table-border">
-                        <thead>
-                            <tr>
-                                <th>Catalog ID</th>
-                                <th>Effective Date</th>
-                                <th>Expiry Date</th>
-                                <th>Status</th>
-                                <th>Product ID</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>{catalog.catalogId}</td>
-                                <td>{catalog.effectiveDate}</td>
-                                <td>{catalog.expiryDate}</td>
-                                <td>{catalog.status}</td>
-                                <td>{catalog.productId}</td>
-                            </tr>
-                        </tbody>
-                    </table>
-
-                    <br />
-
-                    <button
-                        onClick={deleteHandler}
-                        className="btn btn-danger"
-                    >
-                        Delete Catalog
-                    </button>
-                    <button
-                        onClick={() => navigate("/Catalog/getAll")}
-                        className="btn btn-secondary"   
-                    >
-                        Cancel
+                <div className="input-group mb-3">
+                    <input
+                        type="number"
+                        className="form-control"
+                        value={searchId}
+                        onChange={(e) => setSearchId(e.target.value)}
+                        placeholder="Enter Catalog ID"
+                        min={1}
+                    />
+                    <button className="btn btn-primary" onClick={searchHandler}>
+                        Search
                     </button>
                 </div>
-            )}
+
+                {catalogFound && catalog && (
+                    <div>
+                        <h6 className="text-muted mb-2">Catalog Details:</h6>
+                        <div className="table-responsive mb-3">
+                            <table className="table table-bordered table-hover">
+                                <thead className="table-dark">
+                                    <tr>
+                                        <th>Catalog ID</th>
+                                        <th>Effective Date</th>
+                                        <th>Expiry Date</th>
+                                        <th>Status</th>
+                                        <th>Product ID</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{catalog.catalogId}</td>
+                                        <td>{catalog.effectiveDate}</td>
+                                        <td>{catalog.expiryDate}</td>
+                                        <td>
+                                            <span className={`badge ${
+                                                catalog.status === "ACTIVE" ? "bg-success" :
+                                                catalog.status === "INACTIVE" ? "bg-danger" :
+                                                "bg-secondary"
+                                            }`}>
+                                                {catalog.status}
+                                            </span>
+                                        </td>
+                                        <td>{catalog.productId}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        {catalog.status === "INACTIVE" ? (
+                            <div className="alert alert-warning">
+                                ⚠️ This catalog is already inactive!
+                            </div>
+                        ) : (
+                            <div className="d-flex gap-2">
+                                <button
+                                    className="btn btn-danger w-100"
+                                    onClick={deleteHandler}
+                                >
+                                    Delete Catalog
+                                </button>
+                                <button
+                                    className="btn btn-secondary w-100"
+                                    onClick={() => navigate("/Catalog/getAll")}
+                                >
+                                    Cancel
+                                </button>
+                            </div>
+                        )}
+
+                    </div>
+                )}
+
+            </div>
         </div>
-    );
+    </div>
+);
 }

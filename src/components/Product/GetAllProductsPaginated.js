@@ -39,45 +39,99 @@ export default function GetAllProductsPaginated() {
     let goToLast  = () => setPage(totalPages - 1);
 
     return (
-        <div>
-            <p>Total Records: {totalElements}</p>
-
-            <table className="table table-border" cellPadding="10" cellSpacing="0">
-                <thead>
-                    <tr>
-                        <th>Product ID</th>
-                        <th>Product Name</th>
-                        <th>Category</th>
-                        <th>Price</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {products.length === 0 ? (
-                        <tr>
-                            <td colSpan="5">No products found</td>
-                        </tr>
-                    ) : (
-                        products.map((product) => (
-                            <tr key={product.productId}>
-                                <td>{product.productId}</td>
-                                <td>{product.productName}</td>
-                                <td>{product.category}</td>
-                                <td>{product.price}</td>
-                                <td>{product.status}</td>
+    <div className="container mt-4">
+        <div className="card shadow-sm">
+            <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                <h4 className="mb-0">All Products Paginated</h4>
+                <span className="badge bg-light text-primary">
+                    Total: {totalElements} records
+                </span>
+            </div>
+            <div className="card-body p-0">
+                <div className="table-responsive">
+                    <table className="table table-striped table-hover mb-0">
+                        <thead className="table-dark">
+                            <tr>
+                                <th>Product ID</th>
+                                <th>Product Name</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Status</th>
                             </tr>
-                        ))
-                    )}
-                </tbody>
-            </table>
+                        </thead>
+                        <tbody>
+                            {products.length === 0 ? (
+                                <tr>
+                                    <td colSpan="5" className="text-center text-muted py-3">
+                                        No products found
+                                    </td>
+                                </tr>
+                            ) : (
+                                products.map((product) => (
+                                    <tr key={product.productId}>
+                                        <td>{product.productId}</td>
+                                        <td>{product.productName}</td>
+                                        <td>{product.category}</td>
+                                        <td>₹{product.price}</td>
+                                        <td>
+                                            <span className={`badge ${
+                                                product.status === "ACTIVE" ? "bg-success" :
+                                                product.status === "INACTIVE" ? "bg-danger" :
+                                                "bg-secondary"
+                                            }`}>
+                                                {product.status}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))
+                            )}
+                        </tbody>
+                    </table>
+                </div>
 
-            <br />
+                {/* Pagination Controls */}
+                <div className="d-flex justify-content-between align-items-center p-3">
+                    <div className="d-flex gap-2">
+                        <button
+                            className="btn btn-outline-primary btn-sm"
+                            onClick={goToFirst}
+                            disabled={page === 0}
+                        >
+                            « First
+                        </button>
+                        <button
+                            className="btn btn-outline-primary btn-sm"
+                            onClick={goToPrev}
+                            disabled={page === 0}
+                        >
+                            ‹ Prev
+                        </button>
+                    </div>
 
-            <button onClick={goToFirst} disabled={page === 0}>« First</button>
-            <button onClick={goToPrev}  disabled={page === 0}>‹ Prev</button>
-            <span> Page {page + 1} of {totalPages} </span>
-            <button onClick={goToNext}  disabled={page === totalPages - 1}>Next ›</button>
-            <button onClick={goToLast}  disabled={page === totalPages - 1}>Last »</button>
+                    <span className="text-muted">
+                        Page <strong>{page + 1}</strong> of <strong>{totalPages}</strong>
+                    </span>
+
+                    <div className="d-flex gap-2">
+                        <button
+                            className="btn btn-outline-primary btn-sm"
+                            onClick={goToNext}
+                            disabled={page === totalPages - 1}
+                        >
+                            Next ›
+                        </button>
+                        <button
+                            className="btn btn-outline-primary btn-sm"
+                            onClick={goToLast}
+                            disabled={page === totalPages - 1}
+                        >
+                            Last »
+                        </button>
+                    </div>
+                </div>
+
+            </div>
         </div>
-    );
+    </div>
+);
 }

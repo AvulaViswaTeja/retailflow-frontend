@@ -78,91 +78,103 @@ export default function UpdateProduct() {
     };
 
     return (
-        <div>
-           
-            {!id && (
-                <div className="mb-3">
-                    <label className="form-label">Enter Product ID: </label>
-                    <input
-                        type="number"
-                        className="form-control"
-                        value={searchId}
-                        onChange={(e) => setSearchId(e.target.value)}
-                        placeholder="Enter product ID"
-                    />
-                    <br /><br />
-                    <button className="btn btn-primary" onClick={searchHandler}>
-                        Search
-                    </button>
-                    <br /><br />
-                </div>
-            )}
+    <div className="container mt-4">
+        <div className="card shadow-sm">
+            <div className="card-header bg-primary text-white">
+                <h4 className="mb-0">Update Product</h4>
+            </div>
+            <div className="card-body">
 
-            
-            {productFound && (
-                <div>
-                    <div className="mb-3">
-                        <h3>Editing Product ID: {productId}</h3>
+                {/* Search box — only when coming from nav */}
+                {!id && (
+                    <div className="input-group mb-3">
+                        <input
+                            type="number"
+                            className="form-control"
+                            value={searchId}
+                            onChange={(e) => setSearchId(e.target.value)}
+                            placeholder="Enter Product ID"
+                            min={1}
+                        />
+                        <button className="btn btn-primary" onClick={searchHandler}>
+                            Search
+                        </button>
                     </div>
-                    <div className="mb-3">
-                    <label className="form-label">Product Name: </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        value={productName}
-                        onChange={(e) => setProductName(e.target.value)}
-                        placeholder="Enter product name"
-                    />
-                    </div>
-                    
-                    <div className="mb-3">
-                    <label className="form-label">Category: </label>
-                    <input
-                        type="text"
-                        className="form-control"
-                        value={category}
-                        onChange={(e) => setCategory(e.target.value)}
-                        placeholder="Enter category"
-                    />
-                    </div>
+                )}
 
-                    <div className="mb-3">
+                {/* Edit form — shown after product found */}
+                {productFound && (
+                    <div>
+                        <h6 className="text-muted mb-3">Editing Product ID: {productId}</h6>
 
-                    <label className="form-label">Price: </label>
-                    <input
-                        type="number"
-                        className="form-control"
-                        value={price}
-                        onChange={(e) => setPrice(e.target.value)}
-                        placeholder="Enter price"
-                    />
-                    </div>
+                        <div className="row g-3">
+                            <div className="col-md-6">
+                                <label className="form-label">Product Name</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    value={productName}
+                                    onChange={(e) => setProductName(e.target.value)}
+                                    placeholder="Enter product name"
+                                />
+                            </div>
 
-                    <div className="mb-3">
-                        <label className="form-label fw-semibold">Status</label>
-                        <select
-                            className="form-select"
-                            value={status}
-                            onChange={(e) => setStatus(e.target.value)}>
-                            <option value="">-- Select Status --</option>
-                            <option value="ACTIVE">ACTIVE</option>
-                            <option value="INACTIVE">INACTIVE</option>
-                        </select>
-                    </div>
+                            <div className="col-md-6">
+                                <label className="form-label">Category</label>
+                                <input
+                                    type="text"
+                                    className="form-control"
+                                    value={category}
+                                    onChange={(e) => setCategory(e.target.value)}
+                                    placeholder="Enter category"
+                                />
+                            </div>
 
-                    <div className="d-flex gap-2">
-                    <button onClick={updateHandler} className="btn btn-primary">
-                        Update Product
-                    </button>
-                    <button
-                        onClick={() => navigate("/Product/getAll")}
-                        className="btn btn-secondary"
-                    >
-                        Cancel
-                    </button>
+                            <div className="col-md-6">
+                                <label className="form-label">Price</label>
+                                <input
+                                    type="number"
+                                    className="form-control"
+                                    value={price}
+                                    onChange={(e) => setPrice(e.target.value)}
+                                    placeholder="Enter price"
+                                    min={0}
+                                />
+                            </div>
+
+                            <div className="col-md-6">
+                                <label className="form-label">Status</label>
+                                <select
+                                    className="form-select"
+                                    value={status}
+                                    onChange={(e) => setStatus(e.target.value)}
+                                >
+                                    <option value="">-- Select Status --</option>
+                                    <option value="ACTIVE">ACTIVE</option>
+                                    <option value="INACTIVE">INACTIVE</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div className="d-flex gap-2 mt-3">
+                            <button
+                                className="btn btn-success w-100"
+                                onClick={updateHandler}
+                            >
+                                Update Product
+                            </button>
+                            <button
+                                className="btn btn-secondary w-100"
+                                onClick={() => navigate("/Product/getAll")}
+                            >
+                                Cancel
+                            </button>
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
+
+            </div>
         </div>
-    );
+    </div>
+);
 }

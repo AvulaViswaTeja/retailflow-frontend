@@ -30,47 +30,64 @@ export default function GetCatalogById() {
     };
 
     return (
-        <div>
-            <div className="mb-3">
-            <label className="form-label">Enter Catalog ID: </label>
-            <input
-                type="number"
-                className="form-control"
-                value={catalogId}
-                onChange={(e) => setCatalogId(e.target.value)}
-                placeholder="Enter catalog ID"
-            />
+    <div className="container mt-4">
+        <div className="card shadow-sm">
+            <div className="card-header bg-primary text-white">
+                <h4 className="mb-0">Get Catalog By ID</h4>
             </div>
-            <button className="btn btn-primary" onClick={searchHandler}>
-                Search
-            </button>
+            <div className="card-body">
 
-            
-            {error && <p>{error}</p>}
+                <div className="input-group mb-3">
+                    <input
+                        type="number"
+                        className="form-control"
+                        value={catalogId}
+                        onChange={(e) => setCatalogId(e.target.value)}
+                        placeholder="Enter Catalog ID"
+                        min={1}
+                    />
+                    <button className="btn btn-primary" onClick={searchHandler}>
+                        Search
+                    </button>
+                </div>
 
-            
-            {catalog && (
-                <table className="table table-border">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Effective Date</th>
-                            <th>Expiry Date</th>
-                            <th>Status</th>
-                            <th>Product ID</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>{catalog.catalogId}</td>
-                            <td>{catalog.effectiveDate}</td>
-                            <td>{catalog.expiryDate}</td>
-                            <td>{catalog.status}</td>
-                            <td>{catalog.productId}</td>
-                        </tr>
-                    </tbody>
-                </table>
-            )}
+                {error && <div className="alert alert-danger">{error}</div>}
+
+                {catalog && (
+                    <div className="table-responsive">
+                        <table className="table table-bordered table-hover">
+                            <thead className="table-dark">
+                                <tr>
+                                    <th>Catalog ID</th>
+                                    <th>Effective Date</th>
+                                    <th>Expiry Date</th>
+                                    <th>Status</th>
+                                    <th>Product ID</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{catalog.catalogId}</td>
+                                    <td>{catalog.effectiveDate}</td>
+                                    <td>{catalog.expiryDate}</td>
+                                    <td>
+                                        <span className={`badge ${
+                                            catalog.status === "ACTIVE" ? "bg-success" :
+                                            catalog.status === "INACTIVE" ? "bg-danger" :
+                                            "bg-secondary"
+                                        }`}>
+                                            {catalog.status}
+                                        </span>
+                                    </td>
+                                    <td>{catalog.productId}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+
+            </div>
         </div>
-    );
+    </div>
+);
 }

@@ -45,52 +45,79 @@ export default function InsertCatalog() {
     };
 
     return (
-        <div>
-            <div className="mb-3">
-            <label className="form-label">Effective Date</label>
-            <input type="date" className="form-control" value={effectiveDate} onChange={effectiveDateHandler} />
+    <div className="container mt-4">
+        <div className="card shadow-sm">
+            <div className="card-header bg-primary text-white">
+                <h4 className="mb-0">Add Catalog</h4>
             </div>
+            <div className="card-body">
 
+                <div className="mb-3">
+                    <label className="form-label">Effective Date</label>
+                    <input
+                        type="date"
+                        className="form-control"
+                        value={effectiveDate}
+                        onChange={effectiveDateHandler}
+                    />
+                </div>
 
-            <div className="mb-3">
-            <label className="form-label">Expiry Date</label>
-            <input type="date" className="form-control" value={expiryDate} onChange={expiryDateHandler} />
+                <div className="mb-3">
+                    <label className="form-label">Expiry Date</label>
+                    <input
+                        type="date"
+                        className="form-control"
+                        value={expiryDate}
+                        onChange={expiryDateHandler}
+                    />
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">Status</label>
+                    <select
+                        className="form-select"
+                        value={status}
+                        onChange={(e) => setStatus(e.target.value)}
+                    >
+                        <option value="">-- Select Status --</option>
+                        <option value="ACTIVE">ACTIVE</option>
+                        <option value="INACTIVE">INACTIVE</option>
+                    </select>
+                </div>
+
+                <div className="mb-3">
+                    <label className="form-label">Product ID</label>
+                    <input
+                        type="number"
+                        className="form-control"
+                        value={productId}
+                        onChange={productIdHandler}
+                        placeholder="Enter product ID"
+                    />
+                </div>
+
+                <div className="d-flex gap-2">
+                    <button
+                        className="btn btn-primary w-100"
+                        onClick={saveHandler}
+                    >
+                        Add Catalog
+                    </button>
+                    <button
+                        className="btn btn-secondary w-100"
+                        onClick={() => {
+                            setEffectiveDate("");
+                            setExpiryDate("");
+                            setStatus("");
+                            setProductId("");
+                        }}
+                    >
+                        Reset
+                    </button>
+                </div>
+
             </div>
-
-            <div className="mb-3">
-            <label className="form-label fw-semibold">Status</label>
-            <select
-                className="form-select"
-                value={status}
-                onChange={(e) => setStatus(e.target.value)}>
-                <option value="">-- Select Status --</option>
-                    <option value="ACTIVE">ACTIVE</option>
-                    <option value="INACTIVE">INACTIVE</option>
-            </select>
-            </div>
-
-            <div className="mb-3">
-            <label className="form-label">Product ID</label>
-            <input type="number" className="form-control" value={productId} onChange={productIdHandler} />
-            </div>
-
-            <br />
-
-            <div className="d-flex gap-2">
-                <button className="btn btn-primary w-100" onClick={saveHandler}>
-                                    Add Catalog
-                </button>
-                <button className="btn btn-secondary w-100"
-                    onClick={() => {
-                        setEffectiveDate("");
-                        setExpiryDate("");
-                        setStatus("");
-                        setProductId("");
-                    }}>
-                    Reset
-                </button>
-            </div>
-
         </div>
-    );
+    </div>
+);
 }
