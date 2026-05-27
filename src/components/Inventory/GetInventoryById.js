@@ -23,7 +23,6 @@ export default function GetInventoryById() {
         console.error("Error fetching inventory:", error);
         setInventory(null); // Clear out outdated record state on failure
         setHasSearched(true);
-        alert("Inventory ID: #" + inventoryId + " not found (or network error).");
       });
   };
 

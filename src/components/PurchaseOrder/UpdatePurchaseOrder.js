@@ -27,7 +27,7 @@ export default function UpdatePurchaseOrder() {
   let submitHandler = (event) => {
     event.preventDefault(); // Prevents page reload
 
-    let url = `http://localhost:8014/api/purchase-orders/${purchaseOrderId}`;
+    let url = `http://localhost:1405/api/purchase-orders/${purchaseOrderId}`;
     let purchaseorder = {
       expectedDeliveryDate: expectedDeliveryDate,
       orderDate: orderDate,

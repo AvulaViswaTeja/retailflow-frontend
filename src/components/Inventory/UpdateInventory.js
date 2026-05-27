@@ -25,7 +25,7 @@ export default function UpdateInventory() {
   let submitHandler = (event) => {
     event.preventDefault(); // Prevents standard page reload
 
-    let url = "http://localhost:8014/api/inventory/" + inventoryId;
+    let url = "http://localhost:1405/api/inventory/" + inventoryId;
     let inventory = {
       productId: productId,
       locationId: locationId,
