@@ -10,7 +10,7 @@ export default function GetPurchaseOrdersByStatus() {
     let url = "http://localhost:1405/api/purchase-orders/status/" + status;
     axios.get(url, {
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
     })
       .then((response) => {

@@ -10,7 +10,7 @@ const token = localStorage.getItem("token");
     let url = "http://localhost:1405/api/purchase-orders/supplier/" + supplierId;
     axios.get(url, {
       headers: {
-        'Authorization': `Bearer ${token}`
+        'Authorization': `Bearer ${localStorage.getItem('token')}`
       }
     })
       .then((response) => {
