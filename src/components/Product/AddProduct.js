@@ -19,10 +19,6 @@ export  default function AddProduct(){
         setPrice(parseFloat(e.target.value));
     };
 
-    let statusHandler = (e) => {
-        setStatus(e.target.value);
-    };
-
     let saveHandler=()=>{
         let url="http://localhost:1405/api/products";
         let data={
@@ -33,9 +29,7 @@ export  default function AddProduct(){
             
         };
         axios.post(url, data, {
-            headers: {
-                "Authorization": `Bearer ${token}`
-            }
+            headers: { "Authorization": "Bearer " + token }
         }).then((response)=>{
             alert("Product added successfully" + response.data);
         }); 
@@ -43,23 +37,48 @@ export  default function AddProduct(){
 
     return(
         <div>
-            <label>Product Name</label>
-            <input value={productName} onChange={nameHandler}></input>
-            <br></br>
+            <div className="mb-3">
+            <label className="form-label">Product Name</label>
+            <input value={productName} onChange={nameHandler} className="form-control"></input>
+            </div>
 
-            <label>Category</label>
-            <input value={category} onChange={categoryHandler}></input>
-            <br></br>
+            <div className="mb-3">
+            <label className="form-label">Category</label>
+            <input value={category} onChange={categoryHandler} className="form-control"></input>
+            </div>
 
-            <label>Price</label>
-            <input value={price} onChange={priceHandler}></input>
-            <br></br>
+            <div className="mb-3">
+            <label className="form-label">Price</label>
+            <input value={price} onChange={priceHandler} className="form-control"></input>
+            </div>
 
-            <label>Status</label>
-            <input value={status} onChange={statusHandler}></input>
-            <br></br>
+            <div className="mb-3">
+            <label className="form-label fw-semibold">Status</label>
+            <select
+                className="form-select"
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}>
+                <option value="">-- Select Status --</option>
+                    <option value="ACTIVE">ACTIVE</option>
+                    <option value="INACTIVE">INACTIVE</option>
+            </select>
+            </div>
 
-            <button onClick={saveHandler}>Add Product</button>
+            <div className="d-flex gap-2">
+                <button className="btn btn-primary w-100" onClick={saveHandler}>
+                                    Add Product
+                </button>
+                <button className="btn btn-secondary w-100"
+                    onClick={() => {
+                        setProductName("");
+                        setCategory("");
+                        setPrice("");
+                        setStatus("");
+                        
+                    }}>
+                    Reset
+                </button>
+            </div>
         </div>
     );
 } 

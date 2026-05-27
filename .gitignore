@@ -22,5 +22,11 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
-#App.js
+# App.js 
 src/App.js
+
+#Package.json
+src/package.json
+
+#package-lock
+src/package-lock.json

@@ -1,3 +1,4 @@
+
 import axios from "axios";
 import { useState } from "react";
 
@@ -20,6 +21,7 @@ export default function UpdateUser() {
         }
 
         let token = localStorage.getItem("token");
+
 
         axios.get("http://localhost:1405/api/users/" + userId, {
             headers: { "Authorization": "Bearer " + token }
@@ -130,4 +132,6 @@ export default function UpdateUser() {
             )}
         </div>
     );
+
 }
+

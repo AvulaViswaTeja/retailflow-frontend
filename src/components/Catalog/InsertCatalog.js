@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 
-export default function AddCatalog() {
+export default function InsertCatalog() {
     let [effectiveDate, setEffectiveDate] = useState("");
     let [expiryDate, setExpiryDate] = useState("");
     let [status, setStatus] = useState("");
@@ -13,10 +13,6 @@ export default function AddCatalog() {
 
     let expiryDateHandler = (e) => {
         setExpiryDate(e.target.value);
-    };
-
-    let statusHandler = (e) => {
-        setStatus(e.target.value);
     };
 
     let productIdHandler = (e) => {
@@ -31,7 +27,10 @@ export default function AddCatalog() {
             "status": status,
             "productId": productId
         };
-        axios.post(url, data).then((response) => {
+        axios.post(url, data, {
+            headers: { "Authorization": "Bearer " + token }
+        })
+        .then((response) => {
             alert("Catalog added successfully");
             console.log(response.data);
         }).catch((error) => {
@@ -46,23 +45,51 @@ export default function AddCatalog() {
 
     return (
         <div>
-            <label>Effective Date</label>
-            <input type="date" value={effectiveDate} onChange={effectiveDateHandler} />
+            <div className="mb-3">
+            <label className="form-label">Effective Date</label>
+            <input type="date" className="form-control" value={effectiveDate} onChange={effectiveDateHandler} />
+            </div>
+
+
+            <div className="mb-3">
+            <label className="form-label">Expiry Date</label>
+            <input type="date" className="form-control" value={expiryDate} onChange={expiryDateHandler} />
+            </div>
+
+            <div className="mb-3">
+            <label className="form-label fw-semibold">Status</label>
+            <select
+                className="form-select"
+                value={status}
+                onChange={(e) => setStatus(e.target.value)}>
+                <option value="">-- Select Status --</option>
+                    <option value="ACTIVE">ACTIVE</option>
+                    <option value="INACTIVE">INACTIVE</option>
+            </select>
+            </div>
+
+            <div className="mb-3">
+            <label className="form-label">Product ID</label>
+            <input type="number" className="form-control" value={productId} onChange={productIdHandler} />
+            </div>
+
             <br />
 
-            <label>Expiry Date</label>
-            <input type="date" value={expiryDate} onChange={expiryDateHandler} />
-            <br />
+            <div className="d-flex gap-2">
+                <button className="btn btn-primary w-100" onClick={saveHandler}>
+                                    Add Catalog
+                </button>
+                <button className="btn btn-secondary w-100"
+                    onClick={() => {
+                        setEffectiveDate("");
+                        setExpiryDate("");
+                        setStatus("");
+                        setProductId("");
+                    }}>
+                    Reset
+                </button>
+            </div>
 
-            <label>Status</label>
-            <input value={status} onChange={statusHandler} />
-            <br />
-
-            <label>Product ID</label>
-            <input type="number" value={productId} onChange={productIdHandler} />
-            <br />
-
-            <button onClick={saveHandler}>Add Catalog</button>
         </div>
     );
 }
