@@ -1,37 +1,73 @@
 import { Link, Outlet } from "react-router-dom";
+
 export default function SaleHome() {
   return (
     <div>
-      <nav>
-        <ul>
-          <li>
-            <Link to="insert">Insert sale</Link>
-          </li>
-          <li>
-            <Link to="delete">Delete sale</Link>
-          </li>
-          <li>
-            <Link to="update">Update sale</Link>
-          </li>
-          <li>
-            <Link to="getById">Get Sale By Id</Link>
-          </li>
-          <li>
-            <Link to="getAll">Get All Sales</Link>
-          </li>
-          <li>
-            <Link to="getAllPaginated">Get All Sales paginated</Link>
-          </li>
-          <li>
-            <Link to="getSalesByCustomer"> Get Sales by customer</Link>
-          </li>
-          <li>
-            <Link to="getSalesByDateRange"> Get Sales by Date Range</Link>
-          </li>
-          
-        </ul>
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div className="container-fluid">
+
+          <Link className="navbar-brand" to="/Sale">
+            Sale
+          </Link>
+
+          <div className="collapse navbar-collapse">
+            <ul className="navbar-nav">
+
+              <li className="nav-item">
+                <Link className="nav-link" to="insert">
+                  Insert Sale
+                </Link>
+              </li>
+
+              <li className="nav-item">
+                <Link className="nav-link" to="delete">
+                  Delete Sale
+                </Link>
+              </li>
+
+              <li className="nav-item">
+                <Link className="nav-link" to="update">
+                  Update Sale
+                </Link>
+              </li>
+
+              <li className="nav-item">
+                <Link className="nav-link" to="getById">
+                  Get By ID
+                </Link>
+              </li>
+
+              <li className="nav-item">
+                <Link className="nav-link" to="getAll">
+                  Get All Sales
+                </Link>
+              </li>
+
+              <li className="nav-item">
+                <Link className="nav-link" to="getAllPaginated">
+                  Get All Paginated
+                </Link>
+              </li>
+
+              <li className="nav-item">
+                <Link className="nav-link" to="getSalesByCustomer">
+                  By Customer
+                </Link>
+              </li>
+
+              <li className="nav-item">
+                <Link className="nav-link" to="getSalesByDateRange">
+                  By Date Range
+                </Link>
+              </li>
+
+            </ul>
+          </div>
+
+        </div>
       </nav>
-      <Outlet></Outlet>
+
+      <Outlet />
     </div>
   );
 }
