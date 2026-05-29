@@ -5,7 +5,7 @@ import axios from 'axios';
 export default function GetAllPurchaseOrders() {
     let token = localStorage.getItem("token");
     let [POArray, setPOdata] = useState([]);
-
+    let [errorMsg, setErrorMsg] = useState("");
     useEffect(() => {
         let url = "http://localhost:1405/api/purchase-orders";
         axios.get(url, {
@@ -16,12 +16,19 @@ export default function GetAllPurchaseOrders() {
         .then((response) => {
             setPOdata(response.data);
         }).catch((error) => {
-            alert("Error fetching data: " + error);
+            setErrorMsg("Error fetching data: " + (error.response?.data?.message || error.message));
         });
     }, []);
 
     return (
         <div className="container mt-5">
+             {/* Error Message */}
+          {errorMsg && (
+            <div className="alert alert-danger alert-dismissible fade show" role="alert">
+              {errorMsg}
+              <button type="button" className="btn-close" onClick={() => setErrorMsg("")}></button>
+            </div>
+          )}
             {/* Header section with margin-bottom */}
             <div className="d-flex justify-content-between align-items-center mb-4">
                 <h2 className="text-secondary fw-bold">Purchase Orders</h2>

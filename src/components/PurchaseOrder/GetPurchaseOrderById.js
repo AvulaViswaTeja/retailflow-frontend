@@ -6,7 +6,7 @@ export default function GetPurchaseOrderById() {
   const [purchaseOrder, setPurchaseOrder] = useState(null);
   const [hasSearched, setHasSearched] = useState(false); // Manages dynamic placeholder visibility
   const token = localStorage.getItem("token");
-
+ let [errorMsg, setErrorMsg] = useState("");
   const fetchPurchaseOrder = (e) => {
     if (e && e.preventDefault) e.preventDefault(); // Safely intercept form submission
     if (!poId) return;
@@ -25,12 +25,18 @@ export default function GetPurchaseOrderById() {
         console.error("Error fetching purchase order:", error);
         setPurchaseOrder(null); // Clear previous result state on error
         setHasSearched(true);
-        alert("Could not locate Order ID: #" + poId + " (or unauthorized Access)");
+        setErrorMsg("Could not locate Order ID: #" + poId + " (or unauthorized Access)");
       });
   };
 
   return (
     <div className="container mt-5" style={{ maxWidth: '850px' }}>
+      {errorMsg && (
+        <div className="alert alert-danger alert-dismissible fade show" role="alert">
+          {errorMsg}
+          <button type="button" className="btn-close" onClick={() => setErrorMsg("")}></button>
+        </div>
+      )}
       {/* Target Lookup Card Container */}
       <div className="card shadow-sm mb-4">
         <div className="card-header bg-dark text-white p-3">
