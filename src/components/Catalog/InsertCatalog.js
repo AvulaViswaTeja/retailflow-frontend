@@ -89,7 +89,6 @@ export default function InsertCatalog() {
             setModalSuccess(true);
             setModalMessage("Catalog added successfully!");
             setShowModal(true);
-            // ✅ Reset form
             setEffectiveDate("");
             setExpiryDate("");
             setStatus("");
@@ -188,7 +187,7 @@ export default function InsertCatalog() {
                 </div>
             </div>
 
-            {/* ✅ Bootstrap Modal */}
+            
             {showModal && (
                 <>
                     <div

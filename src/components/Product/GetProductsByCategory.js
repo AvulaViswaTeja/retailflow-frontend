@@ -120,7 +120,7 @@ export default function GetProductsByCategory() {
                 </div>
             </div>
 
-            {/* ✅ Error / Validation Modal */}
+            
             {showErrorModal && (
                 <>
                     <div className="modal-backdrop fade show" onClick={() => setShowErrorModal(false)}></div>

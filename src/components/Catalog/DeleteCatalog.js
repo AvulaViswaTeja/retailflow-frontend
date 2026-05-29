@@ -78,7 +78,7 @@ export default function DeleteCatalog() {
                             value={searchId}
                             onChange={(e) => {
                                 setSearchId(e.target.value);
-                                // ✅ Clear catalog data when search field is cleared
+                               
                                 if (!e.target.value) {
                                     setCatalog(null);
                                     setCatalogFound(false);
@@ -152,7 +152,6 @@ export default function DeleteCatalog() {
                 </div>
             </div>
 
-            {/* ✅ Error / Validation Modal */}
             {showErrorModal && (
                 <>
                     <div className="modal-backdrop fade show" onClick={() => setShowErrorModal(false)}></div>
@@ -177,7 +176,7 @@ export default function DeleteCatalog() {
                 </>
             )}
 
-            {/* ✅ Confirm Delete Modal */}
+           
             {showConfirmModal && (
                 <>
                     <div className="modal-backdrop fade show" onClick={() => setShowConfirmModal(false)}></div>
@@ -211,7 +210,7 @@ export default function DeleteCatalog() {
                 </>
             )}
 
-            {/* ✅ Result Modal (success or error) */}
+           
             {showResultModal && (
                 <>
                     <div className="modal-backdrop fade show" onClick={closeResultModal}></div>

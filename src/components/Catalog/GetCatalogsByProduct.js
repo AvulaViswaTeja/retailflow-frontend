@@ -135,7 +135,7 @@ export default function GetCatalogsByProduct() {
                 </div>
             </div>
 
-            {/* ✅ Error / Validation Modal */}
+            
             {showErrorModal && (
                 <>
                     <div

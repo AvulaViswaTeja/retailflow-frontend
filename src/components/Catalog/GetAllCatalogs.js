@@ -23,13 +23,12 @@ export default function GetAllCatalogs() {
         fetchCatalogs();
     }, []);
 
-    // ✅ Open confirm modal instead of window.confirm
+    
     let openConfirmModal = (id) => {
         setSelectedId(id);
         setShowConfirmModal(true);
     };
 
-    // ✅ Called when user clicks Yes in confirm modal
     let deleteHandler = () => {
         let token = localStorage.getItem("token");
         setShowConfirmModal(false);
@@ -41,7 +40,7 @@ export default function GetAllCatalogs() {
             setModalSuccess(true);
             setModalMessage(`Catalog ID: ${selectedId} deleted successfully!`);
             setShowResultModal(true);
-            fetchCatalogs();    // ✅ refresh table
+            fetchCatalogs();    
         })
         .catch(() => {
             setModalSuccess(false);
@@ -89,7 +88,7 @@ export default function GetAllCatalogs() {
                                         </td>
                                         <td>{catalog.productId}</td>
                                         <td>
-                                            {/* ✅ Opens confirm modal */}
+                                           
                                             <button
                                                 className="btn btn-danger btn-sm me-2"
                                                 onClick={() => openConfirmModal(catalog.catalogId)}
@@ -111,7 +110,7 @@ export default function GetAllCatalogs() {
                 </div>
             </div>
 
-            {/* ✅ Confirm Delete Modal */}
+            
             {showConfirmModal && (
                 <>
                     <div
@@ -151,7 +150,7 @@ export default function GetAllCatalogs() {
                 </>
             )}
 
-            {/* ✅ Result Modal (success or error) */}
+            
             {showResultModal && (
                 <>
                     <div

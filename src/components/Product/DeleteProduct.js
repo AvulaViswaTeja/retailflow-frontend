@@ -46,7 +46,6 @@ export default function DeleteProduct() {
         } else {
             setProduct(null);
             setProductFound(false);
-            // ✅ Show as modal instead of inline alert
             showError("No product found with name: " + searchName);
         }
     };
@@ -174,7 +173,7 @@ export default function DeleteProduct() {
                 </div>
             </div>
 
-            {/* ✅ Error / Validation Modal */}
+          
             {showErrorModal && (
                 <>
                     <div className="modal-backdrop fade show" onClick={() => setShowErrorModal(false)}></div>
@@ -199,7 +198,7 @@ export default function DeleteProduct() {
                 </>
             )}
 
-            {/* ✅ Confirm Delete Modal */}
+          
             {showConfirmModal && (
                 <>
                     <div className="modal-backdrop fade show" onClick={() => setShowConfirmModal(false)}></div>
@@ -233,7 +232,7 @@ export default function DeleteProduct() {
                 </>
             )}
 
-            {/* ✅ Result Modal (success or error) */}
+           
             {showResultModal && (
                 <>
                     <div className="modal-backdrop fade show" onClick={closeResultModal}></div>

@@ -54,7 +54,7 @@ export default function AddProduct() {
             return;
         }
 
-        // ✅ Check for duplicate product name (case-insensitive)
+        
         let isDuplicate = products.some(
             (p) => p.productName.toLowerCase() === productName.toLowerCase()
         );
@@ -106,7 +106,7 @@ export default function AddProduct() {
                             onChange={(e) => setProductName(e.target.value)}
                             placeholder="Enter product name"
                         />
-                        {/* ✅ Live duplicate warning while typing */}
+                       
                         {productName && products.some(
                             (p) => p.productName.toLowerCase() === productName.toLowerCase()
                         ) && (
@@ -184,7 +184,7 @@ export default function AddProduct() {
                 </div>
             </div>
 
-            {/* ✅ Bootstrap Modal */}
+           
             {showModal && (
                 <>
                     <div

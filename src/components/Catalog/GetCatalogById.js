@@ -28,7 +28,7 @@ export default function GetCatalogById() {
         })
         .catch(() => {
             setCatalog(null);
-            // ✅ Show as modal instead of inline alert
+            
             showError("Catalog not found with ID: " + catalogId);
         });
     };
@@ -96,7 +96,7 @@ export default function GetCatalogById() {
                 </div>
             </div>
 
-            {/* ✅ Error Modal */}
+         
             {showErrorModal && (
                 <>
                     <div className="modal-backdrop fade show" onClick={() => setShowErrorModal(false)}></div>

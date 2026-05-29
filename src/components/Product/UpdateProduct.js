@@ -146,7 +146,7 @@ export default function UpdateProduct() {
                                 onChange={(e) => {
                                     setSearchName(e.target.value);
                                     setProductFound(false);
-                                    // ✅ Clear form when search field is cleared
+                                    
                                     if (!e.target.value) {
                                         resetForm();
                                     }
@@ -244,7 +244,7 @@ export default function UpdateProduct() {
                 </div>
             </div>
 
-            {/* ✅ Error / Validation Modal */}
+           
             {showErrorModal && (
                 <>
                     <div className="modal-backdrop fade show" onClick={() => setShowErrorModal(false)}></div>
@@ -269,7 +269,7 @@ export default function UpdateProduct() {
                 </>
             )}
 
-            {/* ✅ Result Modal (success or error) */}
+           
             {showResultModal && (
                 <>
                     <div className="modal-backdrop fade show" onClick={closeResultModal}></div>

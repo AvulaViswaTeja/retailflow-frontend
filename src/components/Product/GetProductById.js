@@ -47,7 +47,6 @@ export default function GetProductById() {
                             value={productId}
                             onChange={(e) => {
                                 setProductId(e.target.value);
-                                // ✅ Clear result when input is cleared
                                 if (!e.target.value) {
                                     setProduct(null);
                                 }
@@ -96,7 +95,7 @@ export default function GetProductById() {
                 </div>
             </div>
 
-            {/* ✅ Error / Validation Modal */}
+            
             {showErrorModal && (
                 <>
                     <div className="modal-backdrop fade show" onClick={() => setShowErrorModal(false)}></div>

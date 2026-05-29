@@ -4,10 +4,10 @@ import { Link } from 'react-router-dom';
 
 export default function GetAllProducts() {
     let [products, setProducts] = useState([]);
-    let [showConfirmModal, setShowConfirmModal] = useState(false);  // ✅ confirm modal
-    let [showResultModal, setShowResultModal] = useState(false);    // ✅ result modal
-    let [selectedId, setSelectedId] = useState(null);              // ✅ product to delete
-    let [selectedName, setSelectedName] = useState("");            // ✅ product name
+    let [showConfirmModal, setShowConfirmModal] = useState(false);  
+    let [showResultModal, setShowResultModal] = useState(false);    
+    let [selectedId, setSelectedId] = useState(null);              
+    let [selectedName, setSelectedName] = useState("");            
     let [modalMessage, setModalMessage] = useState("");
     let [modalSuccess, setModalSuccess] = useState(true);
 
@@ -24,14 +24,14 @@ export default function GetAllProducts() {
         fetchProducts();
     }, []);
 
-    // ✅ Open confirm modal instead of window.confirm
+   
     let openConfirmModal = (id, name) => {
         setSelectedId(id);
         setSelectedName(name);
         setShowConfirmModal(true);
     };
 
-    // ✅ Called when user clicks OK in confirm modal
+    
     let deleteHandler = () => {
         let token = localStorage.getItem("token");
         setShowConfirmModal(false);
@@ -43,7 +43,7 @@ export default function GetAllProducts() {
             setModalSuccess(true);
             setModalMessage(`Product "${selectedName}" marked as INACTIVE!`);
             setShowResultModal(true);
-            fetchProducts();    // ✅ refresh table
+            fetchProducts();    
         })
         .catch(() => {
             setModalSuccess(false);
@@ -91,7 +91,7 @@ export default function GetAllProducts() {
                                             </span>
                                         </td>
                                         <td>
-                                            {/* ✅ Opens confirm modal instead of window.confirm */}
+                                           
                                             <button
                                                 className="btn btn-danger btn-sm me-2"
                                                 onClick={() => openConfirmModal(product.productId, product.productName)}
@@ -113,7 +113,7 @@ export default function GetAllProducts() {
                 </div>
             </div>
 
-            {/* ✅ Confirm Delete Modal */}
+            
             {showConfirmModal && (
                 <>
                     <div
@@ -157,7 +157,7 @@ export default function GetAllProducts() {
                 </>
             )}
 
-            {/* ✅ Result Modal (success or error) */}
+            
             {showResultModal && (
                 <>
                     <div

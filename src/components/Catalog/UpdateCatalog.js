@@ -14,7 +14,7 @@ export default function UpdateCatalog() {
     let [status, setStatus] = useState("");
     let [productId, setProductId] = useState("");
 
-    // ✅ Modal states
+    
     let [showErrorModal, setShowErrorModal] = useState(false);
     let [showResultModal, setShowResultModal] = useState(false);
     let [modalMessage, setModalMessage] = useState("");
@@ -101,7 +101,7 @@ export default function UpdateCatalog() {
                 </div>
                 <div className="card-body">
 
-                    {/* Search box — only when coming from nav */}
+                   
                     {!id && (
                         <div className="input-group mb-3">
                             <input
@@ -110,7 +110,7 @@ export default function UpdateCatalog() {
                                 value={searchId}
                                 onChange={(e) => {
                                     setSearchId(e.target.value);
-                                    // ✅ Clear form when search field is cleared
+                                   
                                     if (!e.target.value) {
                                         setCatalogFound(false);
                                         setCatalogId("");
@@ -129,7 +129,7 @@ export default function UpdateCatalog() {
                         </div>
                     )}
 
-                    {/* Edit form — shown after catalog found */}
+                
                     {catalogFound && (
                         <div>
                             <h6 className="text-muted mb-3">Editing Catalog ID: {catalogId}</h6>
@@ -203,7 +203,7 @@ export default function UpdateCatalog() {
                 </div>
             </div>
 
-            {/* ✅ Error / Validation Modal */}
+            
             {showErrorModal && (
                 <>
                     <div className="modal-backdrop fade show" onClick={() => setShowErrorModal(false)}></div>
@@ -228,7 +228,7 @@ export default function UpdateCatalog() {
                 </>
             )}
 
-            {/* ✅ Result Modal (success or error) */}
+           
             {showResultModal && (
                 <>
                     <div className="modal-backdrop fade show" onClick={closeResultModal}></div>
