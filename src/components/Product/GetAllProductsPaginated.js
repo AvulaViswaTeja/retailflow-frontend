@@ -89,7 +89,7 @@ export default function GetAllProductsPaginated() {
                     </table>
                 </div>
 
-                {/* Pagination Controls */}
+                
                 <div className="d-flex justify-content-between align-items-center p-3">
                     <div className="d-flex gap-2">
                         <button
