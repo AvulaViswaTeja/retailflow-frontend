@@ -6,7 +6,9 @@ export default function UpdateProduct() {
     let { id } = useParams();
     let navigate = useNavigate();
 
-    let [searchId, setSearchId] = useState("");
+    let [searchName, setSearchName] = useState("");
+    let [allProducts, setAllProducts] = useState([]);
+    let [categories, setCategories] = useState([]);
     let [productFound, setProductFound] = useState(false);
     let [productId, setProductId] = useState("");
     let [productName, setProductName] = useState("");
@@ -14,48 +16,88 @@ export default function UpdateProduct() {
     let [price, setPrice] = useState("");
     let [status, setStatus] = useState("");
 
+    let [showErrorModal, setShowErrorModal] = useState(false);
+    let [showResultModal, setShowResultModal] = useState(false);
+    let [modalMessage, setModalMessage] = useState("");
+    let [modalSuccess, setModalSuccess] = useState(true);
+
+    useEffect(() => {
+        let token = localStorage.getItem("token");
+        axios.get("http://localhost:1405/api/products", {
+            headers: { "Authorization": "Bearer " + token }
+        })
+        .then((res) => {
+            setAllProducts(res.data);
+            let uniqueCategories = [...new Set(res.data.map((p) => p.category))];
+            setCategories(uniqueCategories);
+        })
+        .catch((err) => {
+            console.error("Failed to load products:", err);
+        });
+    }, []);
 
     useEffect(() => {
         if (id) {
-            fetchProduct(id);
+            fetchProductById(id);
         } else {
-            setProductFound(false);
-            setSearchId("");
-            setProductId("");
-            setProductName("");
-            setCategory("");
-            setPrice("");
-            setStatus("");
+            resetForm();
         }
     }, [id]);
 
-    let fetchProduct = (pid) => {
+    let showError = (message) => {
+        setModalMessage(message);
+        setShowErrorModal(true);
+    };
+
+    let fetchProductById = (pid) => {
         let token = localStorage.getItem("token");
         axios.get("http://localhost:1405/api/products/" + pid, {
             headers: { "Authorization": "Bearer " + token }
         })
-            .then((response) => {
-                let product = response.data;
-                setProductId(product.productId);
-                setProductName(product.productName);
-                setCategory(product.category);
-                setPrice(product.price);
-                setStatus(product.status);
-                setProductFound(true);
-            })
-            .catch(() => {
-                alert("Product not found with ID: " + pid);
-                setProductFound(false);
-            });
+        .then((response) => {
+            fillForm(response.data);
+        })
+        .catch(() => {
+            showError("Product not found with ID: " + pid);
+            setProductFound(false);
+        });
+    };
+
+    let fillForm = (product) => {
+        setProductId(product.productId);
+        setProductName(product.productName);
+        setCategory(product.category);
+        setPrice(product.price);
+        setStatus(product.status);
+        setProductFound(true);
+    };
+
+    let resetForm = () => {
+        setProductFound(false);
+        setSearchName("");
+        setProductId("");
+        setProductName("");
+        setCategory("");
+        setPrice("");
+        setStatus("");
     };
 
     let searchHandler = () => {
-        
-        if (!searchId) {
-            alert("Please enter a Product ID");
+        if (!searchName) {
+            showError("Please enter a product name");
             return;
         }
-        fetchProduct(searchId);
+
+        let found = allProducts.find(
+            (p) => p.productName.toLowerCase() === searchName.toLowerCase()
+        );
+
+        if (found) {
+            fillForm(found);
+        } else {
+            setProductFound(false);
+            showError("No product found with name: " + searchName);
+        }
     };
 
     let updateHandler = () => {
@@ -69,112 +111,194 @@ export default function UpdateProduct() {
             headers: { "Authorization": "Bearer " + token }
         })
         .then(() => {
-            alert("Product updated successfully!");
-            navigate("/Product/getAll");
+            setModalSuccess(true);
+            setModalMessage("Product updated successfully!");
+            setShowResultModal(true);
         })
         .catch((error) => {
-            alert("Update failed: " + (error.response?.data?.message || "Server error"));
+            setModalSuccess(false);
+            setModalMessage("Update failed: " + (error.response?.data?.message || "Server error"));
+            setShowResultModal(true);
         });
     };
 
+    let closeResultModal = () => {
+        setShowResultModal(false);
+        if (modalSuccess) {
+            navigate("/Product/getAll");
+        }
+    };
+
     return (
-    <div className="container mt-4">
-        <div className="card shadow-sm">
-            <div className="card-header bg-primary text-white">
-                <h4 className="mb-0">Update Product</h4>
-            </div>
-            <div className="card-body">
+        <div className="container mt-4">
+            <div className="card shadow-sm">
+                <div className="card-header bg-primary text-white">
+                    <h4 className="mb-0">Update Product</h4>
+                </div>
+                <div className="card-body">
 
-                {/* Search box — only when coming from nav */}
-                {!id && (
-                    <div className="input-group mb-3">
-                        <input
-                            type="number"
-                            className="form-control"
-                            value={searchId}
-                            onChange={(e) => setSearchId(e.target.value)}
-                            placeholder="Enter Product ID"
-                            min={1}
-                        />
-                        <button className="btn btn-primary" onClick={searchHandler}>
-                            Search
-                        </button>
-                    </div>
-                )}
+                    {!id && (
+                        <div className="input-group mb-3">
+                            <input
+                                type="text"
+                                className="form-control"
+                                value={searchName}
+                                onChange={(e) => {
+                                    setSearchName(e.target.value);
+                                    setProductFound(false);
+                                    // ✅ Clear form when search field is cleared
+                                    if (!e.target.value) {
+                                        resetForm();
+                                    }
+                                }}
+                                placeholder="Enter or select product name"
+                                list="productList"
+                            />
+                            <datalist id="productList">
+                                {allProducts.map((p) => (
+                                    <option key={p.productId} value={p.productName} />
+                                ))}
+                            </datalist>
+                            <button className="btn btn-primary" onClick={searchHandler}>
+                                Search
+                            </button>
+                        </div>
+                    )}
 
-                {/* Edit form — shown after product found */}
-                {productFound && (
-                    <div>
-                        <h6 className="text-muted mb-3">Editing Product ID: {productId}</h6>
+                    {productFound && (
+                        <div>
+                            <h6 className="text-muted mb-3">Editing Product ID: {productId}</h6>
 
-                        <div className="row g-3">
-                            <div className="col-md-6">
-                                <label className="form-label">Product Name</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    value={productName}
-                                    onChange={(e) => setProductName(e.target.value)}
-                                    placeholder="Enter product name"
-                                />
+                            <div className="row g-3">
+                                <div className="col-md-6">
+                                    <label className="form-label">Product Name</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        value={productName}
+                                        onChange={(e) => setProductName(e.target.value)}
+                                        placeholder="Enter product name"
+                                    />
+                                </div>
+
+                                <div className="col-md-6">
+                                    <label className="form-label">Category</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        value={category}
+                                        onChange={(e) => setCategory(e.target.value)}
+                                        placeholder="Select or type a category"
+                                        list="categoryList"
+                                    />
+                                    <datalist id="categoryList">
+                                        {categories.map((cat, index) => (
+                                            <option key={index} value={cat} />
+                                        ))}
+                                    </datalist>
+                                </div>
+
+                                <div className="col-md-6">
+                                    <label className="form-label">Price</label>
+                                    <input
+                                        type="number"
+                                        className="form-control"
+                                        value={price}
+                                        onChange={(e) => setPrice(e.target.value)}
+                                        placeholder="Enter price"
+                                        min={0}
+                                    />
+                                </div>
+
+                                <div className="col-md-6">
+                                    <label className="form-label">Status</label>
+                                    <select
+                                        className="form-select"
+                                        value={status}
+                                        onChange={(e) => setStatus(e.target.value)}
+                                    >
+                                        <option value="">-- Select Status --</option>
+                                        <option value="ACTIVE">ACTIVE</option>
+                                        <option value="INACTIVE">INACTIVE</option>
+                                    </select>
+                                </div>
                             </div>
 
-                            <div className="col-md-6">
-                                <label className="form-label">Category</label>
-                                <input
-                                    type="text"
-                                    className="form-control"
-                                    value={category}
-                                    onChange={(e) => setCategory(e.target.value)}
-                                    placeholder="Enter category"
-                                />
-                            </div>
-
-                            <div className="col-md-6">
-                                <label className="form-label">Price</label>
-                                <input
-                                    type="number"
-                                    className="form-control"
-                                    value={price}
-                                    onChange={(e) => setPrice(e.target.value)}
-                                    placeholder="Enter price"
-                                    min={0}
-                                />
-                            </div>
-
-                            <div className="col-md-6">
-                                <label className="form-label">Status</label>
-                                <select
-                                    className="form-select"
-                                    value={status}
-                                    onChange={(e) => setStatus(e.target.value)}
+                            <div className="d-flex gap-2 mt-3">
+                                <button
+                                    className="btn btn-success w-100"
+                                    onClick={updateHandler}
                                 >
-                                    <option value="">-- Select Status --</option>
-                                    <option value="ACTIVE">ACTIVE</option>
-                                    <option value="INACTIVE">INACTIVE</option>
-                                </select>
+                                    Update Product
+                                </button>
+                                <button
+                                    className="btn btn-secondary w-100"
+                                    onClick={() => navigate("/Product/getAll")}
+                                >
+                                    Cancel
+                                </button>
                             </div>
                         </div>
+                    )}
 
-                        <div className="d-flex gap-2 mt-3">
-                            <button
-                                className="btn btn-success w-100"
-                                onClick={updateHandler}
-                            >
-                                Update Product
-                            </button>
-                            <button
-                                className="btn btn-secondary w-100"
-                                onClick={() => navigate("/Product/getAll")}
-                            >
-                                Cancel
-                            </button>
+                </div>
+            </div>
+
+            {/* ✅ Error / Validation Modal */}
+            {showErrorModal && (
+                <>
+                    <div className="modal-backdrop fade show" onClick={() => setShowErrorModal(false)}></div>
+                    <div className="modal fade show d-block" tabIndex="-1">
+                        <div className="modal-dialog modal-dialog-centered">
+                            <div className="modal-content">
+                                <div className="modal-header bg-danger text-white">
+                                    <h5 className="modal-title">❌ Error</h5>
+                                    <button className="btn-close btn-close-white" onClick={() => setShowErrorModal(false)}></button>
+                                </div>
+                                <div className="modal-body">
+                                    <p className="mb-0">{modalMessage}</p>
+                                </div>
+                                <div className="modal-footer">
+                                    <button className="btn btn-danger w-100" onClick={() => setShowErrorModal(false)}>
+                                        OK
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </div>
-                )}
+                </>
+            )}
 
-            </div>
+            {/* ✅ Result Modal (success or error) */}
+            {showResultModal && (
+                <>
+                    <div className="modal-backdrop fade show" onClick={closeResultModal}></div>
+                    <div className="modal fade show d-block" tabIndex="-1">
+                        <div className="modal-dialog modal-dialog-centered">
+                            <div className="modal-content">
+                                <div className={`modal-header ${modalSuccess ? "bg-success" : "bg-danger"} text-white`}>
+                                    <h5 className="modal-title">
+                                        {modalSuccess ? "✅ Success" : "❌ Error"}
+                                    </h5>
+                                    <button className="btn-close btn-close-white" onClick={closeResultModal}></button>
+                                </div>
+                                <div className="modal-body">
+                                    <p className="mb-0">{modalMessage}</p>
+                                </div>
+                                <div className="modal-footer">
+                                    <button
+                                        className={`btn ${modalSuccess ? "btn-success" : "btn-danger"} w-100`}
+                                        onClick={closeResultModal}
+                                    >
+                                        OK
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
+
         </div>
-    </div>
-);
+    );
 }
