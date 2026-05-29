@@ -54,6 +54,11 @@ export default function InventoryHome() {
                                     Get Low Stock
                                 </Link>
                             </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="getallpaginated">
+                                    Get All Inventory Paginated 
+                                </Link>
+                            </li>
 
                         </ul>
                     </div>

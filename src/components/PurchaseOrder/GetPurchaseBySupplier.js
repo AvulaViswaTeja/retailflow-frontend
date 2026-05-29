@@ -6,7 +6,7 @@ export default function GetPurchaseOrdersBySupplier() {
   const [poArr, setPoArr] = useState([]);
   const [hasSearched, setHasSearched] = useState(false); // Manages dynamic placeholder messaging
   const token = localStorage.getItem("token");
-
+ let [errorMsg, setErrorMsg] = useState("");
   const fetchPurchaseOrders = (e) => {
     // If handled inside an HTML form or wrapper, optionally prevent refresh
     if (e && e.preventDefault) e.preventDefault();
@@ -24,13 +24,19 @@ export default function GetPurchaseOrdersBySupplier() {
       })
       .catch((error) => {
         console.error("Error fetching purchase orders:", error);
-        alert("Error pulling supplier records: " + (error.response?.data?.message || error.message));
+        setErrorMsg("Error pulling supplier records: " + (error.response?.data?.message || error.message));
       });
   };
 
   return (
     <div className="container mt-5">
       {/* Search Filter input card container */}
+      {errorMsg && (
+        <div className="alert alert-danger alert-dismissible fade show" role="alert">
+          {errorMsg}
+          <button type="button" className="btn-close" onClick={() => setErrorMsg("")}></button>
+        </div>
+      )}
       <div className="card shadow-sm mb-4">
         <div className="card-header bg-dark text-white p-3">
           <h3 className="mb-0 h5">Filter Purchase Orders by Supplier</h3>

@@ -4,26 +4,27 @@ import axios from "axios";
 
 export default function UpdateInventory() {
   let { inventoryId } = useParams();
+
   let navigate = useNavigate();
   let token = localStorage.getItem("token");
-
-  // State variables for inventory fields
   let [productId, setProductId] = useState("");
+  let [productName, setProductName] = useState("");
   let [locationId, setLocationId] = useState("");
   let [quantityOnHand, setQuantityOnHand] = useState(0);
   let [safetyStock, setSafetyStock] = useState(0);
   let [status, setStatus] = useState("");
 
-  // Handlers
-  let productHandler = (event) => setProductId(event.target.value);
-  let locationHandler = (event) => setLocationId(event.target.value);
-  let quantityHandler = (event) => setQuantityOnHand(event.target.value);
-  let safetyHandler = (event) => setSafetyStock(event.target.value);
-  let statusHandler = (event) => setStatus(event.target.value);
+  let [errorMsg, setErrorMsg] = useState("");
+  let [successMsg, setSuccessMsg] = useState("");
 
-  // Form submit handler
+  let quantityHandler = (event) => setQuantityOnHand(event.target.value);
+  let safetyHandler   = (event) => setSafetyStock(event.target.value);
+  let statusHandler   = (event) => setStatus(event.target.value);
+
   let submitHandler = (event) => {
-    event.preventDefault(); // Prevents standard page reload
+    event.preventDefault();
+    setErrorMsg("");
+    setSuccessMsg("");
 
     let url = "http://localhost:1405/api/inventory/" + inventoryId;
     let inventory = {
@@ -38,16 +39,14 @@ export default function UpdateInventory() {
       headers: { "Authorization": "Bearer " + token }
     })
       .then((response) => {
-        alert("Inventory Updated successfully!");
-        navigate('/Inventory/getAll'); // Redirect after successful update
+        setSuccessMsg("Inventory updated successfully!");
+        setTimeout(() => navigate('/Inventory/getAll'), 1500);
       })
       .catch((error) => {
-        console.error("Error Updating:", error);
-        alert("Failed to update inventory details.");
+        setErrorMsg(error.response?.data?.message || "Failed to update inventory. Please try again.");
       });
   };
 
-  // Load existing inventory by ID
   useEffect(() => {
     let url = "http://localhost:1405/api/inventory/" + inventoryId;
     axios.get(url, {
@@ -55,13 +54,14 @@ export default function UpdateInventory() {
     })
       .then((response) => {
         setProductId(response.data.productId);
+        setProductName(response.data.productName);
         setLocationId(response.data.locationId);
         setQuantityOnHand(response.data.quantityOnHand);
         setSafetyStock(response.data.safetyStock);
         setStatus(response.data.status);
       })
       .catch((err) => {
-        alert("Error fetching data: " + err.message);
+        setErrorMsg("Error fetching inventory details: " + err.message);
       });
   }, [inventoryId]);
 
@@ -74,40 +74,80 @@ export default function UpdateInventory() {
         </div>
 
         <div className="card-body p-4">
+
+          {/* Error Message */}
+          {errorMsg && (
+            <div className="alert alert-danger alert-dismissible fade show" role="alert">
+              {errorMsg}
+              <button type="button" className="btn-close" onClick={() => setErrorMsg("")}></button>
+            </div>
+          )}
+
+          {/* Success Message */}
+          {successMsg && (
+            <div className="alert alert-success fade show" role="alert">
+              {successMsg}
+            </div>
+          )}
+
           <form onSubmit={submitHandler}>
             <div className="row g-3">
-              
-              {/* Product and Location Identifiers */}
+
+              {/* Read-Only Fields */}
               <div className="col-md-6">
-                <label className="form-label fw-semibold">Product ID</label>
-                <input type="text" className="form-control" value={productId} onChange={productHandler} required />
+                <label className="form-label fw-semibold">Product Name</label>
+                <input
+                  type="text"
+                  className="form-control bg-light text-muted"
+                  value={productName}
+                  readOnly
+                />
               </div>
 
               <div className="col-md-6">
                 <label className="form-label fw-semibold">Location ID</label>
-                <input type="text" className="form-control" value={locationId} onChange={locationHandler} required />
+                <input
+                  type="text"
+                  className="form-control bg-light text-muted"
+                  value={locationId}
+                  readOnly
+                />
               </div>
 
-              {/* Quantities */}
+              {/* Editable Fields */}
               <div className="col-md-6">
                 <label className="form-label fw-semibold">Quantity On Hand</label>
-                <input type="number" className="form-control" value={quantityOnHand} onChange={quantityHandler} min="0" required />
+                <input
+                  type="number"
+                  className="form-control"
+                  value={quantityOnHand}
+                  onChange={quantityHandler}
+                  min="0"
+                  required
+                />
               </div>
 
               <div className="col-md-6">
                 <label className="form-label fw-semibold">Safety Stock</label>
-                <input type="number" className="form-control" value={safetyStock} onChange={safetyHandler} min="0" required />
+                <input
+                  type="number"
+                  className="form-control"
+                  value={safetyStock}
+                  onChange={safetyHandler}
+                  min="0"
+                  required
+                />
               </div>
 
-              {/* Inventory Status */}
+              {/* Status */}
               <div className="col-12">
                 <label className="form-label fw-semibold">Status</label>
                 <select className="form-select" value={status} onChange={statusHandler} required>
-                  <option value="" >Select Status</option>
-                  <option value="In Stock">In Stock</option>
-                  <option value="Low Stock">Low Stock</option>
-                  <option value="Out of Stock">Out of Stock</option>
-                  <option value="Discontinued">Discontinued</option>
+                  <option value="">Select Status</option>
+                  <option value="IN_STOCK">In Stock</option>
+                  <option value="LOW_STOCK">Low Stock</option>
+                  <option value="OUT_OF_STOCK">Out of Stock</option>
+                  <option value="DISCONTINUED">Discontinued</option>
                 </select>
               </div>
 

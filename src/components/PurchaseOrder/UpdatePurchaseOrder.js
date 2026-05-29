@@ -7,72 +7,68 @@ export default function UpdatePurchaseOrder() {
   let navigate = useNavigate();
   const token = localStorage.getItem("token");
 
-  // State variables for all fields
-  let [expectedDeliveryDate, setExpectedDeliveryDate] = useState("");
-  let [orderDate, setOrderDate] = useState("");
+  // Read-only states
   let [productId, setProductId] = useState("");
   let [productName, setProductName] = useState("");
-  let [status, setStatus] = useState("");
   let [supplierId, setSupplierId] = useState("");
+  let [orderDate, setOrderDate] = useState("");
 
-  // Handlers
+  // Editable states
+  let [expectedDeliveryDate, setExpectedDeliveryDate] = useState("");
+  let [status, setStatus] = useState("");
+
+  // Error/Success states
+  let [errorMsg, setErrorMsg] = useState("");
+  let [successMsg, setSuccessMsg] = useState("");
+
+  // Handlers (only editable fields)
   let expectedDeliveryHandler = (event) => setExpectedDeliveryDate(event.target.value);
-  let orderDateHandler = (event) => setOrderDate(event.target.value);
-  let productIdHandler = (event) => setProductId(event.target.value);
-  let productNameHandler = (event) => setProductName(event.target.value);
   let statusHandler = (event) => setStatus(event.target.value);
-  let supplierHandler = (event) => setSupplierId(event.target.value);
 
-  // Update form submit handler
+  // Submit handler
   let submitHandler = (event) => {
-    event.preventDefault(); // Prevents page reload
+    event.preventDefault();
+    setErrorMsg("");
+    setSuccessMsg("");
 
     let url = `http://localhost:1405/api/purchase-orders/${purchaseOrderId}`;
     let purchaseorder = {
-      expectedDeliveryDate: expectedDeliveryDate,
-      orderDate: orderDate,
-      productId: parseInt(productId),
-      productName: productName,
       purchaseOrderId: parseInt(purchaseOrderId),
-      status: status,
+      productId: parseInt(productId),
       supplierId: parseInt(supplierId),
+      orderDate: orderDate,
+      expectedDeliveryDate: expectedDeliveryDate,
+      status: status,
     };
 
-    console.log("Sending update:", purchaseorder);
-
     axios.put(url, purchaseorder, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
+      headers: { "Authorization": `Bearer ${token}` }
     })
       .then((response) => {
-        alert("Updated Purchase Order successfully!");
-        navigate('/PurchaseOrder/getAll'); // Redirect after successful update
+        setSuccessMsg("Purchase Order updated successfully!");
+        setTimeout(() => navigate('/PurchaseOrder/getAll'), 1500);
       })
       .catch((error) => {
-        console.error("Error Updating:", error);
-        alert("Failed to update: " + (error.response?.data?.message || error.message));
+        setErrorMsg(error.response?.data?.message || "Failed to update purchase order. Please try again.");
       });
   };
 
-  // Load existing purchase order by ID
+  // Load existing purchase order
   useEffect(() => {
     let url = `http://localhost:1405/api/purchase-orders/${purchaseOrderId}`;
     axios.get(url, {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
+      headers: { "Authorization": `Bearer ${token}` }
     })
       .then((response) => {
-        setExpectedDeliveryDate(response.data.expectedDeliveryDate);
-        setOrderDate(response.data.orderDate);
-        setProductId(response.data.productId);
+       
         setProductName(response.data.productName);
-        setStatus(response.data.status);
         setSupplierId(response.data.supplierId);
+        setOrderDate(response.data.orderDate);
+        setExpectedDeliveryDate(response.data.expectedDeliveryDate);
+        setStatus(response.data.status);
       })
       .catch((err) => {
-        alert("Error fetching purchase order: " + err.message);
+        setErrorMsg("Error fetching purchase order: " + err.message);
       });
   }, [purchaseOrderId]);
 
@@ -83,51 +79,85 @@ export default function UpdatePurchaseOrder() {
           <h3 className="mb-0 h5">Edit Purchase Order</h3>
           <small className="text-white-50">Editing ID: #{purchaseOrderId}</small>
         </div>
-        
+
         <div className="card-body p-4">
+
+          {/* Error Message */}
+          {errorMsg && (
+            <div className="alert alert-danger alert-dismissible fade show" role="alert">
+              {errorMsg}
+              <button type="button" className="btn-close" onClick={() => setErrorMsg("")}></button>
+            </div>
+          )}
+
+          {/* Success Message */}
+          {successMsg && (
+            <div className="alert alert-success fade show" role="alert">
+              {successMsg}
+            </div>
+          )}
+
           <form onSubmit={submitHandler}>
             <div className="row g-3">
-              
-              {/* Product Information Group */}
-              <div className="col-md-4">
-                <label className="form-label fw-semibold">Product ID</label>
-                <input type="number" className="form-control" value={productId} onChange={productIdHandler} required />
-              </div>
-              
+
+            
               <div className="col-md-8">
                 <label className="form-label fw-semibold">Product Name</label>
-                <input type="text" className="form-control" value={productName} onChange={productNameHandler} required />
+                <input
+                  type="text"
+                  className="form-control bg-light text-muted"
+                  value={productName}
+                  readOnly
+                />
               </div>
 
-              {/* Dates Group */}
+              {/* Read-Only: Order Date */}
               <div className="col-md-6">
                 <label className="form-label fw-semibold">Order Date</label>
-                <input type="date" className="form-control" value={orderDate} onChange={orderDateHandler} required />
+                <input
+                  type="text"
+                  className="form-control bg-light text-muted"
+                  value={orderDate}
+                  readOnly
+                />
               </div>
 
-              <div className="col-md-6">
-                <label className="form-label fw-semibold">Expected Delivery Date</label>
-                <input type="date" className="form-control" value={expectedDeliveryDate} onChange={expectedDeliveryHandler} required />
-              </div>
-
-              {/* Metadata Group */}
+              {/* Read-Only: Supplier ID */}
               <div className="col-md-6">
                 <label className="form-label fw-semibold">Supplier ID</label>
-                <input type="number" className="form-control" value={supplierId} onChange={supplierHandler} required />
+                <input
+                  type="text"
+                  className="form-control bg-light text-muted"
+                  value={supplierId}
+                  readOnly
+                />
               </div>
 
+              {/* Editable: Expected Delivery Date */}
+              <div className="col-md-6">
+                <label className="form-label fw-semibold">Expected Delivery Date</label>
+                <input
+                  type="date"
+                  className="form-control"
+                  value={expectedDeliveryDate}
+                  onChange={expectedDeliveryHandler}
+                  required
+                />
+              </div>
+
+              {/* Editable: Status */}
               <div className="col-md-6">
                 <label className="form-label fw-semibold">Status</label>
                 <select className="form-select" value={status} onChange={statusHandler} required>
-                  <option value="" disabled>Select Status</option>
-                  <option value="Pending">Pending</option>
-                  <option value="Processing">Processing</option>
-                  <option value="Completed">Completed</option>
-                  <option value="Cancelled">Cancelled</option>
+                  <option value="">Select Status</option>
+                  <option value="PENDING">Pending</option>
+                  <option value="APPROVED">Approved</option>
+                  <option value="DELIVERED">Delivered</option>
+                  <option value="CANCELLED">Cancelled</option>
                 </select>
               </div>
 
-              {/* Action Buttons */}
+              {/* Actions */}
               <div className="col-12 mt-4 d-flex gap-2 justify-content-end">
                 <button type="button" className="btn btn-outline-secondary" onClick={() => navigate('/PurchaseOrder/getAll')}>
                   Cancel

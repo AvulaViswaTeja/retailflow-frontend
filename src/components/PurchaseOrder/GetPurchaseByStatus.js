@@ -6,7 +6,7 @@ export default function GetPurchaseOrdersByStatus() {
   const [poArr, setPoArr] = useState([]);
   const [hasSearched, setHasSearched] = useState(false); // Helps manage the empty state visibility
   const token = localStorage.getItem("token");
-
+   let [errorMsg, setErrorMsg] = useState("");
   const fetchPurchaseOrders = () => {
     if (!status) return;
     
@@ -22,12 +22,19 @@ export default function GetPurchaseOrdersByStatus() {
       })
       .catch((error) => {
         console.error("Error fetching purchase orders:", error);
-        alert("Error fetching records: " + (error.response?.data?.message || error.message));
+        setErrorMsg("Error fetching records: " + (error.response?.data?.message || error.message));
       });
   };
 
   return (
     <div className="container mt-5">
+        {/* Error Message */}
+      {errorMsg && (
+        <div className="alert alert-danger alert-dismissible fade show" role="alert">
+          {errorMsg}
+          <button type="button" className="btn-close" onClick={() => setErrorMsg("")}></button>
+        </div>
+      )}
       {/* Search Filter Card */}
       <div className="card shadow-sm mb-4">
         <div className="card-header bg-dark text-white p-3">

@@ -48,6 +48,11 @@ export default function PurchaseOrderHome() {
                                     Get By Status
                                 </Link>
                             </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="getallpaginated">
+                                    Get All Paginated
+                                </Link>
+                            </li>
 
                         </ul>
                     </div>
