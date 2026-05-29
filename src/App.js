@@ -110,7 +110,7 @@ import DeleteNotification from './components/Notification/DeleteNotification';
 import GetAllNotifications from './components/Notification/GetAllNotifications';
 import GetNotificationById from './components/Notification/GetNotificationById';
 import InsertNotification from './components/Notification/InsertNotification';
-import MarkAsRead from './components/Notification/MarkAsRead';
+
 
 // Role groups
 const ALL_ROLES        = ["ADMIN","STORE_ASSOCIATE","INVENTORY_MANAGER","FINANCE_OFFICER","COMPLIANCE_OFFICER","STORE_MANAGER"];
@@ -186,7 +186,7 @@ function App() {
                     <Route path="getAllNotifications"    element={<GetAllNotifications />} />
                     <Route path="getNotificationById"   element={<GetNotificationById />} />
                     <Route path="getNotificationByUser" element={<GetNotificationByUser />} />
-                    <Route path="markAsRead"            element={<MarkAsRead />} />
+                    
                 </Route>
 
                 {/* Catalog — all roles */}

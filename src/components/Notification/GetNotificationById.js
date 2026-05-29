@@ -5,12 +5,15 @@ export default function GetNotificationById() {
 
     const [notificationId, setNotificationId] = useState("");
     const [notification, setNotification] = useState(null);
+    const [error, setError] = useState("");
 
     let fetchNotification = (event) => {
         event.preventDefault();
+        setError("");
+        setNotification(null);
 
         if (!notificationId) {
-            alert("Please enter a Notification ID");
+            setError("Please enter a Notification ID");
             return;
         }
 
@@ -24,9 +27,9 @@ export default function GetNotificationById() {
         })
         .catch((err) => {
             if (err.response && err.response.status === 404) {
-                alert("Notification not found with ID: " + notificationId);
+                setError("Notification not found with ID: " + notificationId);
             } else {
-                alert("Error: " + err.message);
+                setError("Error: " + err.message);
             }
             setNotification(null);
         });
@@ -35,6 +38,7 @@ export default function GetNotificationById() {
     let reset = () => {
         setNotificationId("");
         setNotification(null);
+        setError("");
     }
 
     return (
@@ -65,6 +69,14 @@ export default function GetNotificationById() {
                             </button>
                         </div>
                     </form>
+
+                    {/* Error Message — shown below form */}
+                    {error && (
+                        <div className="alert alert-danger alert-dismissible py-2 small mt-3" role="alert">
+                            {error}
+                            <button type="button" className="btn-close" onClick={() => setError("")}></button>
+                        </div>
+                    )}
 
                     {/* Notification Details */}
                     {notification && (

@@ -1,6 +1,8 @@
+import { useNavigate } from "react-router";
 import { Link, Outlet } from "react-router-dom";
 
 export default function NotificationHome() {
+    const navigate = useNavigate();
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -43,12 +45,29 @@ export default function NotificationHome() {
                                 </Link>
                             </li>
 
-                            <li className="nav-item">
-                                <Link className="nav-link" to="markAsRead">
-                                    Mark As Read
-                                </Link>
-                            </li>
+                            
 
+                        </ul>
+
+                        <ul className="navbar-nav ms-auto">
+                            <li className="nav-item">
+                                <button
+                                    className="btn btn-outline-light btn-sm"
+                                    onClick={() => { navigate('/dashboard'); }}
+                                >
+                                    Dashboard
+                                </button>
+                            </li>
+                        </ul>
+                        <ul className="navbar-nav ms-auto">
+                            <li className="nav-item">
+                                <button
+                                    className="btn btn-outline-light btn-sm"
+                                    onClick={() => { localStorage.clear(); navigate('/login'); }}
+                                >
+                                    Logout
+                                </button>
+                            </li>
                         </ul>
                     </div>
 

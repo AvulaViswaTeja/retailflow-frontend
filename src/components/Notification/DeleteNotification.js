@@ -6,12 +6,18 @@ export default function DeleteNotification() {
     const [notificationId, setNotificationId] = useState("");
     const [notification, setNotification] = useState(null);
     const [notificationFound, setNotificationFound] = useState(false);
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
+    const [showConfirm, setShowConfirm] = useState(false);
 
     let fetchNotification = (event) => {
         event.preventDefault();
+        setError("");
+        setSuccess("");
+        setShowConfirm(false);
 
         if (!notificationId) {
-            alert("Please enter a Notification ID");
+            setError("Please enter a Notification ID");
             return;
         }
 
@@ -23,45 +29,41 @@ export default function DeleteNotification() {
         .then((res) => {
             setNotification(res.data);
             setNotificationFound(true);
+            setError("");
         })
         .catch((err) => {
             if (err.response && err.response.status === 404) {
-                alert("Notification not found with ID: " + notificationId);
+                setError("Notification not found with ID: " + notificationId);
             } else {
-                alert("Error: " + err.message);
+                setError("Error: " + err.message);
             }
             setNotification(null);
             setNotificationFound(false);
         });
     }
 
-    let deleteNotification = (event) => {
-        event.preventDefault();
-
-        let confirm = window.confirm(
-            "Are you sure you want to delete this notification?"
-        );
-
-        if (!confirm) return;
-
+    let deleteNotification = () => {
         let token = localStorage.getItem("token");
 
         axios.delete("http://localhost:1405/api/notifications/" + notificationId, {
             headers: { "Authorization": "Bearer " + token }
         })
         .then(() => {
-            alert("Notification deleted successfully!");
+            setSuccess("Notification deleted successfully!");
             setNotificationId("");
             setNotification(null);
             setNotificationFound(false);
+            setShowConfirm(false);
+            setError("");
         })
         .catch((err) => {
             if (err.response) {
-                alert("Error: " + err.response.status
+                setError("Error: " + err.response.status
                     + " - " + JSON.stringify(err.response.data));
             } else {
-                alert("Network error: " + err.message);
+                setError("Network error: " + err.message);
             }
+            setShowConfirm(false);
         });
     }
 
@@ -69,6 +71,9 @@ export default function DeleteNotification() {
         setNotificationId("");
         setNotification(null);
         setNotificationFound(false);
+        setError("");
+        setSuccess("");
+        setShowConfirm(false);
     }
 
     return (
@@ -77,6 +82,22 @@ export default function DeleteNotification() {
                 <div className="card-body">
 
                     <h5 className="card-title mb-4">Delete Notification</h5>
+
+                    {/* Error Message */}
+                    {error && (
+                        <div className="alert alert-danger alert-dismissible py-2 small" role="alert">
+                            {error}
+                            <button type="button" className="btn-close" onClick={() => setError("")}></button>
+                        </div>
+                    )}
+
+                    {/* Success Message */}
+                    {success && (
+                        <div className="alert alert-success alert-dismissible py-2 small" role="alert">
+                            {success}
+                            <button type="button" className="btn-close" onClick={() => setSuccess("")}></button>
+                        </div>
+                    )}
 
                     {/* Search Form */}
                     <form onSubmit={fetchNotification}>
@@ -145,12 +166,36 @@ export default function DeleteNotification() {
                                 </tbody>
                             </table>
 
-                            <button
-                                className="btn btn-danger w-100 mt-2"
-                                onClick={deleteNotification}
-                            >
-                                Delete Notification
-                            </button>
+                            {/* Delete Button — shows confirm box on click */}
+                            {!showConfirm ? (
+                                <button
+                                    className="btn btn-danger w-100 mt-2"
+                                    onClick={() => setShowConfirm(true)}
+                                >
+                                    Delete Notification
+                                </button>
+                            ) : (
+                                // Inline Confirmation Box
+                                <div className="alert alert-warning mt-3 mb-0">
+                                    <p className="mb-2 small fw-semibold">
+                                        Are you sure you want to delete this notification?
+                                    </p>
+                                    <div className="d-flex gap-2">
+                                        <button
+                                            className="btn btn-danger btn-sm"
+                                            onClick={deleteNotification}
+                                        >
+                                            Yes, Delete
+                                        </button>
+                                        <button
+                                            className="btn btn-secondary btn-sm"
+                                            onClick={() => setShowConfirm(false)}
+                                        >
+                                            Cancel
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     )}
 

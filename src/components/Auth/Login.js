@@ -26,12 +26,28 @@ export default function Login() {
             "password": password
         })
         .then((res) => {
-            localStorage.setItem("token", res.data.token);
-            localStorage.setItem("role", res.data.role);
-            localStorage.setItem("userName", res.data.userName);
+            const token    = res.data.token;
+            const role     = res.data.role;
+            const userName = res.data.userName;
 
-            
-            navigate("/dashboard");
+            localStorage.setItem("token",    token);
+            localStorage.setItem("role",     role);
+            localStorage.setItem("userName", userName);
+            localStorage.setItem("email",    email);
+
+            // Fetch userId by calling /api/users/me
+            axios.get("http://localhost:1405/api/users/me", {
+                headers: { "Authorization": "Bearer " + token }
+            })
+            .then((meRes) => {
+                localStorage.setItem("userId", meRes.data.userId);
+            })
+            .catch(() => {
+                // userId not critical — notifications just won't load
+            })
+            .finally(() => {
+                navigate("/dashboard");
+            });
         })
         .catch(() => {
             setError("Invalid email or password. Please try again.");
@@ -79,7 +95,11 @@ export default function Login() {
                             />
                         </div>
 
-                        <button type="submit" className="btn btn-primary w-100" disabled={loading}>
+                        <button
+                            type="submit"
+                            className="btn btn-primary w-100"
+                            disabled={loading}
+                        >
                             {loading ? (
                                 <>
                                     <span className="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
