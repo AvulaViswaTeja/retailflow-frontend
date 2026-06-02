@@ -1,6 +1,7 @@
-import { Link, Outlet, useMatch } from "react-router-dom";
+import { Link, Outlet, useMatch,useNavigate } from "react-router-dom";
 
 export default function PurchaseOrderHome() {
+    const navigate = useNavigate();
     // Detects if the user is sitting directly on the parent route view
     const isExactHome = useMatch("/PurchaseOrder");
 
@@ -9,6 +10,12 @@ export default function PurchaseOrderHome() {
             {/* Dark Styled Responsive Bootstrap Horizontal Navbar */}
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
                 <div className="container-fluid">
+                     <button
+                            className="btn btn-outline-light"
+                            onClick={() => navigate("/dashboard")}
+                        >
+                            ← Dashboard
+                        </button>
                     
                     {/* Brand Heading Title linking back to parent root */}
                     <Link className="navbar-brand fw-bold" to="/PurchaseOrder">
