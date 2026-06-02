@@ -6,6 +6,7 @@ export default function GetAllComplianceReports() {
     const [reports, setReports] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [info, setInfo] = useState(""); // for "no reports found" message
     const navigate = useNavigate();
 
     useEffect(() => { loadReports(); }, []);
@@ -16,6 +17,7 @@ export default function GetAllComplianceReports() {
             const res = await axios.get("http://localhost:1405/api/compliance-reports",
                 { headers: { Authorization: "Bearer " + token } });
             setReports(res.data);
+            if (res.data.length === 0) setInfo("No compliance reports found!");
             setLoading(false);
         } catch (err) {
             setError("Failed to fetch compliance reports");
@@ -31,7 +33,7 @@ export default function GetAllComplianceReports() {
                 { headers: { Authorization: "Bearer " + token } });
             setReports(reports.filter(r => r.reportId !== id));
         } catch (err) {
-            alert("Failed to archive report");
+            setError("Failed to archive report");
         }
     };
 
@@ -49,19 +51,37 @@ export default function GetAllComplianceReports() {
         </div>
     );
 
-    if (error) return <div className="container mt-4"><div className="alert alert-danger">{error}</div></div>;
-
     return (
         <div className="container mt-4">
+            {/* ✅ Toast container for messages */}
+            <div className="toast-container position-fixed top-0 end-0 p-3">
+                {error && (
+                    <div className="toast show bg-danger text-white">
+                        <div className="toast-header bg-danger text-white">
+                            <strong className="me-auto">Error</strong>
+                            <button type="button" className="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+                        </div>
+                        <div className="toast-body">{error}</div>
+                    </div>
+                )}
+                {info && (
+                    <div className="toast show bg-warning text-dark">
+                        <div className="toast-header bg-warning text-dark">
+                            <strong className="me-auto">Info</strong>
+                            <button type="button" className="btn-close" data-bs-dismiss="toast"></button>
+                        </div>
+                        <div className="toast-body">{info}</div>
+                    </div>
+                )}
+            </div>
+
             <div className="card shadow-sm">
                 <div className="card-header bg-success text-white d-flex justify-content-between align-items-center">
                     <h4 className="mb-0">All Compliance Reports</h4>
                     <span className="badge bg-light text-success">Total: {reports.length}</span>
                 </div>
                 <div className="card-body p-0">
-                    {reports.length === 0 ? (
-                        <div className="alert alert-warning m-3">No compliance reports found!</div>
-                    ) : (
+                    {reports.length > 0 && (
                         <div className="table-responsive">
                             <table className="table table-striped table-hover mb-0">
                                 <thead className="table-dark">

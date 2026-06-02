@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 
-export default function DeleteCompilanceReport() {
+export default function DeleteComplianceReport() {
     const [reportId, setReportId] = useState("");
     const [currentReport, setCurrentReport] = useState(null);
     const [message, setMessage] = useState("");
@@ -53,8 +53,27 @@ export default function DeleteCompilanceReport() {
                         <button className="btn btn-primary" onClick={handleSearch}>Search</button>
                     </div>
 
-                    {error   && <div className="alert alert-danger">{error}</div>}
-                    {message && <div className="alert alert-success">{message}</div>}
+                    {/* ✅ Bootstrap Toasts for messages */}
+                    <div className="toast-container position-fixed top-0 end-0 p-3">
+                        {error && (
+                            <div className="toast show bg-danger text-white">
+                                <div className="toast-header bg-danger text-white">
+                                    <strong className="me-auto">Error</strong>
+                                    <button type="button" className="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+                                </div>
+                                <div className="toast-body">{error}</div>
+                            </div>
+                        )}
+                        {message && (
+                            <div className="toast show bg-success text-white">
+                                <div className="toast-header bg-success text-white">
+                                    <strong className="me-auto">Success</strong>
+                                    <button type="button" className="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+                                </div>
+                                <div className="toast-body">{message}</div>
+                            </div>
+                        )}
+                    </div>
 
                     {currentReport && (
                         <div>

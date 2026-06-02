@@ -49,14 +49,34 @@ export default function SaveReport() {
 
     return (
         <div className="container mt-4">
+            {/* ✅ Toast container for messages */}
+            <div className="toast-container position-fixed top-0 end-0 p-3">
+                {error && (
+                    <div className="toast show bg-danger text-white">
+                        <div className="toast-header bg-danger text-white">
+                            <strong className="me-auto">Error</strong>
+                            <button type="button" className="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+                        </div>
+                        <div className="toast-body">{error}</div>
+                    </div>
+                )}
+                {copied && (
+                    <div className="toast show bg-success text-white">
+                        <div className="toast-header bg-success text-white">
+                            <strong className="me-auto">Copied</strong>
+                            <button type="button" className="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+                        </div>
+                        <div className="toast-body">Metrics string copied to clipboard!</div>
+                    </div>
+                )}
+            </div>
+
             <div className="card shadow-sm">
                 <div className="card-header bg-primary text-white">
                     <h4 className="mb-0">Generate KPI Report</h4>
                 </div>
                 <div className="card-body">
                     <p className="text-muted mb-3">System computes KPIs from actual sales and inventory data</p>
-
-                    {error && <div className="alert alert-danger">{error}</div>}
 
                     <div className="mb-3">
                         <label className="form-label">Scope</label>

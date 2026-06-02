@@ -1,60 +1,65 @@
-import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
 
 export default function KPIReportHome() {
     const navigate = useNavigate();
     const location = useLocation();
     const isHome = location.pathname.replace(/\/$/, '') === '/kpireport';
 
-    const navItems = [
-        { to: 'savereport',     label: 'Generate Report'  },
-        { to: 'getAll',         label: 'All Reports'       },
-        { to: 'getById',        label: 'Get By ID'         },
-        { to: 'getPaginated',   label: 'Paginated'         },
-        { to: 'getLatest',      label: 'Latest By Scope'   },
-        { to: 'GetByDateRange', label: 'By Date Range'     },
-        { to: 'getTrend',       label: 'Trend Analysis'    },
-        { to: 'getAll',         label: 'Update'            },
-        { to: 'delete',         label: 'Archive'           },
-    ];
-
     return (
         <div>
             {/* Navbar */}
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+                <div className="container-fluid">
 
-                {/* Dashboard button — left */}
-                <button
-                    className="btn btn-outline-light btn-sm me-3"
-                    onClick={() => navigate('/dashboard')}>
-                    ← Dashboard
-                </button>
+                    {/* Brand */}
+                    <Link className="navbar-brand fw-semibold" to="/kpireport">
+                        KPI Reports
+                    </Link>
 
-                {/* Brand */}
-                <span
-                    className="navbar-brand fw-semibold"
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => navigate('/kpireport')}>
-                    KPI Reports
-                </span>
+                    <button className="navbar-toggler" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#kpiNav">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
 
-                <button className="navbar-toggler" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#kpiNav">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-
-                <div className="collapse navbar-collapse" id="kpiNav">
-                    <ul className="navbar-nav me-auto">
-                        {navItems.map((item, i) => (
-                            <li className="nav-item" key={i}>
-                                <span
-                                    className="nav-link text-white-50"
-                                    style={{ cursor: 'pointer' }}
-                                    onClick={() => navigate(`/kpireport/${item.to}`)}>
-                                    {item.label}
-                                </span>
+                    <div className="collapse navbar-collapse" id="kpiNav">
+                        <ul className="navbar-nav me-auto">
+                            <li className="nav-item">
+                                <Link className="nav-link" to="savereport">Generate Report</Link>
                             </li>
-                        ))}
-                    </ul>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="getAll">All Reports</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="getById">Get By ID</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="getPaginated">Paginated</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="getLatest">Latest By Scope</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="GetByDateRange">By Date Range</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="getTrend">Trend Analysis</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="getAll">Update</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="delete">Archive</Link>
+                            </li>
+                        </ul>
+
+                        {/* Dashboard button — right */}
+                        <button
+                            className="btn btn-outline-light"
+                            onClick={() => navigate("/dashboard")}
+                        >
+                            ← Dashboard
+                        </button>
+                    </div>
                 </div>
             </nav>
 

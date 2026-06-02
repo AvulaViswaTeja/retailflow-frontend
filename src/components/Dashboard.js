@@ -141,9 +141,12 @@ export default function Dashboard() {
                 <div className="d-flex gap-2 align-items-center">
 
                     {/* Compliance health badge */}
+                    {/*
                     {allowed.includes('compliance') && (
                         <span className={`badge bg-${healthBadge} fs-6`}>{health}</span>
                     )}
+                    */}
+
 
                     {/* ── Notification Bell ── */}
                     <div className="position-relative">
@@ -244,6 +247,7 @@ export default function Dashboard() {
             <hr />
 
             {/* ── Compliance alerts ── */}
+            {/*
             {allowed.includes('compliance') && alerts.map(r => (
                 <div key={r.reportId}
                     className={`alert alert-${r.status === 'FAIL' ? 'danger' : 'warning'} d-flex align-items-start gap-2 mb-2`}>
@@ -254,6 +258,7 @@ export default function Dashboard() {
                     </div>
                 </div>
             ))}
+            */}
 
             {/* ── Store Manager / Admin summary cards ── */}
             {(role === 'STORE_MANAGER' || role === 'ADMIN') && (
