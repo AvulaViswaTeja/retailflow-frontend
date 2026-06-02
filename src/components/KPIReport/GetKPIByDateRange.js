@@ -7,15 +7,19 @@ export default function GetKPIByDateRange() {
     const [reports, setReports] = useState([]);
     const [error, setError] = useState("");
     const [searched, setSearched] = useState(false);
+    const [info, setInfo] = useState("");
 
     const handleSearch = async () => {
-        setSearched(true); setReports([]); setError("");
+        setSearched(true); setReports([]); setError(""); setInfo("");
         const token = localStorage.getItem("token");
         try {
             const res = await axios.get("http://localhost:1405/api/kpi-reports/date-range",
                 { params: { start: startDate, end: endDate },
                   headers: { Authorization: "Bearer " + token } });
             setReports(res.data);
+            if (res.data.length === 0) {
+                setInfo(`No KPI reports found between ${startDate} and ${endDate}`);
+            }
         } catch (err) {
             setError(err.response?.data?.message || "Something went wrong");
         }
@@ -28,6 +32,28 @@ export default function GetKPIByDateRange() {
 
     return (
         <div className="container mt-4">
+            {/* ✅ Toast container for messages */}
+            <div className="toast-container position-fixed top-0 end-0 p-3">
+                {error && (
+                    <div className="toast show bg-danger text-white">
+                        <div className="toast-header bg-danger text-white">
+                            <strong className="me-auto">Error</strong>
+                            <button type="button" className="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+                        </div>
+                        <div className="toast-body">{error}</div>
+                    </div>
+                )}
+                {info && (
+                    <div className="toast show bg-warning text-dark">
+                        <div className="toast-header bg-warning text-dark">
+                            <strong className="me-auto">Info</strong>
+                            <button type="button" className="btn-close" data-bs-dismiss="toast"></button>
+                        </div>
+                        <div className="toast-body">{info}</div>
+                    </div>
+                )}
+            </div>
+
             <div className="card shadow-sm">
                 <div className="card-header bg-primary text-white">
                     <h4 className="mb-0">Get KPI Reports By Date Range</h4>
@@ -48,11 +74,6 @@ export default function GetKPIByDateRange() {
                             <button className="btn btn-primary w-100" onClick={handleSearch}>Search</button>
                         </div>
                     </div>
-
-                    {error && <div className="alert alert-danger">{error}</div>}
-                    {searched && reports.length === 0 && !error && (
-                        <div className="alert alert-warning">No KPI reports found between {startDate} and {endDate}</div>
-                    )}
 
                     {reports.length > 0 && (
                         <>

@@ -6,9 +6,10 @@ export default function DeleteKPIReport() {
     const [currentReport, setCurrentReport] = useState(null);
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
+    const [info, setInfo] = useState("");
 
     const handleSearch = async () => {
-        setMessage(""); setError(""); setCurrentReport(null);
+        setMessage(""); setError(""); setInfo(""); setCurrentReport(null);
         const token = localStorage.getItem("token");
         try {
             const res = await axios.get(`http://localhost:1405/api/kpi-reports/${reportId}`,
@@ -20,7 +21,7 @@ export default function DeleteKPIReport() {
     };
 
     const handleDelete = async () => {
-        setMessage(""); setError("");
+        setMessage(""); setError(""); setInfo("");
         const token = localStorage.getItem("token");
         try {
             await axios.delete(`http://localhost:1405/api/kpi-reports/${reportId}`,
@@ -39,6 +40,37 @@ export default function DeleteKPIReport() {
 
     return (
         <div className="container mt-4">
+            {/* ✅ Toast container for messages */}
+            <div className="toast-container position-fixed top-0 end-0 p-3">
+                {error && (
+                    <div className="toast show bg-danger text-white">
+                        <div className="toast-header bg-danger text-white">
+                            <strong className="me-auto">Error</strong>
+                            <button type="button" className="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+                        </div>
+                        <div className="toast-body">{error}</div>
+                    </div>
+                )}
+                {message && (
+                    <div className="toast show bg-success text-white">
+                        <div className="toast-header bg-success text-white">
+                            <strong className="me-auto">Success</strong>
+                            <button type="button" className="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+                        </div>
+                        <div className="toast-body">{message}</div>
+                    </div>
+                )}
+                {info && (
+                    <div className="toast show bg-warning text-dark">
+                        <div className="toast-header bg-warning text-dark">
+                            <strong className="me-auto">Info</strong>
+                            <button type="button" className="btn-close" data-bs-dismiss="toast"></button>
+                        </div>
+                        <div className="toast-body">{info}</div>
+                    </div>
+                )}
+            </div>
+
             <div className="card shadow-sm">
                 <div className="card-header bg-danger text-white">
                     <h4 className="mb-0">Archive KPI Report</h4>
@@ -49,9 +81,6 @@ export default function DeleteKPIReport() {
                             onChange={(e) => setReportId(e.target.value)} placeholder="Enter Report ID" min={1} />
                         <button className="btn btn-primary" onClick={handleSearch}>Search</button>
                     </div>
-
-                    {error   && <div className="alert alert-danger">{error}</div>}
-                    {message && <div className="alert alert-success">{message}</div>}
 
                     {currentReport && (
                         <div>
@@ -78,7 +107,7 @@ export default function DeleteKPIReport() {
                                 </table>
                             </div>
                             {currentReport.status === "ARCHIVED" ? (
-                                <div className="alert alert-warning">⚠️ This report is already archived!</div>
+                                setInfo("⚠️ This report is already archived!")
                             ) : (
                                 <button className="btn btn-danger w-100" onClick={handleDelete}>Archive Report</button>
                             )}
