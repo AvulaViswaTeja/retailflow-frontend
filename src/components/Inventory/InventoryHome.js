@@ -1,9 +1,7 @@
 import { Link, Outlet, useMatch } from "react-router-dom";
 
 export default function InventoryHome() {
-    // Detects if the user is sitting directly on the root inventory route view
-    const isExactHome = useMatch("/Inventory"); // Adjust path to match your exact parent route string
-
+    const isExactHome = useMatch("/Inventory"); 
     return (
         <div>
             {/* Dark Styled Responsive Bootstrap Horizontal Navbar */}
