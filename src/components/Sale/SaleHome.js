@@ -51,13 +51,13 @@ export default function SaleHome() {
 
               <li className="nav-item">
                 <Link className="nav-link" to="getSalesByCustomer">
-                  By Customer
+                  Get By Customer
                 </Link>
               </li>
 
               <li className="nav-item">
                 <Link className="nav-link" to="getSalesByDateRange">
-                  By Date Range
+                  Get By Date Range
                 </Link>
               </li>
 
