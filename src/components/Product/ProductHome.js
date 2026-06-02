@@ -1,7 +1,9 @@
 import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { useState } from 'react';
 
 export default function ProductHome() {
     const navigate = useNavigate();
+    const [isOpen, setIsOpen] = useState(false); 
 
     return (
         <div>
@@ -12,66 +14,54 @@ export default function ProductHome() {
                         Product
                     </Link>
 
-                    <div className="collapse navbar-collapse">
+                    <button
+                        className="navbar-toggler"
+                        type="button"
+                        onClick={() => setIsOpen(!isOpen)}
+                        aria-label="Toggle navigation"
+                    >
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div className={`collapse navbar-collapse ${isOpen ? "show" : ""}`}>
                         <ul className="navbar-nav me-auto">
 
                             <li className="nav-item">
-                                <Link className="nav-link" to="add">
-                                    Add Product
-                                </Link>
+                                <Link className="nav-link" to="add" onClick={() => setIsOpen(false)}>Add Product</Link>
                             </li>
-
                             <li className="nav-item">
-                                <Link className="nav-link" to="delete">
-                                    Delete Product
-                                </Link>
+                                <Link className="nav-link" to="delete" onClick={() => setIsOpen(false)}>Delete Product</Link>
                             </li>
-
                             <li className="nav-item">
-                                <Link className="nav-link" to="update">
-                                    Update Product
-                                </Link>
+                                <Link className="nav-link" to="update" onClick={() => setIsOpen(false)}>Update Product</Link>
                             </li>
-
                             <li className="nav-item">
-                                <Link className="nav-link" to="getById">
-                                    Get Product By Id
-                                </Link>
+                                <Link className="nav-link" to="getById" onClick={() => setIsOpen(false)}>Get Product By Id</Link>
                             </li>
-
                             <li className="nav-item">
-                                <Link className="nav-link" to="getProductsByCategory">
-                                    Get Products By Category
-                                </Link>
+                                <Link className="nav-link" to="getProductsByCategory" onClick={() => setIsOpen(false)}>Get Products By Category</Link>
                             </li>
-
                             <li className="nav-item">
-                                <Link className="nav-link" to="getAll">
-                                    Get All Products
-                                </Link>
+                                <Link className="nav-link" to="getAll" onClick={() => setIsOpen(false)}>Get All Products</Link>
                             </li>
-
                             <li className="nav-item">
-                                <Link className="nav-link" to="getAllProductsPaginated">
-                                    Get All Products Paginated
-                                </Link>
+                                <Link className="nav-link" to="getAllProductsPaginated" onClick={() => setIsOpen(false)}>Get All Products Paginated</Link>
                             </li>
 
                         </ul>
 
-                        
                         <button
                             className="btn btn-outline-light"
                             onClick={() => navigate("/dashboard")}
                         >
                             ← Dashboard
                         </button>
-
                     </div>
+
                 </div>
             </nav>
 
             <Outlet />
         </div>
     );
-} 
+}
