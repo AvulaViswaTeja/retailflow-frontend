@@ -1,13 +1,25 @@
 import axios from "axios";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function InsertSale() {
+  const [products, setProducts] = useState([]);
   const [productId, setProductId] = useState("");
   const [customerId, setCustomerId] = useState("");
   const [quantity, setQuantity] = useState("");
   const [status, setStatus] = useState("COMPLETED");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+
+ useEffect(()=>{
+  let token = localStorage.getItem("token");
+  axios.get("http://localhost:1405/api/products",{
+    headers:{"Authorization":"Bearer "+token}
+  }).then((res)=>{
+    setProducts(res.data);
+  }).catch((err)=>{
+    setError("Failed to load products");
+  })
+ },[])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -60,16 +72,20 @@ export default function InsertSale() {
 
           <form onSubmit={handleSubmit}>
             <div className="mb-3">
-              <label className="form-label">Product ID</label>
-              <input
-                type="number"
-                className="form-control"
-                min={1}
+              <label className="form-label">Product</label>
+              <select
+                className="form-select"
                 value={productId}
                 onChange={(e) => setProductId(e.target.value)}
-                placeholder="Enter Product ID"
                 required
-              />
+              >
+                <option value="">-- Select Product --</option>
+                {products.map((product) => (
+                  <option key={product.productId} value={product.productId}>
+                    {product.productName} — ₹{product.price} ({product.category})
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="mb-3">
