@@ -49,6 +49,7 @@ export default function NotificationHome() {
 
                         </ul>
 
+                        
                         <ul className="navbar-nav ms-auto">
                             <li className="nav-item">
                                 <button
@@ -58,8 +59,6 @@ export default function NotificationHome() {
                                     Dashboard
                                 </button>
                             </li>
-                        </ul>
-                        <ul className="navbar-nav ms-auto">
                             <li className="nav-item">
                                 <button
                                     className="btn btn-outline-light btn-sm"
