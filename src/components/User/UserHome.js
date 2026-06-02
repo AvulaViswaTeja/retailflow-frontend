@@ -10,8 +10,16 @@ export default function UserHome() {
                     <Link className="navbar-brand" to="/user">
                         User
                     </Link>
+                    <button
+                        className="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#userNavbar"
+                    >
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
 
-                    <div className="collapse navbar-collapse">
+                    <div className="collapse navbar-collapse" id="userNavbar">
                         <ul className="navbar-nav">
 
                             <li className="nav-item">
