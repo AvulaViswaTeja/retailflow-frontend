@@ -1,6 +1,8 @@
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 
 export default function InvoiceHome() {
+  const navigate = useNavigate();
+
   return (
     <div>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -10,8 +12,18 @@ export default function InvoiceHome() {
             Invoice
           </Link>
 
-          <div className="collapse navbar-collapse">
-            <ul className="navbar-nav">
+          {/* Toggle button for mobile */}
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#invoiceNavbar"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          <div className="collapse navbar-collapse" id="invoiceNavbar">
+            <ul className="navbar-nav me-auto">
 
               <li className="nav-item">
                 <Link className="nav-link" to="insert">
@@ -62,8 +74,16 @@ export default function InvoiceHome() {
               </li>
 
             </ul>
-          </div>
 
+            {/* Dashboard button on right */}
+            <button
+              onClick={() => navigate('/dashboard')}
+              className="btn btn-outline-light btn-sm"
+            >
+              ← Dashboard
+            </button>
+
+          </div>
         </div>
       </nav>
 

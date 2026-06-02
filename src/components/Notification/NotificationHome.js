@@ -11,8 +11,16 @@ export default function NotificationHome() {
                     <Link className="navbar-brand" to="/notification">
                         Notification
                     </Link>
+                    <button
+                        className="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#notificationNavbar"
+                    >
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
 
-                    <div className="collapse navbar-collapse">
+                    <div className="collapse navbar-collapse" id="notificationNavbar">
                         <ul className="navbar-nav">
 
                             <li className="nav-item">
@@ -49,6 +57,7 @@ export default function NotificationHome() {
 
                         </ul>
 
+                        
                         <ul className="navbar-nav ms-auto">
                             <li className="nav-item">
                                 <button
@@ -58,8 +67,6 @@ export default function NotificationHome() {
                                     Dashboard
                                 </button>
                             </li>
-                        </ul>
-                        <ul className="navbar-nav ms-auto">
                             <li className="nav-item">
                                 <button
                                     className="btn btn-outline-light btn-sm"
