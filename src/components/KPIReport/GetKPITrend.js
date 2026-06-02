@@ -7,10 +7,11 @@ export default function GetKPITrend() {
     const [days, setDays] = useState(30);
     const [reports, setReports] = useState([]);
     const [error, setError] = useState("");
+    const [info, setInfo] = useState("");
     const [searched, setSearched] = useState(false);
 
     const handleSearch = async () => {
-        setSearched(true); setReports([]); setError("");
+        setSearched(true); setReports([]); setError(""); setInfo("");
         const token = localStorage.getItem("token");
         try {
             const res = await axios.get(
@@ -18,6 +19,9 @@ export default function GetKPITrend() {
                 { params: { lastXDays: days },
                   headers: { Authorization: "Bearer " + token } });
             setReports(res.data);
+            if (res.data.length === 0) {
+                setInfo(`No trend data found for ${scope} in last ${days} days`);
+            }
         } catch (err) {
             setError("Failed to fetch trend data");
         }
@@ -32,6 +36,28 @@ export default function GetKPITrend() {
 
     return (
         <div className="container mt-4">
+            {/* ✅ Toast container for messages */}
+            <div className="toast-container position-fixed top-0 end-0 p-3">
+                {error && (
+                    <div className="toast show bg-danger text-white">
+                        <div className="toast-header bg-danger text-white">
+                            <strong className="me-auto">Error</strong>
+                            <button type="button" className="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+                        </div>
+                        <div className="toast-body">{error}</div>
+                    </div>
+                )}
+                {info && (
+                    <div className="toast show bg-warning text-dark">
+                        <div className="toast-header bg-warning text-dark">
+                            <strong className="me-auto">Info</strong>
+                            <button type="button" className="btn-close" data-bs-dismiss="toast"></button>
+                        </div>
+                        <div className="toast-body">{info}</div>
+                    </div>
+                )}
+            </div>
+
             <div className="card shadow-sm">
                 <div className="card-header bg-primary text-white">
                     <h4 className="mb-0">KPI Trend Analysis</h4>
@@ -57,11 +83,6 @@ export default function GetKPITrend() {
                             <button className="btn btn-primary w-100" onClick={handleSearch}>Get Trend</button>
                         </div>
                     </div>
-
-                    {error && <div className="alert alert-danger">{error}</div>}
-                    {searched && reports.length === 0 && !error && (
-                        <div className="alert alert-warning">No trend data found for {scope} in last {days} days</div>
-                    )}
 
                     {reports.length > 0 && (
                         <>

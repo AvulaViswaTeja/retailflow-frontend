@@ -1,57 +1,56 @@
-import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { Link, Outlet, useNavigate, useLocation } from 'react-router-dom';
 
-export default function CompilanceReportHome() {
+export default function ComplianceReportHome() {
     const navigate = useNavigate();
     const location = useLocation();
     const isHome = location.pathname.replace(/\/$/, '') === '/compliance';
-
-    const navItems = [
-        { to: 'insert',       label: 'Run Compliance Check' },
-        { to: 'getAll',       label: 'All Reports'          },
-        { to: 'getById',      label: 'Get By ID'            },
-        { to: 'getPaginated', label: 'Paginated'            },
-        { to: 'getAll',       label: 'Update'               },
-        { to: 'delete',       label: 'Archive'              },
-    ];
 
     return (
         <div>
             {/* Navbar */}
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark px-3">
+                <div className="container-fluid">
 
-                {/* Dashboard button — left */}
-                <button
-                    className="btn btn-outline-light btn-sm me-3"
-                    onClick={() => navigate('/dashboard')}>
-                    ← Dashboard
-                </button>
+                    {/* Brand */}
+                    <Link className="navbar-brand fw-semibold" to="/compliance">
+                        Compliance & Audit
+                    </Link>
 
-                {/* Brand */}
-                <span
-                    className="navbar-brand fw-semibold"
-                    style={{ cursor: 'pointer' }}
-                    onClick={() => navigate('/compliance')}>
-                    Compliance & Audit
-                </span>
+                    <button className="navbar-toggler" type="button"
+                        data-bs-toggle="collapse" data-bs-target="#compNav">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
 
-                <button className="navbar-toggler" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#compNav">
-                    <span className="navbar-toggler-icon"></span>
-                </button>
-
-                <div className="collapse navbar-collapse" id="compNav">
-                    <ul className="navbar-nav me-auto">
-                        {navItems.map((item, i) => (
-                            <li className="nav-item" key={i}>
-                                <span
-                                    className="nav-link text-white-50"
-                                    style={{ cursor: 'pointer' }}
-                                    onClick={() => navigate(`/compliance/${item.to}`)}>
-                                    {item.label}
-                                </span>
+                    <div className="collapse navbar-collapse" id="compNav">
+                        <ul className="navbar-nav me-auto">
+                            <li className="nav-item">
+                                <Link className="nav-link" to="insert">Run Compliance Check</Link>
                             </li>
-                        ))}
-                    </ul>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="getAll">All Reports</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="getById">Get By ID</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="getPaginated">Paginated</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="getAll">Update</Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to="delete">Archive</Link>
+                            </li>
+                        </ul>
+
+                        {/* Dashboard button — right */}
+                        <button
+                            className="btn btn-outline-light"
+                            onClick={() => navigate("/dashboard")}
+                        >
+                            ← Dashboard
+                        </button>
+                    </div>
                 </div>
             </nav>
 

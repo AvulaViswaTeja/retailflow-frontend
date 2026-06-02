@@ -28,6 +28,19 @@ export default function GetKPILatestByScope() {
 
     return (
         <div className="container mt-4">
+            {/* ✅ Toast container for messages */}
+            <div className="toast-container position-fixed top-0 end-0 p-3">
+                {error && (
+                    <div className="toast show bg-danger text-white">
+                        <div className="toast-header bg-danger text-white">
+                            <strong className="me-auto">Error</strong>
+                            <button type="button" className="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+                        </div>
+                        <div className="toast-body">{error}</div>
+                    </div>
+                )}
+            </div>
+
             <div className="card shadow-sm">
                 <div className="card-header bg-primary text-white">
                     <h4 className="mb-0">Get Latest KPI Report By Scope</h4>
@@ -46,8 +59,6 @@ export default function GetKPILatestByScope() {
                             {loading ? "Searching..." : "Search"}
                         </button>
                     </div>
-
-                    {error && <div className="alert alert-danger">{error}</div>}
 
                     {report && (
                         <div className="table-responsive">

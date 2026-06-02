@@ -10,14 +10,21 @@ export default function UpdateKPIReport() {
     const [fetching, setFetching] = useState(true);
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
+    const [info, setInfo] = useState("");
 
     useEffect(() => {
         if (!id) { setFetching(false); return; }
         const token = localStorage.getItem("token");
         axios.get(`http://localhost:1405/api/kpi-reports/${id}`,
             { headers: { Authorization: "Bearer " + token } })
-            .then(res => { setForm({ scope: res.data.scope, metrics: res.data.metrics || '' }); setFetching(false); })
-            .catch(() => { setError("Failed to load report"); setFetching(false); });
+            .then(res => { 
+                setForm({ scope: res.data.scope, metrics: res.data.metrics || '' }); 
+                setFetching(false); 
+            })
+            .catch(() => { 
+                setError("Failed to load report"); 
+                setFetching(false); 
+            });
     }, [id]);
 
     const handleUpdate = async () => {
@@ -37,8 +44,19 @@ export default function UpdateKPIReport() {
 
     if (!id) return (
         <div className="container mt-4">
-            <div className="alert alert-warning">Please go to <strong>Get All KPI Reports</strong> and click Edit.</div>
-            <button className="btn btn-primary" onClick={() => navigate('/kpireport/getAll')}>Go to All Reports</button>
+            {/* ✅ Toast for info */}
+            <div className="toast-container position-fixed top-0 end-0 p-3">
+                <div className="toast show bg-warning text-dark">
+                    <div className="toast-header bg-warning text-dark">
+                        <strong className="me-auto">Info</strong>
+                        <button type="button" className="btn-close" data-bs-dismiss="toast"></button>
+                    </div>
+                    <div className="toast-body">
+                        Please go to <strong>Get All KPI Reports</strong> and click Edit.
+                    </div>
+                </div>
+            </div>
+            <button className="btn btn-primary mt-3" onClick={() => navigate('/kpireport/getAll')}>Go to All Reports</button>
         </div>
     );
 
@@ -51,14 +69,33 @@ export default function UpdateKPIReport() {
 
     return (
         <div className="container mt-4">
+            {/* ✅ Toast container for success/error */}
+            <div className="toast-container position-fixed top-0 end-0 p-3">
+                {error && (
+                    <div className="toast show bg-danger text-white">
+                        <div className="toast-header bg-danger text-white">
+                            <strong className="me-auto">Error</strong>
+                            <button type="button" className="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+                        </div>
+                        <div className="toast-body">{error}</div>
+                    </div>
+                )}
+                {message && (
+                    <div className="toast show bg-success text-white">
+                        <div className="toast-header bg-success text-white">
+                            <strong className="me-auto">Success</strong>
+                            <button type="button" className="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+                        </div>
+                        <div className="toast-body">{message}</div>
+                    </div>
+                )}
+            </div>
+
             <div className="card shadow-sm">
                 <div className="card-header bg-warning text-dark">
                     <h4 className="mb-0">Update KPI Report #{id}</h4>
                 </div>
                 <div className="card-body">
-                    {error   && <div className="alert alert-danger">{error}</div>}
-                    {message && <div className="alert alert-success">{message}</div>}
-
                     <div className="mb-3">
                         <label className="form-label">Scope</label>
                         <select className="form-select" value={form.scope}

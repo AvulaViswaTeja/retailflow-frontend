@@ -2,7 +2,6 @@ import axios from "axios";
 import { useState } from "react";
 
 export default function GetComplianceReportById() {
-
     const [id, setId] = useState("");
     const [report, setReport] = useState(null);
     const [error, setError] = useState("");
@@ -29,21 +28,43 @@ export default function GetComplianceReportById() {
         return "bg-secondary";
     };
 
-    const verdictAlert = (status) => {
-        if (status === "PASS")    return "alert-success";
-        if (status === "WARNING") return "alert-warning";
-        if (status === "FAIL")    return "alert-danger";
-        return "alert-secondary";
-    };
-
     return (
         <div className="container mt-4">
+            {/* ✅ Toast container for messages */}
+            <div className="toast-container position-fixed top-0 end-0 p-3">
+                {error && (
+                    <div className="toast show bg-danger text-white">
+                        <div className="toast-header bg-danger text-white">
+                            <strong className="me-auto">Error</strong>
+                            <button type="button" className="btn-close btn-close-white" data-bs-dismiss="toast"></button>
+                        </div>
+                        <div className="toast-body">{error}</div>
+                    </div>
+                )}
+                {report && (
+                    <div className={`toast show ${report.status === "PASS" ? "bg-success text-white" :
+                        report.status === "WARNING" ? "bg-warning text-dark" :
+                        report.status === "FAIL" ? "bg-danger text-white" : "bg-secondary text-white"}`}>
+                        <div className="toast-header">
+                            <strong className="me-auto">Report #{report.reportId}</strong>
+                            <button type="button" className="btn-close" data-bs-dismiss="toast"></button>
+                        </div>
+                        <div className="toast-body">
+                            <div className="d-flex justify-content-between align-items-center">
+                                <span>{report.scope}</span>
+                                <span className={`badge ${verdictBadge(report.status)}`}>{report.status}</span>
+                            </div>
+                            <p className="mt-2 mb-0">{report.remarks}</p>
+                        </div>
+                    </div>
+                )}
+            </div>
+
             <div className="card shadow-sm">
                 <div className="card-header bg-success text-white">
                     <h4 className="mb-0">Get Compliance Report By ID</h4>
                 </div>
                 <div className="card-body">
-
                     <div className="input-group mb-3">
                         <input
                             type="number"
@@ -63,21 +84,8 @@ export default function GetComplianceReportById() {
                         </button>
                     </div>
 
-                    {error && <div className="alert alert-danger">{error}</div>}
-
                     {report && (
                         <div>
-                            {/* Verdict alert */}
-                            <div className={`alert ${verdictAlert(report.status)}`}>
-                                <div className="d-flex justify-content-between align-items-center">
-                                    <strong>Report #{report.reportId} — {report.scope}</strong>
-                                    <span className={`badge ${verdictBadge(report.status)}`}>
-                                        {report.status}
-                                    </span>
-                                </div>
-                                <p className="mt-2 mb-0">{report.remarks}</p>
-                            </div>
-
                             {/* KPI values table */}
                             <div className="table-responsive">
                                 <table className="table table-bordered table-hover">
@@ -94,26 +102,10 @@ export default function GetComplianceReportById() {
                                     <tbody>
                                         <tr>
                                             <td>{report.reportId}</td>
-                                            <td>
-                                                <span className="badge bg-info text-dark">
-                                                    {report.scope}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span className={`badge ${report.stockTurnover >= 2 ? 'bg-success' : 'bg-danger'}`}>
-                                                    {report.stockTurnover}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span className={`badge ${report.salesGrowth >= 0 ? 'bg-success' : 'bg-danger'}`}>
-                                                    {report.salesGrowth}%
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <span className={`badge ${report.shrinkageRate <= 5 ? 'bg-success' : 'bg-danger'}`}>
-                                                    {report.shrinkageRate}%
-                                                </span>
-                                            </td>
+                                            <td><span className="badge bg-info text-dark">{report.scope}</span></td>
+                                            <td><span className={`badge ${report.stockTurnover >= 2 ? 'bg-success' : 'bg-danger'}`}>{report.stockTurnover}</span></td>
+                                            <td><span className={`badge ${report.salesGrowth >= 0 ? 'bg-success' : 'bg-danger'}`}>{report.salesGrowth}%</span></td>
+                                            <td><span className={`badge ${report.shrinkageRate <= 5 ? 'bg-success' : 'bg-danger'}`}>{report.shrinkageRate}%</span></td>
                                             <td>{report.generatedDate}</td>
                                         </tr>
                                     </tbody>
@@ -123,14 +115,11 @@ export default function GetComplianceReportById() {
                             {/* Metrics string */}
                             {report.metrics && (
                                 <div className="alert alert-light border mt-2">
-                                    <small className="text-muted font-monospace">
-                                        {report.metrics}
-                                    </small>
+                                    <small className="text-muted font-monospace">{report.metrics}</small>
                                 </div>
                             )}
                         </div>
                     )}
-
                 </div>
             </div>
         </div>
