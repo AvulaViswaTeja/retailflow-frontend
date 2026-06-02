@@ -12,7 +12,19 @@ export default function CatalogHome() {
                         Catalog
                     </Link>
 
-                    <div className="collapse navbar-collapse">
+                    <button
+                        className="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#catalogNavbar"
+                        aria-controls="catalogNavbar"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                    >
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+
+                    <div className="collapse navbar-collapse" id="catalogNavbar">
                         <ul className="navbar-nav me-auto">
 
                             <li className="nav-item">
@@ -59,7 +71,6 @@ export default function CatalogHome() {
 
                         </ul>
 
-                       
                         <button
                             className="btn btn-outline-light"
                             onClick={() => navigate("/dashboard")}
