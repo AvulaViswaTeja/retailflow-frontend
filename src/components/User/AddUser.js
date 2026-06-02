@@ -1,4 +1,3 @@
-
 import axios from "axios";
 import { useState } from "react";
 
@@ -10,39 +9,15 @@ export default function AddUser() {
     const [role, setRole] = useState("");
     const [phone, setPhone] = useState("");
 
-    let nameHandler = (event) => {
-        setName(event.target.value);
-    }
-
-    let emailHandler = (event) => {
-        setEmail(event.target.value);
-    }
-
-    let passHandler = (event) => {
-        setPassword(event.target.value);
-    }
-
-    let roleHandler = (event) => {
-        setRole(event.target.value);
-    }
-
-    let phoneHandler = (event) => {
-        setPhone(event.target.value);
-    }
-
     let saveUser = (event) => {
         event.preventDefault();
 
         let token = localStorage.getItem("token");
-        
 
-        
         if (!token) {
             alert("Not logged in. Please refresh the page.");
             return;
         }
-
-        let url = "http://localhost:1405/api/users";
 
         let data = {
             "userName": name,
@@ -52,16 +27,11 @@ export default function AddUser() {
             "phoneNumber": phone
         }
 
-        axios.post(url, data, {
-            headers: {
-                "Authorization": "Bearer " + token
-            }
+        axios.post("http://localhost:1405/api/users", data, {
+            headers: { "Authorization": "Bearer " + token }
         })
-        .then((res) => {
+        .then(() => {
             alert("User created successfully!");
-            console.log(res.data);
-
-          
             setName("");
             setEmail("");
             setPassword("");
@@ -69,60 +39,86 @@ export default function AddUser() {
             setPhone("");
         })
         .catch((err) => {
-           
-                alert(err.response.status);
-            
+            alert("Error: " + err.response.status);
         });
     }
 
     return (
-        <div>
-            <h2>Add User</h2>
-            <form>
-                <label>Name</label>
-                <input
-                    placeholder="enter name"
-                    value={name}
-                    onChange={nameHandler}
-                /><br />
+        <div className="container mt-4">
+            <div className="card shadow-sm" style={{ maxWidth: 500 }}>
+                <div className="card-body">
 
-                <label>Email</label>
-                <input
-                    placeholder="enter email"
-                    value={email}
-                    onChange={emailHandler}
-                /><br />
+                    <h5 className="card-title mb-4">Add User</h5>
 
-                <label>Password</label>
-                <input
-                    type="password"
-                    placeholder="enter the password"
-                    value={password}
-                    onChange={passHandler}
-                /><br />
+                    <form onSubmit={saveUser}>
 
-                <label>Role</label>
-                <select value={role} onChange={roleHandler}>
-                    <option value="">Select Role</option>
-                    <option value="STORE_ASSOCIATE">Store Associate</option>
-                    <option value="INVENTORY_MANAGER">Inventory Manager</option>
-                    <option value="FINANCE_OFFICER">Finance Officer</option>
-                    <option value="COMPLIANCE_OFFICER">Compliance Officer</option>
-                    <option value="STORE_MANAGER">Store Manager</option>
-                   
-                </select><br />
+                        <div className="mb-3">
+                            <label className="form-label">Name</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="enter name"
+                                value={name}
+                                onChange={(e) => setName(e.target.value)}
+                            />
+                        </div>
 
-                <label>Phone Number</label>
-                <input
-                    placeholder="enter phone number"
-                    value={phone}
-                    onChange={phoneHandler}
-                /><br />
+                        <div className="mb-3">
+                            <label className="form-label">Email</label>
+                            <input
+                                type="email"
+                                className="form-control"
+                                placeholder="enter email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                        </div>
 
-                <button onClick={saveUser}>Add User</button>
-            </form>
+                        <div className="mb-3">
+                            <label className="form-label">Password</label>
+                            <input
+                                type="password"
+                                className="form-control"
+                                placeholder="enter password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                            />
+                        </div>
+
+                        <div className="mb-3">
+                            <label className="form-label">Role</label>
+                            <select
+                                className="form-select"
+                                value={role}
+                                onChange={(e) => setRole(e.target.value)}
+                            >
+                                <option value="">Select Role</option>
+                                <option value="STORE_ASSOCIATE">Store Associate</option>
+                                <option value="INVENTORY_MANAGER">Inventory Manager</option>
+                                <option value="FINANCE_OFFICER">Finance Officer</option>
+                                <option value="COMPLIANCE_OFFICER">Compliance Officer</option>
+                                <option value="STORE_MANAGER">Store Manager</option>
+                            </select>
+                        </div>
+
+                        <div className="mb-4">
+                            <label className="form-label">Phone Number</label>
+                            <input
+                                type="text"
+                                className="form-control"
+                                placeholder="enter phone number"
+                                value={phone}
+                                onChange={(e) => setPhone(e.target.value)}
+                            />
+                        </div>
+
+                        <button type="submit" className="btn btn-primary w-100">
+                            Add User
+                        </button>
+
+                    </form>
+                </div>
+            </div>
         </div>
     );
-
 }
-

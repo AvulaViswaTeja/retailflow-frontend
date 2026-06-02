@@ -18,10 +18,7 @@ export default function GetPaginatedUsers() {
 
         axios.get("http://localhost:1405/api/users/paginated", {
             headers: { "Authorization": "Bearer " + token },
-            params: {
-                page: currentPage,
-                size: size
-            }
+            params: { page: currentPage, size: size }
         })
         .then((res) => {
             setUsers(res.data.content);
@@ -39,47 +36,79 @@ export default function GetPaginatedUsers() {
     let goToLast  = () => setPage(totalPages - 1);
 
     return (
-        <div>
-            <h1>Get Paginated Users</h1>
-            <p>Total Records: {totalElements}</p>
+        <div className="container mt-4">
+            <div className="card shadow-sm">
+                <div className="card-body">
 
-            <table border="1" cellPadding="10" cellSpacing="0">
-                <thead>
-                    <tr>
-                        <th>User ID</th>
-                        <th>Name</th>
-                        <th>Email</th>
-                        <th>Role</th>
-                        <th>Phone</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {users.length === 0 ? (
-                        <tr>
-                            <td colSpan="5">No users found</td>
-                        </tr>
-                    ) : (
-                        users.map((user) => (
-                            <tr key={user.userId}>
-                                <td>{user.userId}</td>
-                                <td>{user.userName}</td>
-                                <td>{user.email}</td>
-                                <td>{user.role}</td>
-                                <td>{user.phoneNumber}</td>
-                            </tr>
-                        ))
-                    )}
-                </tbody>
-            </table>
+                    <div className="d-flex justify-content-between align-items-center mb-4">
+                        <h5 className="card-title mb-0">Paginated Users</h5>
+                        <span className="badge bg-secondary">
+                            Total Records: {totalElements}
+                        </span>
+                    </div>
 
-            <br />
+                    <div className="table-responsive">
+                        <table className="table table-bordered table-hover table-sm align-middle">
+                            <thead className="table-dark">
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Role</th>
+                                    <th>Phone</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {users.length === 0 ? (
+                                    <tr>
+                                        <td colSpan="5" className="text-center text-muted">
+                                            No users found
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    users.map((user) => (
+                                        <tr key={user.userId}>
+                                            <td>{user.userId}</td>
+                                            <td>{user.userName}</td>
+                                            <td>{user.email}</td>
+                                            <td>
+                                                <span className="badge bg-secondary">
+                                                    {user.role}
+                                                </span>
+                                            </td>
+                                            <td>{user.phoneNumber}</td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
 
-            
-            <button onClick={goToFirst} disabled={page === 0}>« First</button>
-            <button onClick={goToPrev}  disabled={page === 0}>‹ Prev</button>
-            <span> Page {page + 1} of {totalPages} </span>
-            <button onClick={goToNext}  disabled={page === totalPages - 1}>Next ›</button>
-            <button onClick={goToLast}  disabled={page === totalPages - 1}>Last »</button>
+                    {/* Pagination controls */}
+                    <div className="d-flex flex-column align-items-center mt-3">
+                        <span className="text-muted small mb-2">
+                            Page {page + 1} of {totalPages}
+                        </span>
+                        <nav>
+                            <ul className="pagination pagination-sm mb-0">
+                                <li className={`page-item ${page === 0 ? "disabled" : ""}`}>
+                                    <button className="page-link" onClick={goToFirst}>« First</button>
+                                </li>
+                                <li className={`page-item ${page === 0 ? "disabled" : ""}`}>
+                                    <button className="page-link" onClick={goToPrev}>‹ Prev</button>
+                                </li>
+                                <li className={`page-item ${page === totalPages - 1 ? "disabled" : ""}`}>
+                                    <button className="page-link" onClick={goToNext}>Next ›</button>
+                                </li>
+                                <li className={`page-item ${page === totalPages - 1 ? "disabled" : ""}`}>
+                                    <button className="page-link" onClick={goToLast}>Last »</button>
+                                </li>
+                            </ul>
+                        </nav>
+                    </div>
+
+                </div>
+            </div>
         </div>
     );
 }
