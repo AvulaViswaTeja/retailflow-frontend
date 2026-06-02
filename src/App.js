@@ -31,6 +31,7 @@ import GetAllInventory from './components/Inventory/GetAllInventory';
 import GetLowStock from './components/Inventory/GetLowStock';
 import GetInventoryByProduct from './components/Inventory/GetInventoryByProduct';
 import ReplenishStock from './components/Inventory/ReplenishStock';
+import GetAllInventoryPaginated from './components/Inventory/GetAllInventoryPaginated';
 
 import PurchaseOrderHome from './components/PurchaseOrder/PurchaseOrderHome';
 import CreatePurchaseOrder from './components/PurchaseOrder/CreatePurchaseOrder';
@@ -40,6 +41,7 @@ import GetPurchaseOrderById from './components/PurchaseOrder/GetPurchaseOrderByI
 import GetAllPurchaseOrders from './components/PurchaseOrder/GetAllPurchaseOrders';
 import GetPurchaseBySupplier from './components/PurchaseOrder/GetPurchaseBySupplier';
 import GetPurchaseByStatus from './components/PurchaseOrder/GetPurchaseByStatus';
+import GetAllPurchaseOrdersPaginated from './components/PurchaseOrder/GetAllPurchaseOrdersPaginated';
 
 import AuditLogHome from './components/AuditLog/AuditLogHome';
 import GetAllAuditLogs from './components/AuditLog/GetAllAuditLogs';
@@ -110,7 +112,7 @@ import DeleteNotification from './components/Notification/DeleteNotification';
 import GetAllNotifications from './components/Notification/GetAllNotifications';
 import GetNotificationById from './components/Notification/GetNotificationById';
 import InsertNotification from './components/Notification/InsertNotification';
-import MarkAsRead from './components/Notification/MarkAsRead';
+
 
 // Role groups
 const ALL_ROLES        = ["ADMIN","STORE_ASSOCIATE","INVENTORY_MANAGER","FINANCE_OFFICER","COMPLIANCE_OFFICER","STORE_MANAGER"];
@@ -141,6 +143,7 @@ function Unauthorized() {
     );
 }
 
+ 
 function App() {
     return (
         <Router>
@@ -185,7 +188,7 @@ function App() {
                     <Route path="getAllNotifications"    element={<GetAllNotifications />} />
                     <Route path="getNotificationById"   element={<GetNotificationById />} />
                     <Route path="getNotificationByUser" element={<GetNotificationByUser />} />
-                    <Route path="markAsRead"            element={<MarkAsRead />} />
+                    
                 </Route>
 
                 {/* Catalog — all roles */}
@@ -224,6 +227,7 @@ function App() {
                     <Route path="getLowStock"         element={<GetLowStock />} />
                     <Route path="getByProduct"        element={<GetInventoryByProduct />} />
                     <Route path="replenish"           element={<ReplenishStock />} />
+                    <Route path="getallpaginated"     element={<GetAllInventoryPaginated />} />
                 </Route>
 
                 {/* Purchase Order — ADMIN + INVENTORY_MANAGER */}
@@ -235,6 +239,7 @@ function App() {
                     <Route path="getAll"                  element={<GetAllPurchaseOrders />} />
                     <Route path="getBySupplier"           element={<GetPurchaseBySupplier />} />
                     <Route path="getByStatus"             element={<GetPurchaseByStatus />} />
+                    <Route path="getallpaginated"         element={<GetAllPurchaseOrdersPaginated    />} />
                 </Route>
 
                 {/* Sale — ADMIN + STORE_ASSOCIATE + STORE_MANAGER */}

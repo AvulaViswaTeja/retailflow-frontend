@@ -1,37 +1,71 @@
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+
 export default function SaleHome() {
+  const navigate = useNavigate();
+
   return (
     <div>
-      <nav>
-        <ul>
-          <li>
-            <Link to="insert">Insert sale</Link>
-          </li>
-          <li>
-            <Link to="delete">Delete sale</Link>
-          </li>
-          <li>
-            <Link to="update">Update sale</Link>
-          </li>
-          <li>
-            <Link to="getById">Get Sale By Id</Link>
-          </li>
-          <li>
-            <Link to="getAll">Get All Sales</Link>
-          </li>
-          <li>
-            <Link to="getAllPaginated">Get All Sales paginated</Link>
-          </li>
-          <li>
-            <Link to="getSalesByCustomer"> Get Sales by customer</Link>
-          </li>
-          <li>
-            <Link to="getSalesByDateRange"> Get Sales by Date Range</Link>
-          </li>
+      <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div className="container-fluid">
+
+          <Link className="navbar-brand" to="/Sale">
+            Sale
+          </Link>
+
           
-        </ul>
+          <button
+            className="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#saleNavbar"
+          >
+            <span className="navbar-toggler-icon"></span>
+          </button>
+
+          
+          <div className="collapse navbar-collapse" id="saleNavbar">
+            <ul className="navbar-nav me-auto">
+
+              <li className="nav-item">
+                <Link className="nav-link" to="insert">Insert Sale</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="delete">Delete Sale</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="update">Update Sale</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="getById">Get By ID</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="getAll">Get All Sales</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="getAllPaginated">Get All Paginated</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="getSalesByCustomer">Get By Customer</Link>
+              </li>
+              <li className="nav-item">
+                <Link className="nav-link" to="getSalesByDateRange">Get By Date Range</Link>
+              </li>
+
+            </ul>
+
+            {/* Dashboard button on right */}
+            <button
+              onClick={() => navigate('/dashboard')}
+              className="btn btn-outline-light btn-sm"
+            >
+              ← Dashboard
+            </button>
+
+          </div>
+        </div>
       </nav>
-      <Outlet></Outlet>
+
+      <Outlet />
     </div>
   );
 }

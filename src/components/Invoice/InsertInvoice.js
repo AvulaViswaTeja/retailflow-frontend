@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
 
-
 export default function InsertInvoice() {
   const [saleId, setSaleId] = useState("");
   const [amount, setAmount] = useState("");
@@ -15,23 +14,23 @@ export default function InsertInvoice() {
 
     try {
       let token = localStorage.getItem("token");
-      const res = await axios.post("http://localhost:1405/api/invoices", {
-        saleId: parseInt(saleId),
-        amount: parseFloat(amount),
-      },{
-            headers: { "Authorization": "Bearer " + token }
-        });
+      const res = await axios.post(
+        "http://localhost:1405/api/invoices",
+        {
+          saleId: parseInt(saleId),
+          amount: parseFloat(amount),
+        },
+        { headers: { "Authorization": "Bearer " + token } }
+      );
 
       const invoice = res.data;
       setMessage(
         "Invoice created! " +
           "Invoice ID: " + invoice.invoiceId +
           " | Sale ID: " + invoice.saleId +
-          " | Amount: " + invoice.amount +
+          " | Amount: ₹" + invoice.amount +
           " | Status: " + invoice.status
       );
-
-      // Reset form
       setSaleId("");
       setAmount("");
 
@@ -41,41 +40,58 @@ export default function InsertInvoice() {
   };
 
   return (
-    <div>
-      <h1>Insert Invoice</h1>
+    <div className="container mt-4">
+      <div className="card shadow-sm">
+        <div className="card-header bg-primary text-white">
+          <h4 className="mb-0">Create Invoice</h4>
+        </div>
+        <div className="card-body">
 
-      {message && <p style={{ color: "green" }}>{message}</p>}
-      {error && <p style={{ color: "red" }}>{error}</p>}
+          {message && (
+            <div className="alert alert-success">{message}</div>
+          )}
+          {error && (
+            <div className="alert alert-danger">{error}</div>
+          )}
 
-      <form onSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
 
-        <label>Sale ID: </label>
-        <input
-          type="number"
-          value={saleId}
-          onChange={(e) => setSaleId(e.target.value)}
-          placeholder="Enter Sale ID"
-          min={1}
-          required
-        />
+            <div className="mb-3">
+              <label className="form-label">Sale ID</label>
+              <input
+                type="number"
+                className="form-control"
+                value={saleId}
+                onChange={(e) => setSaleId(e.target.value)}
+                placeholder="Enter Sale ID"
+                min={1}
+                required
+              />
+            </div>
 
-        <br /><br />
+            <div className="mb-3">
+              <label className="form-label">Amount</label>
+              <div className="input-group">
+                <span className="input-group-text">₹</span>
+                <input
+                  type="number"
+                  className="form-control"
+                  value={amount}
+                  onChange={(e) => setAmount(e.target.value)}
+                  placeholder="Enter Amount"
+                  min={0}
+                  required
+                />
+              </div>
+            </div>
 
-        <label>Amount: </label>
-        <input
-          type="number"
-          value={amount}
-          onChange={(e) => setAmount(e.target.value)}
-          placeholder="Enter Amount"
-          min={0}
-          required
-        />
+            <button type="submit" className="btn btn-primary w-100">
+              Create Invoice
+            </button>
 
-        <br /><br />
-
-        <button type="submit">Create Invoice</button>
-
-      </form>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
