@@ -54,8 +54,6 @@ export default function AuditLogHome() {
                                     Dashboard
                                 </button>
                             </li>
-                        </ul>
-                        <ul className="navbar-nav ms-auto">
                             <li className="nav-item">
                                 <button
                                     className="btn btn-outline-light btn-sm"
