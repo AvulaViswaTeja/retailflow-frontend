@@ -62,14 +62,14 @@ export default function AuditLogHome() {
                                         Dashboard
                                     </button>
                                 </li>
-                                <li className="nav-item">
+                                {/* <li className="nav-item">
                                     <button
                                         className="btn btn-outline-light btn-sm"
                                         onClick={() => { localStorage.clear(); navigate('/login'); }}
                                     >
                                         Logout
                                     </button>
-                                </li>
+                                </li> */}
                             </ul>
                         </div>
 
