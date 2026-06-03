@@ -1,70 +1,83 @@
-import { Link, Outlet, useMatch } from "react-router-dom";
+import { Link, Outlet, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function InventoryHome() {
-    // Detects if the user is sitting directly on the root inventory route view
-    const isExactHome = useMatch("/Inventory"); // Adjust path to match your exact parent route string
+    const navigate = useNavigate();
+    const [menuOpen, setMenuOpen] = useState(false);
+
+    const navLinks = [
+        { to: "insert", label: "Insert Inventory" },
+        { to: "getById", label: "Get Inventory" },
+        { to: "getAll", label: "Get All Inventory" },
+        { to: "replenish", label: "Replenish" },
+        { to: "getByProduct", label: "Get By Product" },
+        { to: "getLowStock", label: "Get Low Stock" },
+        { to: "getallpaginated", label: "Get All Inventory Paginated" },
+    ];
 
     return (
         <div>
-            {/* Dark Styled Responsive Bootstrap Horizontal Navbar */}
             <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow-sm">
                 <div className="container-fluid">
-                    
-                    {/* Brand Heading Title linking back to parent root */}
+
+                    {/* LEFT: Hamburger — only visible on small screens */}
+                    <button
+                        className="navbar-toggler border-0"
+                        type="button"
+                        onClick={() => setMenuOpen(!menuOpen)}
+                        aria-label="Toggle navigation"
+                    >
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+
+                    {/* Brand */}
                     <Link className="navbar-brand fw-bold" to="/Inventory">
                         Inventory
                     </Link>
 
-                    {/* Collapsible Navbar links array container wrapper */}
-                    <div className="collapse navbar-collapse">
+                    {/* FULL SCREEN: links always visible via Bootstrap collapse + d-none d-lg-flex */}
+                    <div className="d-none d-lg-flex flex-grow-1">
                         <ul className="navbar-nav">
-                            
-                            <li className="nav-item"> 
-                                <Link className="nav-link" to="insert">
-                                    Insert Inventory
-                                </Link>
-                            </li>
-                            
-                            <li className="nav-item">
-                                <Link className="nav-link" to="getById">
-                                    Get Inventory
-                                </Link>
-                            </li>
-                            
-                            <li className="nav-item">
-                                <Link className="nav-link" to="getAll">
-                                    Get All Inventory
-                                </Link>
-                            </li>
-                            
-                            <li className="nav-item">
-                                <Link className="nav-link" to="replenish">
-                                    Replenish
-                                </Link>
-                            </li>
-                            
-                            <li className="nav-item">
-                                <Link className="nav-link" to="getByProduct">
-                                    Get By Product
-                                </Link>
-                            </li>
-
-                            <li className="nav-item">
-                                <Link className="nav-link" to="getLowStock">
-                                    Get Low Stock
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="getallpaginated">
-                                    Get All Inventory Paginated 
-                                </Link>
-                            </li>
-
+                            {navLinks.map(({ to, label }) => (
+                                <li className="nav-item" key={to}>
+                                    <Link className="nav-link" to={to}>
+                                        {label}
+                                    </Link>
+                                </li>
+                            ))}
                         </ul>
                     </div>
+
+                    {/* RIGHT: Dashboard button always visible */}
+                    <button
+                        className="btn btn-outline-light ms-auto"
+                        onClick={() => navigate("/dashboard")}
+                    >
+                        ← Dashboard
+                    </button>
                 </div>
+
+                {/* MOBILE: Dropdown — only shown on small screens when menu is open */}
+                {menuOpen && (
+                    <div className="d-lg-none bg-dark w-100 px-3 pb-2">
+                        <ul className="navbar-nav">
+                            {navLinks.map(({ to, label }) => (
+                                <li className="nav-item" key={to}>
+                                    <Link
+                                        className="nav-link"
+                                        to={to}
+                                        onClick={() => setMenuOpen(false)}
+                                    >
+                                        {label}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+                )}
             </nav>
+
             <Outlet />
-            </div>
+        </div>
     );
 }
