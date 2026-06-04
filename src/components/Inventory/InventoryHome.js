@@ -1,7 +1,9 @@
 import { Link, Outlet, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useMatch } from "react-router";
 
 export default function InventoryHome() {
+    const isExactHome = useMatch("/Inventory"); 
     const navigate = useNavigate();
     const [menuOpen, setMenuOpen] = useState(false);
 
