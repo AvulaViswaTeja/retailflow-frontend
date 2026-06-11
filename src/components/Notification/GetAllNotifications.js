@@ -12,7 +12,7 @@ export default function GetAllNotifications() {
     let fetchAllNotifications = () => {
         let token = localStorage.getItem("token");
 
-        axios.get("http://localhost:1405/api/notifications", {
+        axios.get("http://localhost:8070/api/notifications", {
             headers: { "Authorization": "Bearer " + token }
         })
         .then((res) => {

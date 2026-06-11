@@ -34,7 +34,7 @@ export default function GetByDateRange() {
 
         let token = localStorage.getItem("token");
 
-        axios.get("http://localhost:1405/api/audit-logs/date-range", {
+        axios.get("http://localhost:8070/api/audit-logs/date-range", {
             headers: { "Authorization": "Bearer " + token },
             params: {
                 start: formatDate(startDate, false),

@@ -112,6 +112,7 @@ import DeleteNotification from './components/Notification/DeleteNotification';
 import GetAllNotifications from './components/Notification/GetAllNotifications';
 import GetNotificationById from './components/Notification/GetNotificationById';
 import InsertNotification from './components/Notification/InsertNotification';
+import HomePage from './components/Homepage';
 
 
 // Role groups
@@ -150,7 +151,7 @@ function App() {
             <Routes>
 
                 {/* Public routes */}
-                <Route path="/"             element={<Navigate to="/login" replace />} />
+                <Route path="/"             element={<HomePage />} />
                 <Route path="/login"        element={<Login />} />
                 <Route path="/register"     element={<Register />} />
                 <Route path="/unauthorized" element={<Unauthorized />} />
