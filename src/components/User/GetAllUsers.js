@@ -12,7 +12,7 @@ export default function GetAllUsers() {
     let fetchAllUsers = () => {
         let token = localStorage.getItem("token");
 
-        axios.get("http://localhost:1405/api/users", {
+        axios.get("http://localhost:8070/api/users", {
             headers: { "Authorization": "Bearer " + token }
         })
         .then((res) => {
