@@ -29,7 +29,7 @@ const GRAD = {
 };
 
 const ALL_MODULES = [
-    { key: 'dashboard',     label: 'Dashboard',       desc: 'Unified KPI + compliance view',         route: '/dashboard',     icon: 'ti-layout-dashboard', grad: GRAD.blue,   section: 'Overview'   },
+   
     { key: 'kpi',           label: 'KPI Reports',     desc: 'Analytics and reporting',               route: '/kpireport',     icon: 'ti-chart-bar',        grad: GRAD.blue,   section: 'Analytics'  },
     { key: 'compliance',    label: 'Compliance',      desc: 'Regulatory reports and verdicts',       route: '/compliance',    icon: 'ti-shield-check',     grad: GRAD.green,  section: 'Analytics'  },
     { key: 'sales',         label: 'Sales & Billing', desc: 'Transactions and invoices',             route: '/Sale',          icon: 'ti-receipt-2',        grad: GRAD.green,  section: 'Operations' },
@@ -241,24 +241,7 @@ export default function Dashboard() {
 
             <div style={{ padding: '0 22px 28px' }}>
 
-                {/* KPI gradient cards */}
-                {(role === 'STORE_MANAGER' || role === 'ADMIN') && (
-                    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 14, marginBottom: 18 }}>
-                        {kpiCards.map((k, i) => (
-                            <div key={i} style={{ borderRadius: 15, padding: 18, color: '#fff', background: k.grad }}>
-                                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 14 }}>
-                                    <span style={{ fontSize: 11, textTransform: 'uppercase', letterSpacing: '.06em', opacity: .9 }}>{k.label}</span>
-                                    <div style={{ width: 30, height: 30, borderRadius: 8, background: 'rgba(255,255,255,.22)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                                        <i className={`ti ${k.icon}`} aria-hidden="true" style={{ fontSize: 16 }}></i>
-                                    </div>
-                                </div>
-                                <div style={{ fontSize: 26, fontWeight: 500, marginBottom: 2 }}>{k.value}</div>
-                                <div style={{ fontSize: 11, opacity: .85 }}>{k.hint}</div>
-                            </div>
-                        ))}
-                    </div>
-                )}
-
+               
                 {/* Compliance officer cards */}
                 {role === 'COMPLIANCE_OFFICER' && (
                     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 14, marginBottom: 18 }}>
