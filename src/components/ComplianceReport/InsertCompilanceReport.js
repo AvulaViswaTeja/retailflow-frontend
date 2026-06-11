@@ -20,9 +20,11 @@ export default function InsertComplianceReport() {
             const token = localStorage.getItem("token");
             const res = await axios.get(`http://localhost:8070/api/kpi-reports/${kpiId}`,
                 { headers: { Authorization: "Bearer " + token } });
+            console.log("=== KPI RESPONSE:", res.data);
+            console.log("=== METRICS:", res.data.metrics);
             setKpiFetched(res.data);
             setScope(res.data.scope);
-            setMetrics(res.data.metrics);
+            setMetrics(res.data.metrics || "");
         } catch (err) {
             setKpiError("Failed to fetch KPI report");
         } finally {
@@ -32,6 +34,8 @@ export default function InsertComplianceReport() {
 
     const handleSubmit = async () => {
         setLoading(true); setError("");
+        console.log("=== SUBMITTING METRICS:", metrics);
+        console.log("=== SUBMITTING SCOPE:", scope);
         try {
             const token = localStorage.getItem("token");
             const res = await axios.post("http://localhost:8070/api/compliance-reports",
@@ -77,7 +81,11 @@ export default function InsertComplianceReport() {
                             </button>
                         </div>
                         {kpiError && <small className="text-danger d-block mt-1">{kpiError}</small>}
-                        {kpiFetched && <small className="text-success d-block mt-2">✓ KPI Report fetched — scope & metrics populated</small>}
+                        {kpiFetched && (
+                            <small className="text-success d-block mt-2">
+                                ✓ KPI Report fetched — scope & metrics populated
+                            </small>
+                        )}
                     </div>
 
                     {error && <div className="text-danger fw-semibold mb-3">{error}</div>}
@@ -96,9 +104,14 @@ export default function InsertComplianceReport() {
                         <input className="form-control font-monospace" value={metrics}
                             onChange={e => setMetrics(e.target.value)}
                             placeholder="Stock Turnover: 4.75 | Sales Growth: 12.0% | Shrinkage: 1.8%" />
+                        {metrics && (
+                            <small className="text-muted d-block mt-1">
+                                Populated from KPI report — you can edit if needed
+                            </small>
+                        )}
                     </div>
 
-                    <button className="btn btn-success w-100" onClick={handleSubmit} disabled={loading}>
+                    <button className="btn btn-success w-100" onClick={handleSubmit} disabled={loading || !metrics || !scope}>
                         {loading ? (<><span className="spinner-border spinner-border-sm me-2"></span>Running check...</>) : "Run Compliance Check"}
                     </button>
 
