@@ -9,7 +9,7 @@ export default function DeleteInventory() {
     const [errorMsg, setErrorMsg] = useState("");
     let confirmDelete = () => {
         setErrorMsg("");
-        const url = `http://localhost:1405/api/inventory/${inventoryId}`;
+        const url = `http://localhost:8070/api/inventory/${inventoryId}`;
         axios.delete(url, {
             headers: { "Authorization": "Bearer " + token }
         })
