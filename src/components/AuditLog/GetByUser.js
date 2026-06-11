@@ -16,7 +16,7 @@ export default function GetByUser() {
 
         let token = localStorage.getItem("token");
 
-        axios.get("http://localhost:1405/api/audit-logs/user/" + userId, {
+        axios.get("http://localhost:8070/api/audit-logs/user/" + userId, {
             headers: { "Authorization": "Bearer " + token }
         })
         .then((res) => {

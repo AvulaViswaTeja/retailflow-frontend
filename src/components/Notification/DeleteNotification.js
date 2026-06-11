@@ -23,7 +23,7 @@ export default function DeleteNotification() {
 
         let token = localStorage.getItem("token");
 
-        axios.get("http://localhost:1405/api/notifications/" + notificationId, {
+        axios.get("http://localhost:8070/api/notifications/" + notificationId, {
             headers: { "Authorization": "Bearer " + token }
         })
         .then((res) => {
@@ -45,7 +45,7 @@ export default function DeleteNotification() {
     let deleteNotification = () => {
         let token = localStorage.getItem("token");
 
-        axios.delete("http://localhost:1405/api/notifications/" + notificationId, {
+        axios.delete("http://localhost:8070/api/notifications/" + notificationId, {
             headers: { "Authorization": "Bearer " + token }
         })
         .then(() => {

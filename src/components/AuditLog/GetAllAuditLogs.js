@@ -12,7 +12,7 @@ export default function GetAllAuditLogs() {
     let fetchAllAuditLogs = () => {
         let token = localStorage.getItem("token");
 
-        axios.get("http://localhost:1405/api/audit-logs", {
+        axios.get("http://localhost:8070/api/audit-logs", {
             headers: { "Authorization": "Bearer " + token }
         })
         .then((res) => {
