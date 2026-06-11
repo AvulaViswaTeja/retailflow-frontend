@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function DeleteKPIReport() {
     const [reportId, setReportId] = useState("");
@@ -7,12 +8,13 @@ export default function DeleteKPIReport() {
     const [message, setMessage] = useState("");
     const [error, setError] = useState("");
     const [info, setInfo] = useState("");
+    const navigate = useNavigate();
 
     const handleSearch = async () => {
         setMessage(""); setError(""); setInfo(""); setCurrentReport(null);
         const token = localStorage.getItem("token");
         try {
-            const res = await axios.get(`http://localhost:1405/api/kpi-reports/${reportId}`,
+            const res = await axios.get(`http://localhost:8070/api/kpi-reports/${reportId}`,
                 { headers: { Authorization: "Bearer " + token } });
             setCurrentReport(res.data);
         } catch (err) {
@@ -24,7 +26,7 @@ export default function DeleteKPIReport() {
         setMessage(""); setError(""); setInfo("");
         const token = localStorage.getItem("token");
         try {
-            await axios.delete(`http://localhost:1405/api/kpi-reports/${reportId}`,
+            await axios.delete(`http://localhost:8070/api/kpi-reports/${reportId}`,
                 { headers: { Authorization: "Bearer " + token } });
             setMessage("KPI Report #" + reportId + " archived successfully!");
             setCurrentReport(null); setReportId("");
@@ -40,7 +42,12 @@ export default function DeleteKPIReport() {
 
     return (
         <div className="container mt-4">
-            {/* ✅ Toast container for messages */}
+
+            <button onClick={() => navigate('/kpireport')}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 16, padding: '7px 16px', borderRadius: 8, fontSize: 13, color: '#fff', cursor: 'pointer', background: 'linear-gradient(135deg,#7c3aed,#a855f7)', border: 'none' }}>
+                <i className="ti ti-arrow-left" style={{ fontSize: 15 }}></i> Back
+            </button>
+
             <div className="toast-container position-fixed top-0 end-0 p-3">
                 {error && (
                     <div className="toast show bg-danger text-white">
@@ -107,7 +114,7 @@ export default function DeleteKPIReport() {
                                 </table>
                             </div>
                             {currentReport.status === "ARCHIVED" ? (
-                                setInfo("⚠️ This report is already archived!")
+                                <div className="alert alert-warning">⚠️ This report is already archived!</div>
                             ) : (
                                 <button className="btn btn-danger w-100" onClick={handleDelete}>Archive Report</button>
                             )}

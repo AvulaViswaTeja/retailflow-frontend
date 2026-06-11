@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
 
 export default function GetKPITrend() {
@@ -8,20 +9,19 @@ export default function GetKPITrend() {
     const [reports, setReports] = useState([]);
     const [error, setError] = useState("");
     const [info, setInfo] = useState("");
-    const [searched, setSearched] = useState(false);
+    const navigate = useNavigate();
 
     const handleSearch = async () => {
-        setSearched(true); setReports([]); setError(""); setInfo("");
+        setReports([]); setError(""); setInfo("");
         const token = localStorage.getItem("token");
         try {
             const res = await axios.get(
-                `http://localhost:1405/api/kpi-reports/scope/${scope}/trend`,
+                `http://localhost:8070/api/kpi-reports/scope/${scope}/trend`,
                 { params: { lastXDays: days },
                   headers: { Authorization: "Bearer " + token } });
             setReports(res.data);
-            if (res.data.length === 0) {
+            if (res.data.length === 0)
                 setInfo(`No trend data found for ${scope} in last ${days} days`);
-            }
         } catch (err) {
             setError("Failed to fetch trend data");
         }
@@ -36,7 +36,12 @@ export default function GetKPITrend() {
 
     return (
         <div className="container mt-4">
-            {/* ✅ Toast container for messages */}
+
+            <button onClick={() => navigate('/kpireport')}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 16, padding: '7px 16px', borderRadius: 8, fontSize: 13, color: '#fff', cursor: 'pointer', background: 'linear-gradient(135deg,#7c3aed,#a855f7)', border: 'none' }}>
+                <i className="ti ti-arrow-left" style={{ fontSize: 15 }}></i> Back
+            </button>
+
             <div className="toast-container position-fixed top-0 end-0 p-3">
                 {error && (
                     <div className="toast show bg-danger text-white">
@@ -68,10 +73,8 @@ export default function GetKPITrend() {
                             <label className="form-label">Scope</label>
                             <select className="form-select" value={scope}
                                 onChange={(e) => setScope(e.target.value)}>
-                                <option>DAILY</option>
-                                <option>WEEKLY</option>
-                                <option>MONTHLY</option>
-                                <option>CUSTOM</option>
+                                <option>DAILY</option><option>WEEKLY</option>
+                                <option>MONTHLY</option><option>CUSTOM</option>
                             </select>
                         </div>
                         <div className="col-md-4">

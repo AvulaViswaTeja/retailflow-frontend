@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function SaveReport() {
     const today = new Date().toISOString().split('T')[0];
@@ -18,16 +19,14 @@ export default function SaveReport() {
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
     const [copied, setCopied] = useState(false);
+    const navigate = useNavigate();
 
     const handleSubmit = async () => {
         setError(""); setResult(null); setLoading(true);
         const token = localStorage.getItem("token");
         try {
-            const res = await axios.post(
-                "http://localhost:1405/api/kpi-reports",
-                form,
-                { headers: { Authorization: "Bearer " + token } }
-            );
+            const res = await axios.post("http://localhost:8070/api/kpi-reports", form,
+                { headers: { Authorization: "Bearer " + token } });
             setResult(res.data);
         } catch (err) {
             setError(err.response?.data?.message || "Failed to generate report");
@@ -49,7 +48,12 @@ export default function SaveReport() {
 
     return (
         <div className="container mt-4">
-            {/* ✅ Toast container for messages */}
+
+            <button onClick={() => navigate('/kpireport')}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 16, padding: '7px 16px', borderRadius: 8, fontSize: 13, color: '#fff', cursor: 'pointer', background: 'linear-gradient(135deg,#7c3aed,#a855f7)', border: 'none' }}>
+                <i className="ti ti-arrow-left" style={{ fontSize: 15 }}></i> Back
+            </button>
+
             <div className="toast-container position-fixed top-0 end-0 p-3">
                 {error && (
                     <div className="toast show bg-danger text-white">
@@ -82,10 +86,8 @@ export default function SaveReport() {
                         <label className="form-label">Scope</label>
                         <select className="form-select" value={form.scope}
                             onChange={e => setForm({ ...form, scope: e.target.value })}>
-                            <option>DAILY</option>
-                            <option>WEEKLY</option>
-                            <option>MONTHLY</option>
-                            <option>CUSTOM</option>
+                            <option>DAILY</option><option>WEEKLY</option>
+                            <option>MONTHLY</option><option>CUSTOM</option>
                         </select>
                     </div>
 
