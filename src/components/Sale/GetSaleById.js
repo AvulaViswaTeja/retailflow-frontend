@@ -12,7 +12,7 @@ export default function GetSaleById() {
 
     try {
       let token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:1405/api/sales/" + saleId,{
+      const res = await axios.get("http://localhost:8070/api/sales/" + saleId,{
             headers: { "Authorization": "Bearer " + token }
         });
       console.log(res.data);

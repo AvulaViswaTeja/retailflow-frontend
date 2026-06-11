@@ -6,7 +6,7 @@ import {
     XAxis, YAxis, CartesianGrid, Tooltip,
     ResponsiveContainer, Legend
 } from 'recharts';
-
+ 
 const ROLE_ACCESS = {
     STORE_ASSOCIATE:    ['sales', 'products', 'catalog', 'notifications'],
     INVENTORY_MANAGER:  ['inventory', 'purchaseorder', 'products', 'catalog', 'notifications'],
@@ -17,7 +17,7 @@ const ROLE_ACCESS = {
                          'purchaseorder', 'products', 'catalog', 'invoice',
                          'payment', 'users', 'auditlog', 'notifications'],
 };
-
+ 
 const GRAD = {
     blue:   'linear-gradient(135deg,#2563eb,#3b82f6)',
     green:  'linear-gradient(135deg,#16a34a,#22c55e)',
@@ -27,7 +27,7 @@ const GRAD = {
     pink:   'linear-gradient(135deg,#db2777,#ec4899)',
     gray:   'linear-gradient(135deg,#475569,#64748b)',
 };
-
+ 
 const ALL_MODULES = [
    
     { key: 'kpi',           label: 'KPI Reports',     desc: 'Analytics and reporting',               route: '/kpireport',     icon: 'ti-chart-bar',        grad: GRAD.blue,   section: 'Analytics'  },
@@ -43,14 +43,14 @@ const ALL_MODULES = [
     { key: 'auditlog',      label: 'Audit Logs',      desc: 'System and user action history',        route: '/auditLog',      icon: 'ti-clipboard-list',   grad: GRAD.teal,   section: 'Admin'      },
     { key: 'notifications', label: 'Notifications',   desc: 'Alerts and system notifications',       route: '/notification',  icon: 'ti-bell',             grad: GRAD.pink,   section: 'System'     },
 ];
-
+ 
 const SECTIONS = ['Overview', 'Analytics', 'Operations', 'Finance', 'Admin', 'System'];
 const SECTION_ICONS = {
     Overview: 'ti-layout-dashboard', Analytics: 'ti-chart-dots',
     Operations: 'ti-layout-grid',    Finance: 'ti-report-money',
     Admin: 'ti-settings',            System: 'ti-bell',
 };
-
+ 
 export default function Dashboard() {
     const navigate = useNavigate();
     const token    = localStorage.getItem('token');
@@ -58,14 +58,14 @@ export default function Dashboard() {
     const userName = localStorage.getItem('userName') || 'User';
     const userId   = localStorage.getItem('userId');
     const allowed  = ROLE_ACCESS[role] || [];
-
+ 
     const [kpiReports,    setKpiReports]    = useState([]);
     const [compReports,   setCompReports]   = useState([]);
     const [notifications, setNotifications] = useState([]);
     const [showNotif,     setShowNotif]     = useState(false);
     const [showProfile,   setShowProfile]   = useState(false);
     const [markingId,     setMarkingId]     = useState(null);
-
+ 
     useEffect(() => {
         if (!token || !role) { navigate('/login'); return; }
         if (allowed.includes('kpi'))
@@ -80,19 +80,19 @@ export default function Dashboard() {
             return () => clearInterval(iv);
         }
     }, []);
-
+ 
     const fetchNotifications = () => {
         axios.get('http://localhost:8070/api/notifications/user/' + userId, { headers: { Authorization: 'Bearer ' + token } })
             .then(r => setNotifications(r.data || [])).catch(() => {});
     };
-
+ 
     const markAsRead = (id) => {
         setMarkingId(id);
         axios.patch(`http://localhost:8070/api/notifications/${id}/read`, {}, { headers: { Authorization: 'Bearer ' + token } })
             .then(() => { setNotifications(p => p.map(n => n.notificationId === id ? { ...n, status: 'READ' } : n)); setMarkingId(null); })
             .catch(() => setMarkingId(null));
     };
-
+ 
     const activeKPI  = kpiReports.filter(r => r.status === 'ACTIVE');
     const latest     = activeKPI[activeKPI.length - 1] || {};
     const activeComp = compReports.filter(r => r.status !== 'ARCHIVED');
@@ -101,35 +101,35 @@ export default function Dashboard() {
     const passCount  = activeComp.filter(r => r.status === 'PASS').length;
     const health     = failCount > 0 ? 'Critical' : warnCount > 0 ? 'At risk' : 'Healthy';
     const unread     = notifications.filter(n => n.status === 'UNREAD').length;
-
+ 
     const salesTrend = activeKPI.map(r => ({ name: r.scope, sales: parseFloat(r.salesGrowth) || 0 }));
     const thresholdData = [
         { name: 'Stock Turnover', actual: parseFloat(latest.stockTurnover) || 0, threshold: 2.0 },
         { name: 'Sales Growth',   actual: parseFloat(latest.salesGrowth)   || 0, threshold: 0   },
         { name: 'Shrinkage',      actual: parseFloat(latest.shrinkageRate)  || 0, threshold: 5.0 },
     ];
-
+ 
     const vd = s => s === 'PASS' ? { bg: 'rgba(34,197,94,.18)', c: '#6ee7a8' }
                   : s === 'WARNING' ? { bg: 'rgba(245,158,11,.18)', c: '#fcd34d' }
                   : s === 'FAIL' ? { bg: 'rgba(255,77,109,.18)', c: '#ff8fa5' }
                   : { bg: 'rgba(255,255,255,.08)', c: '#9aa6c7' };
-
+ 
     const cat = c => c === 'STOCK_ALERT' ? { bg: 'rgba(245,158,11,.18)', c: '#fcd34d' }
                    : c === 'PAYMENT' ? { bg: 'rgba(59,130,246,.18)', c: '#7eb6ff' }
                    : { bg: 'rgba(34,197,94,.18)', c: '#6ee7a8' };
-
+ 
     const kpiCards = [
         { label: 'Stock Turnover', value: latest.stockTurnover || '—', hint: 'Min: 2.0', grad: GRAD.blue,  icon: 'ti-rotate-clockwise' },
         { label: 'Sales Growth',   value: latest.salesGrowth   != null ? `${latest.salesGrowth >= 0 ? '+' : ''}${latest.salesGrowth}%` : '—', hint: 'Min: 0%', grad: GRAD.green, icon: 'ti-trending-up' },
         { label: 'Shrinkage',      value: latest.shrinkageRate != null ? `${latest.shrinkageRate}%` : '—', hint: 'Max: 5%', grad: GRAD.amber, icon: 'ti-package' },
         { label: 'Compliance',     value: health, hint: `${passCount} Pass · ${warnCount} Warn · ${failCount} Fail`, grad: GRAD.teal, icon: 'ti-shield-check' },
     ];
-
+ 
     const panel = { background: '#141a35', border: '1px solid rgba(255,255,255,.07)', borderRadius: 15, overflow: 'hidden' };
-
+ 
     return (
         <div style={{ background: '#0a0e27', minHeight: '100vh', fontFamily: 'system-ui, sans-serif', userSelect: 'none' }}>
-
+ 
             {/* Top bar */}
             <nav style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '14px 26px', background: 'linear-gradient(90deg,#1a1a40,#1e3a6e)', position: 'sticky', top: 0, zIndex: 100 }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 11, fontSize: 16, fontWeight: 500, color: '#fff', userSelect: 'none' }}>
@@ -139,7 +139,7 @@ export default function Dashboard() {
                     RetailFlow
                 </div>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-
+ 
                     {/* Profile dropdown trigger */}
                     <div style={{ position: 'relative' }}>
                         <button onClick={() => { setShowProfile(!showProfile); setShowNotif(false); }} aria-label="Profile menu"
@@ -151,7 +151,7 @@ export default function Dashboard() {
                             <span style={{ fontSize: 13, color: '#e2e8f5', fontWeight: 500 }}>{userName}</span>
                             <i className="ti ti-chevron-down" aria-hidden="true" style={{ fontSize: 15, color: '#9aa6c7', transition: 'transform .2s', transform: showProfile ? 'rotate(180deg)' : 'none' }}></i>
                         </button>
-
+ 
                         {/* Profile dropdown menu */}
                         {showProfile && (
                             <div style={{ position: 'absolute', right: 0, top: '125%', width: 240, zIndex: 1050, ...panel, boxShadow: '0 20px 50px rgba(0,0,0,.5)' }}>
@@ -166,7 +166,7 @@ export default function Dashboard() {
                                         </span>
                                     </div>
                                 </div>
-
+ 
                                 {/* Notifications item */}
                                 <button onClick={() => { setShowNotif(true); setShowProfile(false); }}
                                     style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 11, padding: '12px 16px', background: 'transparent', border: 'none', borderBottom: '1px solid rgba(255,255,255,.05)', cursor: 'pointer', color: '#cdd5ea', fontSize: 13 }}>
@@ -174,7 +174,7 @@ export default function Dashboard() {
                                     <span style={{ flex: 1, textAlign: 'left' }}>Notifications</span>
                                     {unread > 0 && <span style={{ fontSize: 10, padding: '2px 8px', borderRadius: 20, background: 'rgba(255,77,109,.18)', color: '#ff8fa5' }}>{unread}</span>}
                                 </button>
-
+ 
                                 {/* Logout item */}
                                 <button onClick={() => { localStorage.clear(); navigate('/'); }}
                                     style={{ width: '100%', display: 'flex', alignItems: 'center', gap: 11, padding: '12px 16px', background: 'transparent', border: 'none', cursor: 'pointer', color: '#ff8fa5', fontSize: 13 }}>
@@ -183,7 +183,7 @@ export default function Dashboard() {
                                 </button>
                             </div>
                         )}
-
+ 
                         {/* Notifications panel (opened from dropdown) */}
                         {showNotif && (
                             <div style={{ position: 'absolute', right: 0, top: '125%', width: 340, zIndex: 1050, maxHeight: 400, overflowY: 'auto', ...panel, boxShadow: '0 20px 50px rgba(0,0,0,.5)' }}>
@@ -222,7 +222,7 @@ export default function Dashboard() {
                     </div>
                 </div>
             </nav>
-
+ 
             {/* Hero */}
             <div style={{ margin: 22, padding: '28px 30px', borderRadius: 18, background: 'linear-gradient(120deg,#5b3cc4 0%,#3b6ee0 55%,#2bb6c4 100%)', position: 'relative', overflow: 'hidden' }}>
                 <div style={{ position: 'absolute', top: -60, right: -30, width: 220, height: 220, borderRadius: '50%', background: 'rgba(255,255,255,.10)' }}></div>
@@ -238,9 +238,9 @@ export default function Dashboard() {
                     ))}
                 </div>
             </div>
-
+ 
             <div style={{ padding: '0 22px 28px' }}>
-
+ 
                
                 {/* Compliance officer cards */}
                 {role === 'COMPLIANCE_OFFICER' && (
@@ -257,7 +257,7 @@ export default function Dashboard() {
                         ))}
                     </div>
                 )}
-
+ 
                 {/* Charts */}
                 {(role === 'STORE_MANAGER' || role === 'ADMIN') && activeKPI.length > 0 && (
                     <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 18 }}>
@@ -313,7 +313,7 @@ export default function Dashboard() {
                         </div>
                     </div>
                 )}
-
+ 
                 {/* Module sections */}
                 {SECTIONS.map(section => {
                     const items = ALL_MODULES.filter(m => m.section === section);

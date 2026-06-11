@@ -15,7 +15,7 @@ export default function DeletePayment() {
     try {
       let token = localStorage.getItem("token");
       const res = await axios.get(
-        "http://localhost:1405/api/payments/" + paymentId,
+        "http://localhost:8070/api/payments/" + paymentId,
         { headers: { "Authorization": "Bearer " + token } }
       );
       setCurrentPayment(res.data);
@@ -31,7 +31,7 @@ export default function DeletePayment() {
     try {
       let token = localStorage.getItem("token"); 
       await axios.patch(
-        "http://localhost:1405/api/payments/" + paymentId + "/refund",
+        "http://localhost:8070/api/payments/" + paymentId + "/refund",
         null,
         { headers: { "Authorization": "Bearer " + token } }
       );

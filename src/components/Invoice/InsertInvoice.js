@@ -15,7 +15,7 @@ export default function InsertInvoice() {
     try {
       let token = localStorage.getItem("token");
       const res = await axios.post(
-        "http://localhost:1405/api/invoices",
+        "http://localhost:8070/api/invoices",
         {
           saleId: parseInt(saleId),
           amount: parseFloat(amount),

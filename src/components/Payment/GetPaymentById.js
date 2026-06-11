@@ -13,7 +13,7 @@ export default function GetPaymentById() {
     try {
       let token = localStorage.getItem("token");
       const res = await axios.get(
-        "http://localhost:1405/api/payments/" + paymentId,
+        "http://localhost:8070/api/payments/" + paymentId,
         { headers: { "Authorization": "Bearer " + token } }
       );
       setPayment(res.data);
