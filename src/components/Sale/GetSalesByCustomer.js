@@ -13,7 +13,7 @@ export default function GetSalesByCustomers() {
     setError("");
     try {
       let token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:1405/api/sales/customer/" + customerId,{
+      const res = await axios.get("http://localhost:8070/api/sales/customer/" + customerId,{
             headers: { "Authorization": "Bearer " + token }
         });
       console.log(res.data);

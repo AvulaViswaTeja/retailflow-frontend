@@ -27,7 +27,7 @@ export default function AddUser() {
             "phoneNumber": phone
         }
 
-        axios.post("http://localhost:1405/api/users", data, {
+        axios.post("http://localhost:8070/api/users", data, {
             headers: { "Authorization": "Bearer " + token }
         })
         .then(() => {

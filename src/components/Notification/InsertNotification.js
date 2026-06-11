@@ -23,7 +23,7 @@ export default function InsertNotification() {
             "category": category
         }
 
-        axios.post("http://localhost:1405/api/notifications", data, {
+        axios.post("http://localhost:8070/api/notifications", data, {
             headers: { "Authorization": "Bearer " + token }
         })
         .then(() => {

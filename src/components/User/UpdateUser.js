@@ -20,7 +20,7 @@ export default function UpdateUser() {
 
         let token = localStorage.getItem("token");
 
-        axios.get("http://localhost:1405/api/users/" + userId, {
+        axios.get("http://localhost:8070/api/users/" + userId, {
             headers: { "Authorization": "Bearer " + token }
         })
         .then((res) => {
@@ -52,7 +52,7 @@ export default function UpdateUser() {
             "password": password
         }
 
-        axios.put("http://localhost:1405/api/users/" + userId, data, {
+        axios.put("http://localhost:8070/api/users/" + userId, data, {
             headers: { "Authorization": "Bearer " + token }
         })
         .then(() => {

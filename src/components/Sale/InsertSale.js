@@ -12,7 +12,7 @@ export default function InsertSale() {
 
  useEffect(()=>{
   let token = localStorage.getItem("token");
-  axios.get("http://localhost:1405/api/products",{
+  axios.get("http://localhost:8070/api/products",{
     headers:{"Authorization":"Bearer "+token}
   }).then((res)=>{
     setProducts(res.data);
