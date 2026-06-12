@@ -26,7 +26,7 @@ export default function UpdateInventory() {
     setErrorMsg("");
     setSuccessMsg("");
 
-    let url = "http://localhost:1405/api/inventory/" + inventoryId;
+    let url = "http://localhost:8070/api/inventory/" + inventoryId;
     let inventory = {
       productId: productId,
       locationId: locationId,

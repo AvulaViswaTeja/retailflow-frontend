@@ -17,7 +17,7 @@ export default function GetAllInventoryPaginated() {
     let fetchPaginated = (currentPage) => {
         let token = localStorage.getItem("token");
 
-        axios.get("http://localhost:1405/api/inventory/paginated", {
+        axios.get("http://localhost:8070/api/inventory/paginated", {
             headers: { "Authorization": "Bearer " + token },
             params: { page: currentPage, size: size }
         })

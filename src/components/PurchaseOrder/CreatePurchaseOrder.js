@@ -20,7 +20,7 @@ export default function CreatePurchaseOrder() {
     
     
     useEffect(() => {
-            axios.get("http://localhost:1405/api/products", {
+            axios.get("http://localhost:8070/api/products", {
                 headers: { "Authorization": "Bearer " + token }
             })
             .then((res) => {
@@ -34,7 +34,7 @@ export default function CreatePurchaseOrder() {
         e.preventDefault(); // This safely intercept form submission
         setErrorMsg("");    
         setSuccessMsg("");
-        let url = "http://localhost:1405/api/purchase-orders";
+        let url = "http://localhost:8070/api/purchase-orders";
         let purchaseorder = {
             "supplierId": parseInt(supplierId), // Parse into an integer if needed by your API
             "expectedDeliveryDate": expectedDeliveryDate,

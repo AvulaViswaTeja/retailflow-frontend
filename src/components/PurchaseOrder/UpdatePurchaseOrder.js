@@ -31,7 +31,7 @@ export default function UpdatePurchaseOrder() {
     setErrorMsg("");
     setSuccessMsg("");
 
-    let url = `http://localhost:1405/api/purchase-orders/${purchaseOrderId}`;
+    let url = `http://localhost:8070/api/purchase-orders/${purchaseOrderId}`;
     let purchaseorder = {
       purchaseOrderId: parseInt(purchaseOrderId),
       productId: parseInt(productId),
@@ -55,7 +55,7 @@ export default function UpdatePurchaseOrder() {
 
   // Load existing purchase order
   useEffect(() => {
-    let url = `http://localhost:1405/api/purchase-orders/${purchaseOrderId}`;
+    let url = `http://localhost:8070/api/purchase-orders/${purchaseOrderId}`;
     axios.get(url, {
       headers: { "Authorization": `Bearer ${token}` }
     })
