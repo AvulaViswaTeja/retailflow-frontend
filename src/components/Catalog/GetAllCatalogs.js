@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router';
 
 export default function GetAllCatalogs() {
     let [catalogs, setCatalogs] = useState([]);
-    let [productMap, setProductMap] = useState({});  // ✅ productId -> productName
+    let [productMap, setProductMap] = useState({});  
     let [showConfirmModal, setShowConfirmModal] = useState(false);
     let [showResultModal, setShowResultModal] = useState(false);
     let [selectedId, setSelectedId] = useState(null);
@@ -14,7 +14,7 @@ export default function GetAllCatalogs() {
 
     const navigate = useNavigate();
 
-    // ✅ Fetch all products to build productId -> productName map
+    
     useEffect(() => {
         let token = localStorage.getItem("token");
         axios.get("http://localhost:8070/api/products", {
@@ -102,7 +102,7 @@ export default function GetAllCatalogs() {
                                     <th>Expiry Date</th>
                                     <th>Status</th>
                                     <th>Product ID</th>
-                                    <th>Product Name</th>  {/* ✅ Added */}
+                                    <th>Product Name</th>  
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -122,7 +122,6 @@ export default function GetAllCatalogs() {
                                             </span>
                                         </td>
                                         <td>{catalog.productId}</td>
-                                        {/* ✅ Look up product name from map */}
                                         <td>{productMap[catalog.productId] || "-"}</td>
                                         <td>
                                             <button
@@ -146,7 +145,7 @@ export default function GetAllCatalogs() {
                 </div>
             </div>
 
-            {/* ✅ Confirm Delete Modal */}
+           
             {showConfirmModal && (
                 <>
                     <div className="modal-backdrop fade show" onClick={() => setShowConfirmModal(false)}></div>
@@ -170,7 +169,7 @@ export default function GetAllCatalogs() {
                 </>
             )}
 
-            {/* ✅ Result Modal */}
+            
             {showResultModal && (
                 <>
                     <div className="modal-backdrop fade show" onClick={() => setShowResultModal(false)}></div>

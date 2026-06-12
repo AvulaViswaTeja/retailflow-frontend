@@ -48,7 +48,7 @@ export default function ProductHome() {
                     Products
                 </div>
 
-                {/* ✅ Dashboard button only */}
+                {/* Dashboard button */}
                 <button onClick={() => navigate('/dashboard')}
                     style={{
                         display: 'flex', alignItems: 'center', gap: 6,
@@ -66,7 +66,7 @@ export default function ProductHome() {
             <div style={{ padding: '0 22px 28px' }}>
                 {isHome ? (
                     <>
-                        {/* Hero */}
+                        
                         <div style={{
                             margin: '22px 0',
                             padding: '28px 30px',

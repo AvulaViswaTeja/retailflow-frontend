@@ -9,11 +9,10 @@ export default function GetAllCatalogsPaginated() {
     const [size] = useState(5);
     const [totalPages, setTotalPages] = useState(0);
     const [totalElements, setTotalElements] = useState(0);
-    const [productMap, setProductMap] = useState({});  // ✅ store productId -> productName
+    const [productMap, setProductMap] = useState({});  
 
     const navigate = useNavigate();
 
-    // ✅ Fetch all products once to build productId -> productName map
     useEffect(() => {
         let token = localStorage.getItem("token");
         axios.get("http://localhost:8070/api/products", {
@@ -118,7 +117,7 @@ export default function GetAllCatalogsPaginated() {
                                                 </span>
                                             </td>
                                             <td>{catalog.productId}</td>
-                                            {/* ✅ Look up product name from map */}
+                                            
                                             <td>{productMap[catalog.productId] || "-"}</td>
                                         </tr>
                                     ))

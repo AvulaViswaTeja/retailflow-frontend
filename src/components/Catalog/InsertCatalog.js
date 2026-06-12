@@ -106,7 +106,7 @@ export default function InsertCatalog() {
     return (
         <div className="container mt-4">
 
-            {/* ✅ Back button */}
+          
             <button
             onClick={() => navigate('/Catalog')}
             style={{
