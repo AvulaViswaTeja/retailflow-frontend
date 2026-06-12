@@ -29,29 +29,13 @@ export default function Login() {
             "password": password
         })
             .then((res) => {
-                const token = res.data.token;
-                const role = res.data.role;
-                const userName = res.data.userName;
+                localStorage.setItem("token",    res.data.token);
+                localStorage.setItem("role",     res.data.role);
+                localStorage.setItem("userName", res.data.userName);
+                localStorage.setItem("email",    email);
+                localStorage.setItem("userId",   res.data.userId);   // ← from login response
 
-                localStorage.setItem("token", token);
-                localStorage.setItem("role", role);
-                localStorage.setItem("userName", userName);
-                localStorage.setItem("email", email);
-
-                axios.get("http://localhost:8070/api/users/me", {
-                    headers: { "Authorization": "Bearer " + token }
-                })
-                    .then((meRes) => {
-                                         
-                        localStorage.setItem("userId", meRes.data.userId);
-                                
-                    })
-                    .catch((err) => {
-                        console.log("ME FAILED:", err.response?.status, err.message);  // ← see the error
-                    })
-                    .finally(() => {
-                        navigate("/dashboard");
-                    });
+                navigate("/dashboard");
             })
             .catch(() => {
                 setError("Invalid email or password. Please try again.");

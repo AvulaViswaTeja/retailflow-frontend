@@ -82,9 +82,15 @@ export default function Dashboard() {
     }, []);
 
     const fetchNotifications = () => {
-        axios.get('http://localhost:8070/api/notifications/user/' + userId, { headers: { Authorization: 'Bearer ' + token } })
-            .then(r => setNotifications(r.data || [])).catch(() => {});
-    };
+    console.log("Dashboard userId:", userId);   // ← what userId is it querying?
+    axios.get('http://localhost:8070/api/notifications/user/' + userId, 
+        { headers: { Authorization: 'Bearer ' + token } })
+        .then(r => {
+            console.log("Notifications response:", r.data);   // ← what comes back?
+            setNotifications(r.data || []);
+        })
+        .catch(err => console.log("Notif error:", err.response?.status, err.message));
+};
 
     const markAsRead = (id) => {
         setMarkingId(id);

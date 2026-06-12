@@ -122,7 +122,7 @@ export default function Register() {
                             <option value="FINANCE_OFFICER"    style={{ color: "#000" }}>Finance Officer</option>
                             <option value="COMPLIANCE_OFFICER" style={{ color: "#000" }}>Compliance Officer</option>
                             <option value="STORE_MANAGER"      style={{ color: "#000" }}>Store Manager</option>
-                            <option value="ADMIN"              style={{ color: "#000" }}>Admin</option>
+                            
                         </select>
                     </div>
 
