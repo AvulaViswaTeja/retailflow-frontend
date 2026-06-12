@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router';
 
 export default function GetProductsByCategory() {
 
@@ -8,6 +9,8 @@ export default function GetProductsByCategory() {
     const [products, setProducts] = useState([]);
     const [showErrorModal, setShowErrorModal] = useState(false);
     const [modalMessage, setModalMessage] = useState("");
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         let token = localStorage.getItem("token");
@@ -54,6 +57,21 @@ export default function GetProductsByCategory() {
 
     return (
         <div className="container mt-4">
+
+            {/* ✅ Back button */}
+            <button
+            onClick={() => navigate('/Product')}
+            style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                color: '#fff', cursor: 'pointer',
+                background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+                border: 'none', marginBottom: 16,
+            }}>
+            ← Back
+            </button>
+
+
             <div className="card shadow-sm">
                 <div className="card-header bg-primary text-white">
                     <h4 className="mb-0">Get Products By Category</h4>
