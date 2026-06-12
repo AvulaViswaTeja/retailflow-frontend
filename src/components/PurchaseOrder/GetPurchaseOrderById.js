@@ -1,7 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 export default function GetPurchaseOrderById() {
+  const navigate = useNavigate();
   const [poId, setPoId] = useState("");
   const [purchaseOrder, setPurchaseOrder] = useState(null);
   const [hasSearched, setHasSearched] = useState(false); // Manages dynamic placeholder visibility
@@ -37,6 +38,18 @@ export default function GetPurchaseOrderById() {
           <button type="button" className="btn-close" onClick={() => setErrorMsg("")}></button>
         </div>
       )}
+       {/*  Back button */}
+            <button
+            onClick={() => navigate('/PurchaseOrder')}
+            style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                color: '#fff', cursor: 'pointer',
+                background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+                border: 'none', marginBottom: 16,
+            }}>
+            ← Back
+            </button>
       {/* Target Lookup Card Container */}
       <div className="card shadow-sm mb-4">
         <div className="card-header bg-dark text-white p-3">

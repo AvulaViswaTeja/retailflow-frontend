@@ -1,12 +1,13 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation,useNavigate } from 'react-router-dom';
 
 export default function GetAllInventory() {
     let token = localStorage.getItem("token");
     let [inventoryArray, setInventoryData] = useState([]);
     let [errorMsg, setErrorMsg] = useState("");
     const location = useLocation();
+    const navigate = useNavigate();
     const [successMsg, setSuccessMsg] = useState(location.state?.successMsg || "");
 
     useEffect(() => {
@@ -44,6 +45,19 @@ export default function GetAllInventory() {
                     <button type="button" className="btn-close" onClick={() => setSuccessMsg("")}></button>
                 </div>
             )}
+
+            {/*  Back button */}
+            <button
+            onClick={() => navigate('/Inventory')}
+            style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                color: '#fff', cursor: 'pointer',
+                background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+                border: 'none', marginBottom: 16,
+            }}>
+            ← Back
+            </button>
 
             <div className="row mb-4 align-items-center">
                 <div className="col">

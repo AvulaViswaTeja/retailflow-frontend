@@ -1,11 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
-
+import { useNavigate } from "react-router-dom";
 export default function GetPurchaseOrdersByStatus() {
   const [status, setStatus] = useState("");
   const [poArr, setPoArr] = useState([]);
   const [hasSearched, setHasSearched] = useState(false); // Helps manage the empty state visibility
   const token = localStorage.getItem("token");
+  const navigate = useNavigate();
    let [errorMsg, setErrorMsg] = useState("");
   const fetchPurchaseOrders = () => {
     if (!status) return;
@@ -35,6 +36,18 @@ export default function GetPurchaseOrdersByStatus() {
           <button type="button" className="btn-close" onClick={() => setErrorMsg("")}></button>
         </div>
       )}
+       {/*  Back button */}
+            <button
+            onClick={() => navigate('/PurchaseOrder')}
+            style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                color: '#fff', cursor: 'pointer',
+                background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+                border: 'none', marginBottom: 16,
+            }}>
+            ← Back
+            </button>
       {/* Search Filter Card */}
       <div className="card shadow-sm mb-4">
         <div className="card-header bg-dark text-white p-3">

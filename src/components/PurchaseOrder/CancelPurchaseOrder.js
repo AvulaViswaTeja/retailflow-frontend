@@ -49,6 +49,18 @@ export default function CancelPurchaseOrder() {
                             Are you sure you want to cancel Purchase Order <strong>#{purchaseOrderId}</strong>? This action cannot be undone.
                         </p>
                     )}
+                    {/*  Back button */}
+            <button
+            onClick={() => navigate('/PurchaseOrder')}
+            style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                color: '#fff', cursor: 'pointer',
+                background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+                border: 'none', marginBottom: 16,
+            }}>
+            ← Back
+            </button>
 
                     <div className="d-flex justify-content-end gap-2">
                         <button
