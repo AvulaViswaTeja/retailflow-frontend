@@ -1,23 +1,32 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function DeleteNotification() {
 
-    const [notificationId, setNotificationId] = useState("");
-    const [notification, setNotification] = useState(null);
-    const [notificationFound, setNotificationFound] = useState(false);
-    const [error, setError] = useState("");
-    const [success, setSuccess] = useState("");
-    const [showConfirm, setShowConfirm] = useState(false);
+    let [notificationId, setNotificationId] = useState("");
+    let [notification, setNotification] = useState(null);
+    let [notificationFound, setNotificationFound] = useState(false);
+    let [showConfirm, setShowConfirm] = useState(false);
+
+    let [showModal, setShowModal] = useState(false);
+    let [modalMessage, setModalMessage] = useState("");
+    let [modalSuccess, setModalSuccess] = useState(true);
+
+    const navigate = useNavigate();
+
+    let showError = (msg) => {
+        setModalSuccess(false);
+        setModalMessage(msg);
+        setShowModal(true);
+    };
 
     let fetchNotification = (event) => {
         event.preventDefault();
-        setError("");
-        setSuccess("");
         setShowConfirm(false);
 
         if (!notificationId) {
-            setError("Please enter a Notification ID");
+            showError("Please enter a Notification ID");
             return;
         }
 
@@ -29,18 +38,17 @@ export default function DeleteNotification() {
         .then((res) => {
             setNotification(res.data);
             setNotificationFound(true);
-            setError("");
         })
         .catch((err) => {
             if (err.response && err.response.status === 404) {
-                setError("Notification not found with ID: " + notificationId);
+                showError("Notification not found with ID: " + notificationId);
             } else {
-                setError("Error: " + err.message);
+                showError("Error: " + (err.response?.data?.message || err.message));
             }
             setNotification(null);
             setNotificationFound(false);
         });
-    }
+    };
 
     let deleteNotification = () => {
         let token = localStorage.getItem("token");
@@ -49,64 +57,61 @@ export default function DeleteNotification() {
             headers: { "Authorization": "Bearer " + token }
         })
         .then(() => {
-            setSuccess("Notification deleted successfully!");
+            setModalSuccess(true);
+            setModalMessage("Notification deleted successfully!");
+            setShowModal(true);
             setNotificationId("");
             setNotification(null);
             setNotificationFound(false);
             setShowConfirm(false);
-            setError("");
         })
         .catch((err) => {
             if (err.response) {
-                setError("Error: " + err.response.status
-                    + " - " + JSON.stringify(err.response.data));
+                showError("Failed to delete: " + (err.response.data?.message || err.response.status));
             } else {
-                setError("Network error: " + err.message);
+                showError("Network error: " + err.message);
             }
             setShowConfirm(false);
         });
-    }
+    };
 
     let reset = () => {
         setNotificationId("");
         setNotification(null);
         setNotificationFound(false);
-        setError("");
-        setSuccess("");
         setShowConfirm(false);
-    }
+    };
 
     return (
+
         <div className="container mt-4">
-            <div className="card shadow-sm" style={{ maxWidth: 500 }}>
+
+            <button
+                onClick={() => navigate('/notification')}
+                style={{
+                    display: 'flex', alignItems: 'center', gap: 6,
+                    padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                    color: '#fff', cursor: 'pointer',
+                    background: 'linear-gradient(135deg,#db2777,#ec4899)',
+                    border: 'none', marginBottom: 16,
+                }}>
+                ← Back
+            </button>
+
+            <div className="card shadow-sm">
+                <div className="card-header bg-primary text-white">
+                    <h4 className="mb-0">Delete Notification</h4>
+                </div>
                 <div className="card-body">
 
-                    <h5 className="card-title mb-4">Delete Notification</h5>
-
-                    {/* Error Message */}
-                    {error && (
-                        <div className="alert alert-danger alert-dismissible py-2 small" role="alert">
-                            {error}
-                            <button type="button" className="btn-close" onClick={() => setError("")}></button>
-                        </div>
-                    )}
-
-                    {/* Success Message */}
-                    {success && (
-                        <div className="alert alert-success alert-dismissible py-2 small" role="alert">
-                            {success}
-                            <button type="button" className="btn-close" onClick={() => setSuccess("")}></button>
-                        </div>
-                    )}
-
-                    {/* Search Form */}
+                    {/* Search form */}
                     <form onSubmit={fetchNotification}>
                         <div className="mb-3">
                             <label className="form-label">Notification ID</label>
                             <input
                                 type="number"
                                 className="form-control"
-                                placeholder="enter notification id"
+                                placeholder="Enter notification id"
                                 value={notificationId}
                                 onChange={(e) => setNotificationId(e.target.value)}
                             />
@@ -121,35 +126,19 @@ export default function DeleteNotification() {
                         </div>
                     </form>
 
-                    {/* Notification Details */}
+                    {/* Notification details */}
                     {notificationFound && notification && (
                         <div className="mt-4">
                             <h6 className="text-muted mb-3">Notification Found</h6>
                             <table className="table table-bordered table-sm align-middle">
                                 <tbody>
-                                    <tr>
-                                        <th>Notification ID</th>
-                                        <td>{notification.notificationId}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>User ID</th>
-                                        <td>{notification.userId}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>User Name</th>
-                                        <td>{notification.userName}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Message</th>
-                                        <td>{notification.message}</td>
-                                    </tr>
+                                    <tr><th>Notification ID</th><td>{notification.notificationId}</td></tr>
+                                    <tr><th>User ID</th><td>{notification.userId}</td></tr>
+                                    <tr><th>User Name</th><td>{notification.userName}</td></tr>
+                                    <tr><th>Message</th><td>{notification.message}</td></tr>
                                     <tr>
                                         <th>Category</th>
-                                        <td>
-                                            <span className="badge bg-info text-dark">
-                                                {notification.category}
-                                            </span>
-                                        </td>
+                                        <td><span className="badge bg-info text-dark">{notification.category}</span></td>
                                     </tr>
                                     <tr>
                                         <th>Status</th>
@@ -159,14 +148,11 @@ export default function DeleteNotification() {
                                             </span>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <th>Created Date</th>
-                                        <td>{notification.createdDate}</td>
-                                    </tr>
+                                    <tr><th>Created Date</th><td>{notification.createdDate}</td></tr>
                                 </tbody>
                             </table>
 
-                            {/* Delete Button — shows confirm box on click */}
+                            {/* Delete button — shows confirm box on click */}
                             {!showConfirm ? (
                                 <button
                                     className="btn btn-danger w-100 mt-2"
@@ -175,7 +161,6 @@ export default function DeleteNotification() {
                                     Delete Notification
                                 </button>
                             ) : (
-                                // Inline Confirmation Box
                                 <div className="alert alert-warning mt-3 mb-0">
                                     <p className="mb-2 small fw-semibold">
                                         Are you sure you want to delete this notification?
@@ -201,6 +186,48 @@ export default function DeleteNotification() {
 
                 </div>
             </div>
+
+            {/* Modal */}
+            {showModal && (
+                <>
+                    <div
+                        className="modal-backdrop fade show"
+                        onClick={() => setShowModal(false)}
+                    ></div>
+
+                    <div className="modal fade show d-block" tabIndex="-1">
+                        <div className="modal-dialog modal-dialog-centered">
+                            <div className="modal-content">
+
+                                <div className={`modal-header ${modalSuccess ? "bg-success" : "bg-danger"} text-white`}>
+                                    <h5 className="modal-title">
+                                        {modalSuccess ? "✅ Success" : "❌ Error"}
+                                    </h5>
+                                    <button
+                                        className="btn-close btn-close-white"
+                                        onClick={() => setShowModal(false)}
+                                    ></button>
+                                </div>
+
+                                <div className="modal-body">
+                                    <p className="mb-0">{modalMessage}</p>
+                                </div>
+
+                                <div className="modal-footer">
+                                    <button
+                                        className={`btn ${modalSuccess ? "btn-success" : "btn-danger"} w-100`}
+                                        onClick={() => setShowModal(false)}
+                                    >
+                                        OK
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
+
         </div>
     );
 }

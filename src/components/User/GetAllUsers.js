@@ -1,9 +1,22 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function GetAllUsers() {
 
-    const [users, setUsers] = useState([]);
+    let [users, setUsers] = useState([]);
+
+    let [showModal, setShowModal] = useState(false);
+    let [modalMessage, setModalMessage] = useState("");
+    let [modalSuccess, setModalSuccess] = useState(true);
+
+    const navigate = useNavigate();
+
+    let showError = (message) => {
+        setModalSuccess(false);
+        setModalMessage(message);
+        setShowModal(true);
+    };
 
     useEffect(() => {
         fetchAllUsers();
@@ -19,16 +32,32 @@ export default function GetAllUsers() {
             setUsers(res.data);
         })
         .catch((err) => {
-            alert("Error fetching users: " + err.message);
+            showError("Error fetching users: " + (err.response?.data?.message || err.message));
         });
-    }
+    };
 
     return (
-        <div className="container mt-4">
-            <div className="card shadow-sm">
-                <div className="card-body">
 
-                    <h5 className="card-title mb-4">All Users</h5>
+        <div className="container mt-4">
+
+            <button
+                onClick={() => navigate('/user')}
+                style={{
+                    display: 'flex', alignItems: 'center', gap: 6,
+                    padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                    color: '#fff', cursor: 'pointer',
+                    background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+                    border: 'none', marginBottom: 16,
+                }}>
+                ← Back
+            </button>
+
+            <div className="card shadow-sm">
+                <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 className="mb-0">All Users</h4>
+                    <span className="badge bg-light text-dark">{users.length} total</span>
+                </div>
+                <div className="card-body">
 
                     <div className="table-responsive">
                         <table className="table table-bordered table-hover table-sm align-middle">
@@ -69,6 +98,48 @@ export default function GetAllUsers() {
 
                 </div>
             </div>
+
+            {/* Modal */}
+            {showModal && (
+                <>
+                    <div
+                        className="modal-backdrop fade show"
+                        onClick={() => setShowModal(false)}
+                    ></div>
+
+                    <div className="modal fade show d-block" tabIndex="-1">
+                        <div className="modal-dialog modal-dialog-centered">
+                            <div className="modal-content">
+
+                                <div className={`modal-header ${modalSuccess ? "bg-success" : "bg-danger"} text-white`}>
+                                    <h5 className="modal-title">
+                                        {modalSuccess ? "✅ Success" : "❌ Error"}
+                                    </h5>
+                                    <button
+                                        className="btn-close btn-close-white"
+                                        onClick={() => setShowModal(false)}
+                                    ></button>
+                                </div>
+
+                                <div className="modal-body">
+                                    <p className="mb-0">{modalMessage}</p>
+                                </div>
+
+                                <div className="modal-footer">
+                                    <button
+                                        className={`btn ${modalSuccess ? "btn-success" : "btn-danger"} w-100`}
+                                        onClick={() => setShowModal(false)}
+                                    >
+                                        OK
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
+
         </div>
     );
 }

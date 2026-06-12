@@ -1,20 +1,33 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function UpdateUser() {
 
-    const [userId, setUserId] = useState("");
-    const [userName, setUserName] = useState("");
-    const [role, setRole] = useState("");
-    const [phone, setPhone] = useState("");
-    const [password, setPassword] = useState("");
-    const [userFound, setUserFound] = useState(false);
+    let [userId, setUserId] = useState("");
+    let [userName, setUserName] = useState("");
+    let [role, setRole] = useState("");
+    let [phone, setPhone] = useState("");
+    let [password, setPassword] = useState("");
+    let [userFound, setUserFound] = useState(false);
+
+    let [showModal, setShowModal] = useState(false);
+    let [modalMessage, setModalMessage] = useState("");
+    let [modalSuccess, setModalSuccess] = useState(true);
+
+    const navigate = useNavigate();
+
+    let showError = (message) => {
+        setModalSuccess(false);
+        setModalMessage(message);
+        setShowModal(true);
+    };
 
     let fetchUser = (event) => {
         event.preventDefault();
 
         if (!userId) {
-            alert("Please enter a User ID");
+            showError("Please enter a User ID");
             return;
         }
 
@@ -32,13 +45,13 @@ export default function UpdateUser() {
         })
         .catch((err) => {
             if (err.response && err.response.status === 404) {
-                alert("User not found with ID: " + userId);
+                showError("User not found with ID: " + userId);
             } else {
-                alert("Error: " + err.message);
+                showError("Error: " + err.message);
             }
             setUserFound(false);
         });
-    }
+    };
 
     let updateUser = (event) => {
         event.preventDefault();
@@ -46,34 +59,50 @@ export default function UpdateUser() {
         let token = localStorage.getItem("token");
 
         let data = {
-            "userName": userName,
-            "role": role,
-            "phoneNumber": phone,
-            "password": password
-        }
+            userName: userName,
+            role: role,
+            phoneNumber: phone,
+            password: password
+        };
 
         axios.put("http://localhost:8070/api/users/" + userId, data, {
             headers: { "Authorization": "Bearer " + token }
         })
         .then(() => {
-            alert("User updated successfully!");
+            setModalSuccess(true);
+            setModalMessage("User updated successfully!");
+            setShowModal(true);
         })
         .catch((err) => {
             if (err.response) {
-                alert("Error: " + err.response.status
-                    + " - " + JSON.stringify(err.response.data));
+                showError("Failed to update: " + (err.response.data?.message || err.response.status));
             } else {
-                alert("Network error: " + err.message);
+                showError("Network error: " + err.message);
             }
         });
-    }
+    };
 
     return (
-        <div className="container mt-4">
-            <div className="card shadow-sm" style={{ maxWidth: 500 }}>
-                <div className="card-body">
 
-                    <h5 className="card-title mb-4">Update User</h5>
+        <div className="container mt-4">
+
+            <button
+                onClick={() => navigate('/user')}
+                style={{
+                    display: 'flex', alignItems: 'center', gap: 6,
+                    padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                    color: '#fff', cursor: 'pointer',
+                    background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+                    border: 'none', marginBottom: 16,
+                }}>
+                ← Back
+            </button>
+
+            <div className="card shadow-sm">
+                <div className="card-header bg-primary text-white">
+                    <h4 className="mb-0">Update User</h4>
+                </div>
+                <div className="card-body">
 
                     {/* Step 1 — Search */}
                     <form onSubmit={fetchUser}>
@@ -82,7 +111,7 @@ export default function UpdateUser() {
                             <input
                                 type="number"
                                 className="form-control"
-                                placeholder="enter user id"
+                                placeholder="Enter user id"
                                 value={userId}
                                 onChange={(e) => setUserId(e.target.value)}
                             />
@@ -92,20 +121,18 @@ export default function UpdateUser() {
                         </button>
                     </form>
 
-                    {/* Step 2 — Update Form */}
+                    {/* Step 2 — Update form */}
                     {userFound && (
                         <form onSubmit={updateUser} className="mt-4">
 
-                            <h6 className="text-muted mb-3">
-                                Editing User ID: {userId}
-                            </h6>
+                            <h6 className="text-muted mb-3">Editing User ID: {userId}</h6>
 
                             <div className="mb-3">
                                 <label className="form-label">Name</label>
                                 <input
                                     type="text"
                                     className="form-control"
-                                    placeholder="enter name"
+                                    placeholder="Enter name"
                                     value={userName}
                                     onChange={(e) => setUserName(e.target.value)}
                                 />
@@ -133,7 +160,7 @@ export default function UpdateUser() {
                                 <input
                                     type="text"
                                     className="form-control"
-                                    placeholder="enter phone number"
+                                    placeholder="Enter phone number"
                                     value={phone}
                                     onChange={(e) => setPhone(e.target.value)}
                                 />
@@ -144,7 +171,7 @@ export default function UpdateUser() {
                                 <input
                                     type="password"
                                     className="form-control"
-                                    placeholder="leave blank to keep current password"
+                                    placeholder="Leave blank to keep current password"
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                 />
@@ -159,6 +186,48 @@ export default function UpdateUser() {
 
                 </div>
             </div>
+
+            {/* Modal */}
+            {showModal && (
+                <>
+                    <div
+                        className="modal-backdrop fade show"
+                        onClick={() => setShowModal(false)}
+                    ></div>
+
+                    <div className="modal fade show d-block" tabIndex="-1">
+                        <div className="modal-dialog modal-dialog-centered">
+                            <div className="modal-content">
+
+                                <div className={`modal-header ${modalSuccess ? "bg-success" : "bg-danger"} text-white`}>
+                                    <h5 className="modal-title">
+                                        {modalSuccess ? "✅ Success" : "❌ Error"}
+                                    </h5>
+                                    <button
+                                        className="btn-close btn-close-white"
+                                        onClick={() => setShowModal(false)}
+                                    ></button>
+                                </div>
+
+                                <div className="modal-body">
+                                    <p className="mb-0">{modalMessage}</p>
+                                </div>
+
+                                <div className="modal-footer">
+                                    <button
+                                        className={`btn ${modalSuccess ? "btn-success" : "btn-danger"} w-100`}
+                                        onClick={() => setShowModal(false)}
+                                    >
+                                        OK
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
+
         </div>
     );
 }

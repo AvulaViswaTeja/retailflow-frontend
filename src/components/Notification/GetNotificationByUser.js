@@ -1,15 +1,27 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function GetNotificationByUser() {
 
-    const [users, setUsers] = useState([]);
-    const [selectedUserId, setSelectedUserId] = useState("");
-    const [notifications, setNotifications] = useState([]);
-    const [error, setError] = useState("");
-    const [searched, setSearched] = useState(false);
+    let [users, setUsers] = useState([]);
+    let [selectedUserId, setSelectedUserId] = useState("");
+    let [notifications, setNotifications] = useState([]);
+    let [searched, setSearched] = useState(false);
 
-    // Load all users on component mount
+    let [showModal, setShowModal] = useState(false);
+    let [modalMessage, setModalMessage] = useState("");
+    let [modalSuccess, setModalSuccess] = useState(true);
+
+    const navigate = useNavigate();
+
+    let showError = (msg) => {
+        setModalSuccess(false);
+        setModalMessage(msg);
+        setShowModal(true);
+    };
+
+    // Load all users on mount
     useEffect(() => {
         let token = localStorage.getItem("token");
         axios.get("http://localhost:8070/api/users", {
@@ -19,18 +31,17 @@ export default function GetNotificationByUser() {
             setUsers(res.data);
         })
         .catch(() => {
-            setError("Failed to load users");
+            showError("Failed to load users");
         });
     }, []);
 
     let fetchByUser = (event) => {
         event.preventDefault();
-        setError("");
         setNotifications([]);
         setSearched(false);
 
         if (!selectedUserId) {
-            setError("Please select a user");
+            showError("Please select a user");
             return;
         }
 
@@ -48,37 +59,36 @@ export default function GetNotificationByUser() {
                 setSearched(true);
                 setNotifications([]);
             } else {
-                setError("Error: " + err.message);
+                showError("Error: " + (err.response?.data?.message || err.message));
             }
         });
-    }
+    };
 
-    let reset = () => {
-        setSelectedUserId("");
-        setNotifications([]);
-        setError("");
-        setSearched(false);
-    }
-
-    // Get selected user name for display
     let selectedUser = users.find((u) => u.userId === parseInt(selectedUserId));
 
     return (
+
         <div className="container mt-4">
+
+            <button
+                onClick={() => navigate('/notification')}
+                style={{
+                    display: 'flex', alignItems: 'center', gap: 6,
+                    padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                    color: '#fff', cursor: 'pointer',
+                    background: 'linear-gradient(135deg,#db2777,#ec4899)',
+                    border: 'none', marginBottom: 16,
+                }}>
+                ← Back
+            </button>
+
             <div className="card shadow-sm">
+                <div className="card-header bg-primary text-white">
+                    <h4 className="mb-0">Get Notifications By User</h4>
+                </div>
                 <div className="card-body">
 
-                    <h5 className="card-title mb-4">Get Notifications By User</h5>
-
-                    {/* Error */}
-                    {error && (
-                        <div className="alert alert-danger alert-dismissible py-2 small" role="alert">
-                            {error}
-                            <button type="button" className="btn-close" onClick={() => setError("")}></button>
-                        </div>
-                    )}
-
-                    {/* Search Form */}
+                    {/* Search form */}
                     <form onSubmit={fetchByUser}>
                         <div className="row g-2 align-items-end mb-3">
                             <div className="col-md-6">
@@ -90,7 +100,6 @@ export default function GetNotificationByUser() {
                                         setSelectedUserId(e.target.value);
                                         setNotifications([]);
                                         setSearched(false);
-                                        setError("");
                                     }}
                                 >
                                     <option value="">-- Select a user --</option>
@@ -105,7 +114,6 @@ export default function GetNotificationByUser() {
                                 <button type="submit" className="btn btn-primary">
                                     Search
                                 </button>
-                               
                             </div>
                         </div>
                     </form>
@@ -118,7 +126,7 @@ export default function GetNotificationByUser() {
                         </div>
                     )}
 
-                    {/* Results Table */}
+                    {/* Results table */}
                     {notifications.length > 0 && (
                         <div className="table-responsive mt-3">
                             <div className="d-flex justify-content-between align-items-center mb-2">
@@ -168,6 +176,48 @@ export default function GetNotificationByUser() {
 
                 </div>
             </div>
+
+            {/* Modal */}
+            {showModal && (
+                <>
+                    <div
+                        className="modal-backdrop fade show"
+                        onClick={() => setShowModal(false)}
+                    ></div>
+
+                    <div className="modal fade show d-block" tabIndex="-1">
+                        <div className="modal-dialog modal-dialog-centered">
+                            <div className="modal-content">
+
+                                <div className={`modal-header ${modalSuccess ? "bg-success" : "bg-danger"} text-white`}>
+                                    <h5 className="modal-title">
+                                        {modalSuccess ? "✅ Success" : "❌ Error"}
+                                    </h5>
+                                    <button
+                                        className="btn-close btn-close-white"
+                                        onClick={() => setShowModal(false)}
+                                    ></button>
+                                </div>
+
+                                <div className="modal-body">
+                                    <p className="mb-0">{modalMessage}</p>
+                                </div>
+
+                                <div className="modal-footer">
+                                    <button
+                                        className={`btn ${modalSuccess ? "btn-success" : "btn-danger"} w-100`}
+                                        onClick={() => setShowModal(false)}
+                                    >
+                                        OK
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
+
         </div>
     );
 }
