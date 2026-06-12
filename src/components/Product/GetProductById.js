@@ -20,7 +20,7 @@ export default function GetProductById() {
 
         let token = localStorage.getItem("token");
 
-        axios.get("http://localhost:1405/api/products/" + productId, {
+        axios.get("http://localhost:8070/api/products/" + productId, {
             headers: { "Authorization": "Bearer " + token }
         })
         .then((response) => {

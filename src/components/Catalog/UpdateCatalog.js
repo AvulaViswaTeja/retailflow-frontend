@@ -36,7 +36,7 @@ export default function UpdateCatalog() {
 
     let fetchCatalog = (catalogIdToFetch) => {
         let token = localStorage.getItem("token");
-        axios.get("http://localhost:1405/api/catalogs/" + catalogIdToFetch, {
+        axios.get("http://localhost:8070/api/catalogs/" + catalogIdToFetch, {
             headers: { "Authorization": "Bearer " + token }
         })
         .then((response) => {
@@ -66,7 +66,7 @@ export default function UpdateCatalog() {
 
     let updateHandler = () => {
         let token = localStorage.getItem("token");
-        axios.put("http://localhost:1405/api/catalogs/" + catalogId, {
+        axios.put("http://localhost:8070/api/catalogs/" + catalogId, {
             effectiveDate,
             expiryDate,
             status,
