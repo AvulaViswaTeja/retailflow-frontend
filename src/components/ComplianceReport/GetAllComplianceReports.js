@@ -6,7 +6,7 @@ export default function GetAllComplianceReports() {
     const [reports, setReports] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
-    const [info, setInfo] = useState(""); // for "no reports found" message
+    const [info, setInfo] = useState("");
     const navigate = useNavigate();
 
     useEffect(() => { loadReports(); }, []);
@@ -14,7 +14,7 @@ export default function GetAllComplianceReports() {
     const loadReports = async () => {
         const token = localStorage.getItem("token");
         try {
-            const res = await axios.get("http://localhost:1405/api/compliance-reports",
+            const res = await axios.get("http://localhost:8070/api/compliance-reports",
                 { headers: { Authorization: "Bearer " + token } });
             setReports(res.data);
             if (res.data.length === 0) setInfo("No compliance reports found!");
@@ -29,7 +29,7 @@ export default function GetAllComplianceReports() {
         if (!window.confirm("Archive Compliance Report #" + id + "?")) return;
         const token = localStorage.getItem("token");
         try {
-            await axios.delete(`http://localhost:1405/api/compliance-reports/${id}`,
+            await axios.delete(`http://localhost:8070/api/compliance-reports/${id}`,
                 { headers: { Authorization: "Bearer " + token } });
             setReports(reports.filter(r => r.reportId !== id));
         } catch (err) {
@@ -53,7 +53,12 @@ export default function GetAllComplianceReports() {
 
     return (
         <div className="container mt-4">
-            {/* ✅ Toast container for messages */}
+
+            <button onClick={() => navigate('/compliance')}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 16, padding: '7px 16px', borderRadius: 8, fontSize: 13, color: '#fff', cursor: 'pointer', background: 'linear-gradient(135deg,#7c3aed,#a855f7)', border: 'none' }}>
+                <i className="ti ti-arrow-left" style={{ fontSize: 15 }}></i> Back
+            </button>
+
             <div className="toast-container position-fixed top-0 end-0 p-3">
                 {error && (
                     <div className="toast show bg-danger text-white">

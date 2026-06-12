@@ -14,23 +14,17 @@ export default function UpdateComplianceReport() {
     useEffect(() => {
         if (!rid) { setFetching(false); return; }
         const token = localStorage.getItem("token");
-        axios.get(`http://localhost:1405/api/compliance-reports/${rid}`,
+        axios.get(`http://localhost:8070/api/compliance-reports/${rid}`,
             { headers: { Authorization: "Bearer " + token } })
-            .then(res => { 
-                setForm({ scope: res.data.scope, metrics: res.data.metrics || '' }); 
-                setFetching(false); 
-            })
-            .catch(() => { 
-                setError("Failed to load report"); 
-                setFetching(false); 
-            });
+            .then(res => { setForm({ scope: res.data.scope, metrics: res.data.metrics || '' }); setFetching(false); })
+            .catch(() => { setError("Failed to load report"); setFetching(false); });
     }, [rid]);
 
     const handleUpdate = async () => {
         setMessage(""); setError(""); setLoading(true);
         const token = localStorage.getItem("token");
         try {
-            await axios.put(`http://localhost:1405/api/compliance-reports/${rid}`, form,
+            await axios.put(`http://localhost:8070/api/compliance-reports/${rid}`, form,
                 { headers: { Authorization: "Bearer " + token } });
             setMessage("Compliance Report #" + rid + " updated successfully!");
             setTimeout(() => navigate("/compliance/getAll"), 1500);
@@ -49,9 +43,7 @@ export default function UpdateComplianceReport() {
                         <strong className="me-auto">Info</strong>
                         <button type="button" className="btn-close" data-bs-dismiss="toast"></button>
                     </div>
-                    <div className="toast-body">
-                        Please go to <strong>Get All Compliance Reports</strong> and click Edit.
-                    </div>
+                    <div className="toast-body">Please go to <strong>Get All Compliance Reports</strong> and click Edit.</div>
                 </div>
             </div>
             <button className="btn btn-success mt-3" onClick={() => navigate('/compliance/getAll')}>Go to All Reports</button>
@@ -67,7 +59,12 @@ export default function UpdateComplianceReport() {
 
     return (
         <div className="container mt-4">
-            {/* ✅ Toast container for success/error */}
+
+            <button onClick={() => navigate('/compliance')}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 16, padding: '7px 16px', borderRadius: 8, fontSize: 13, color: '#fff', cursor: 'pointer', background: 'linear-gradient(135deg,#7c3aed,#a855f7)', border: 'none' }}>
+                <i className="ti ti-arrow-left" style={{ fontSize: 15 }}></i> Back
+            </button>
+
             <div className="toast-container position-fixed top-0 end-0 p-3">
                 {error && (
                     <div className="toast show bg-danger text-white">
@@ -102,14 +99,12 @@ export default function UpdateComplianceReport() {
                             <option>MONTHLY</option><option>CUSTOM</option>
                         </select>
                     </div>
-
                     <div className="mb-3">
                         <label className="form-label">Metrics</label>
                         <input className="form-control font-monospace" value={form.metrics}
                             onChange={e => setForm({ ...form, metrics: e.target.value })}
                             placeholder="Stock Turnover: 4.75 | Sales Growth: 12.0% | Shrinkage: 1.8%" />
                     </div>
-
                     <div className="d-flex gap-2">
                         <button className="btn btn-warning w-100" onClick={handleUpdate} disabled={loading}>
                             {loading ? (<><span className="spinner-border spinner-border-sm me-2" role="status"></span>Updating...</>) : "UPDATE"}

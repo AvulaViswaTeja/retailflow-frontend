@@ -12,7 +12,7 @@ export default function GetCatalogsByProduct() {
 
     useEffect(() => {
         let token = localStorage.getItem("token");
-        axios.get("http://localhost:1405/api/products", {
+        axios.get("http://localhost:8070/api/products", {
             headers: { "Authorization": "Bearer " + token }
         })
         .then((res) => {
@@ -49,7 +49,7 @@ export default function GetCatalogsByProduct() {
 
         let token = localStorage.getItem("token");
 
-        axios.get("http://localhost:1405/api/catalogs/product/" + productId, {
+        axios.get("http://localhost:8070/api/catalogs/product/" + productId, {
             headers: { "Authorization": "Bearer " + token }
         })
         .then((response) => {

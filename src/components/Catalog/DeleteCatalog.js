@@ -22,7 +22,7 @@ export default function DeleteCatalog() {
         }
 
         let token = localStorage.getItem("token");
-        axios.get("http://localhost:1405/api/catalogs/" + searchId, {
+        axios.get("http://localhost:8070/api/catalogs/" + searchId, {
             headers: { "Authorization": "Bearer " + token }
         })
         .then((response) => {
@@ -41,7 +41,7 @@ export default function DeleteCatalog() {
         let token = localStorage.getItem("token");
         setShowConfirmModal(false);
 
-        axios.delete("http://localhost:1405/api/catalogs/" + searchId, {
+        axios.delete("http://localhost:8070/api/catalogs/" + searchId, {
             headers: { "Authorization": "Bearer " + token }
         })
         .then(() => {
