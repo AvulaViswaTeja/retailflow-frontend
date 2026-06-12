@@ -96,9 +96,8 @@ export default function UpdateCatalog() {
     return (
         <div className="container mt-4">
 
-            {/* ✅ Back button */}
             <button
-            onClick={() => navigate('/Product')}
+            onClick={() => navigate('/Catalog')}
             style={{
                 display: 'flex', alignItems: 'center', gap: 6,
                 padding: '6px 14px', borderRadius: 8, fontSize: 12,
