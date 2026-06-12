@@ -51,7 +51,7 @@ export default function UpdateProduct() {
 
     let fetchProductById = (pid) => {
         let token = localStorage.getItem("token");
-        axios.get("http://localhost:1405/api/products/" + pid, {
+        axios.get("http://localhost:8070/api/products/" + pid, {
             headers: { "Authorization": "Bearer " + token }
         })
         .then((response) => {
@@ -102,7 +102,7 @@ export default function UpdateProduct() {
 
     let updateHandler = () => {
         let token = localStorage.getItem("token");
-        axios.put("http://localhost:1405/api/products/" + productId, {
+        axios.put("http://localhost:8070/api/products/" + productId, {
             productName,
             category,
             price: parseFloat(price),

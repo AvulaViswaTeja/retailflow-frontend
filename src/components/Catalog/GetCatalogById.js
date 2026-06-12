@@ -20,7 +20,7 @@ export default function GetCatalogById() {
 
         let token = localStorage.getItem("token");
 
-        axios.get("http://localhost:1405/api/catalogs/" + catalogId, {
+        axios.get("http://localhost:8070/api/catalogs/" + catalogId, {
             headers: { "Authorization": "Bearer " + token }
         })
         .then((response) => {
