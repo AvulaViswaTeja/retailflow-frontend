@@ -12,7 +12,7 @@ export default function GetPurchaseOrdersBySupplier() {
     if (e && e.preventDefault) e.preventDefault();
     if (!supplierId) return;
 
-    let url = "http://localhost:1405/api/purchase-orders/supplier/" + supplierId;
+    let url = "http://localhost:8070/api/purchase-orders/supplier/" + supplierId;
     axios.get(url, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`

@@ -7,7 +7,7 @@ export default function GetAllPurchaseOrders() {
     let [POArray, setPOdata] = useState([]);
     let [errorMsg, setErrorMsg] = useState("");
     useEffect(() => {
-        let url = "http://localhost:1405/api/purchase-orders";
+        let url = "http://localhost:8070/api/purchase-orders";
         axios.get(url, {
             headers: {
                 'Authorization': `Bearer ${token}`

@@ -13,7 +13,7 @@ export default function CancelPurchaseOrder() {
         setCancelling(true);
         setErrorMsg("");
 
-        const url = `http://localhost:1405/api/purchase-orders/${purchaseOrderId}`;
+        const url = `http://localhost:8070/api/purchase-orders/${purchaseOrderId}`;
         axios.delete(url, {
             headers: { "Authorization": "Bearer " + token }
         })

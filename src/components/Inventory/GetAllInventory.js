@@ -10,7 +10,7 @@ export default function GetAllInventory() {
     const [successMsg, setSuccessMsg] = useState(location.state?.successMsg || "");
 
     useEffect(() => {
-        axios.get("http://localhost:1405/api/inventory", {
+        axios.get("http://localhost:8070/api/inventory", {
             headers: { "Authorization": "Bearer " + token }
         })
         .then((response) => {
