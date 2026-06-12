@@ -1,17 +1,19 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function GetKPILatestByScope() {
     const [scope, setScope] = useState("");
     const [report, setReport] = useState(null);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
+    const navigate = useNavigate();
 
     const handleSearch = async () => {
         setReport(null); setError(""); setLoading(true);
         const token = localStorage.getItem("token");
         try {
-            const res = await axios.get(`http://localhost:1405/api/kpi-reports/scope/${scope}/latest`,
+            const res = await axios.get(`http://localhost:8070/api/kpi-reports/scope/${scope}/latest`,
                 { headers: { Authorization: "Bearer " + token } });
             setReport(res.data);
         } catch (err) {
@@ -28,7 +30,12 @@ export default function GetKPILatestByScope() {
 
     return (
         <div className="container mt-4">
-            {/* ✅ Toast container for messages */}
+
+            <button onClick={() => navigate('/kpireport')}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 16, padding: '7px 16px', borderRadius: 8, fontSize: 13, color: '#fff', cursor: 'pointer', background: 'linear-gradient(135deg,#7c3aed,#a855f7)', border: 'none' }}>
+                <i className="ti ti-arrow-left" style={{ fontSize: 15 }}></i> Back
+            </button>
+
             <div className="toast-container position-fixed top-0 end-0 p-3">
                 {error && (
                     <div className="toast show bg-danger text-white">
@@ -47,13 +54,10 @@ export default function GetKPILatestByScope() {
                 </div>
                 <div className="card-body">
                     <div className="input-group mb-3">
-                        <select className="form-select" value={scope}
-                            onChange={(e) => setScope(e.target.value)}>
+                        <select className="form-select" value={scope} onChange={(e) => setScope(e.target.value)}>
                             <option value="">-- Select Scope --</option>
-                            <option>DAILY</option>
-                            <option>WEEKLY</option>
-                            <option>MONTHLY</option>
-                            <option>CUSTOM</option>
+                            <option>DAILY</option><option>WEEKLY</option>
+                            <option>MONTHLY</option><option>CUSTOM</option>
                         </select>
                         <button className="btn btn-primary" onClick={handleSearch} disabled={loading}>
                             {loading ? "Searching..." : "Search"}

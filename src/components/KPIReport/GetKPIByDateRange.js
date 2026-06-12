@@ -1,25 +1,25 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function GetKPIByDateRange() {
     const [startDate, setStartDate] = useState("");
     const [endDate, setEndDate] = useState("");
     const [reports, setReports] = useState([]);
     const [error, setError] = useState("");
-    const [searched, setSearched] = useState(false);
     const [info, setInfo] = useState("");
+    const navigate = useNavigate();
 
     const handleSearch = async () => {
-        setSearched(true); setReports([]); setError(""); setInfo("");
+        setReports([]); setError(""); setInfo("");
         const token = localStorage.getItem("token");
         try {
-            const res = await axios.get("http://localhost:1405/api/kpi-reports/date-range",
+            const res = await axios.get("http://localhost:8070/api/kpi-reports/date-range",
                 { params: { start: startDate, end: endDate },
                   headers: { Authorization: "Bearer " + token } });
             setReports(res.data);
-            if (res.data.length === 0) {
+            if (res.data.length === 0)
                 setInfo(`No KPI reports found between ${startDate} and ${endDate}`);
-            }
         } catch (err) {
             setError(err.response?.data?.message || "Something went wrong");
         }
@@ -32,7 +32,12 @@ export default function GetKPIByDateRange() {
 
     return (
         <div className="container mt-4">
-            {/* ✅ Toast container for messages */}
+
+            <button onClick={() => navigate('/kpireport')}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 16, padding: '7px 16px', borderRadius: 8, fontSize: 13, color: '#fff', cursor: 'pointer', background: 'linear-gradient(135deg,#7c3aed,#a855f7)', border: 'none' }}>
+                <i className="ti ti-arrow-left" style={{ fontSize: 15 }}></i> Back
+            </button>
+
             <div className="toast-container position-fixed top-0 end-0 p-3">
                 {error && (
                     <div className="toast show bg-danger text-white">

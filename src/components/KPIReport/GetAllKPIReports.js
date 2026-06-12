@@ -14,10 +14,8 @@ export default function GetAllKPIReports() {
     const loadReports = async () => {
         const token = localStorage.getItem("token");
         try {
-            const res = await axios.get(
-                "http://localhost:1405/api/kpi-reports",
-                { headers: { Authorization: "Bearer " + token } }
-            );
+            const res = await axios.get("http://localhost:8070/api/kpi-reports",
+                { headers: { Authorization: "Bearer " + token } });
             setReports(res.data);
             if (res.data.length === 0) setInfo("No KPI reports found!");
             setLoading(false);
@@ -31,10 +29,8 @@ export default function GetAllKPIReports() {
         if (!window.confirm("Archive KPI Report #" + id + "?")) return;
         const token = localStorage.getItem("token");
         try {
-            await axios.delete(
-                `http://localhost:1405/api/kpi-reports/${id}`,
-                { headers: { Authorization: "Bearer " + token } }
-            );
+            await axios.delete(`http://localhost:8070/api/kpi-reports/${id}`,
+                { headers: { Authorization: "Bearer " + token } });
             setReports(reports.filter(r => r.reportId !== id));
         } catch (err) {
             setError("Failed to archive report");
@@ -42,10 +38,7 @@ export default function GetAllKPIReports() {
     };
 
     const runComplianceCheck = (r) => {
-        const params = new URLSearchParams({
-            metrics: r.metrics,
-            scope:   r.scope
-        });
+        const params = new URLSearchParams({ metrics: r.metrics, scope: r.scope });
         navigate(`/compliance/insert?${params.toString()}`);
     };
 
@@ -63,7 +56,12 @@ export default function GetAllKPIReports() {
 
     return (
         <div className="container mt-4">
-            {/* ✅ Toast container for messages */}
+
+            <button onClick={() => navigate('/kpireport')}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 16, padding: '7px 16px', borderRadius: 8, fontSize: 13, color: '#fff', cursor: 'pointer', background: 'linear-gradient(135deg,#7c3aed,#a855f7)', border: 'none' }}>
+                <i className="ti ti-arrow-left" style={{ fontSize: 15 }}></i> Back
+            </button>
+
             <div className="toast-container position-fixed top-0 end-0 p-3">
                 {error && (
                     <div className="toast show bg-danger text-white">
@@ -96,14 +94,9 @@ export default function GetAllKPIReports() {
                             <table className="table table-striped table-hover mb-0">
                                 <thead className="table-dark">
                                     <tr>
-                                        <th>ID</th>
-                                        <th>Scope</th>
-                                        <th>Stock Turnover</th>
-                                        <th>Sales Growth</th>
-                                        <th>Shrinkage</th>
-                                        <th>Date</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
+                                        <th>ID</th><th>Scope</th><th>Stock Turnover</th>
+                                        <th>Sales Growth</th><th>Shrinkage</th>
+                                        <th>Date</th><th>Status</th><th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -118,7 +111,7 @@ export default function GetAllKPIReports() {
                                             <td><span className={`badge ${r.status === 'ACTIVE' ? 'bg-success' : 'bg-secondary'}`}>{r.status}</span></td>
                                             <td>
                                                 <button className="btn btn-success btn-sm me-1"
-                                                    onClick={() => runComplianceCheck(r)} title="Run compliance check for this report">🛡️</button>
+                                                    onClick={() => runComplianceCheck(r)} title="Run compliance check">🛡️</button>
                                                 <button className="btn btn-warning btn-sm me-1"
                                                     onClick={() => navigate(`/kpireport/update/${r.reportId}`)}>Edit</button>
                                                 <button className="btn btn-danger btn-sm"
