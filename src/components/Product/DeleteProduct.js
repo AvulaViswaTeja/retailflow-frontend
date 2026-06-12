@@ -18,7 +18,7 @@ export default function DeleteProduct() {
 
     useEffect(() => {
         let token = localStorage.getItem("token");
-        axios.get("http://localhost:1405/api/products", {
+        axios.get("http://localhost:8070/api/products", {
             headers: { "Authorization": "Bearer " + token }
         })
         .then((res) => setAllProducts(res.data))
@@ -54,7 +54,7 @@ export default function DeleteProduct() {
         let token = localStorage.getItem("token");
         setShowConfirmModal(false);
 
-        axios.delete("http://localhost:1405/api/products/" + product.productId, {
+        axios.delete("http://localhost:8070/api/products/" + product.productId, {
             headers: { "Authorization": "Bearer " + token }
         })
         .then(() => {
