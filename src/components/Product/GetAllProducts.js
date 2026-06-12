@@ -13,7 +13,7 @@ export default function GetAllProducts() {
 
     const fetchProducts = () => {
         let token = localStorage.getItem("token");
-        axios.get("http://localhost:1405/api/products", {
+        axios.get("http://localhost:8070/api/products", {
             headers: { "Authorization": "Bearer " + token }
         })
             .then((response) => setProducts(response.data))
@@ -36,7 +36,7 @@ export default function GetAllProducts() {
         let token = localStorage.getItem("token");
         setShowConfirmModal(false);
 
-        axios.delete("http://localhost:1405/api/products/" + selectedId, {
+        axios.delete("http://localhost:8070/api/products/" + selectedId, {
             headers: { "Authorization": "Bearer " + token }
         })
         .then(() => {

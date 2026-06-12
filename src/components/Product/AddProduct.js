@@ -14,7 +14,7 @@ export default function AddProduct() {
 
     useEffect(() => {
         let token = localStorage.getItem("token");
-        axios.get("http://localhost:1405/api/products", {
+        axios.get("http://localhost:8070/api/products", {
             headers: { "Authorization": "Bearer " + token }
         })
         .then((res) => {
@@ -64,7 +64,7 @@ export default function AddProduct() {
             return;
         }
 
-        let url = "http://localhost:1405/api/products";
+        let url = "http://localhost:8070/api/products";
         let data = { productName, category, price, status };
         let token = localStorage.getItem("token");
 
