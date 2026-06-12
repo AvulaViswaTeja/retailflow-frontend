@@ -84,6 +84,21 @@ export default function DeleteProduct() {
 
     return (
         <div className="container mt-4">
+
+            {/* ✅ Back button */}
+            <button
+            onClick={() => navigate('/Product')}
+            style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                color: '#fff', cursor: 'pointer',
+                background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+                border: 'none', marginBottom: 16,
+            }}>
+            ← Back
+            </button>
+
+
             <div className="card shadow-sm">
                 <div className="card-header bg-danger text-white">
                     <h4 className="mb-0">Delete Product</h4>
