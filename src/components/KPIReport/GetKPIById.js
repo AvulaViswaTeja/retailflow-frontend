@@ -14,10 +14,8 @@ export default function GetKPIById() {
         setReport(null); setError(""); setLoading(true);
         const token = localStorage.getItem("token");
         try {
-            const res = await axios.get(
-                `http://localhost:1405/api/kpi-reports/${reportId}`,
-                { headers: { Authorization: "Bearer " + token } }
-            );
+            const res = await axios.get(`http://localhost:8070/api/kpi-reports/${reportId}`,
+                { headers: { Authorization: "Bearer " + token } });
             setReport(res.data);
         } catch (err) {
             setError("KPI Report not found with ID: " + reportId);
@@ -33,10 +31,7 @@ export default function GetKPIById() {
     };
 
     const runComplianceCheck = () => {
-        const params = new URLSearchParams({
-            metrics: report.metrics,
-            scope:   report.scope
-        });
+        const params = new URLSearchParams({ metrics: report.metrics, scope: report.scope });
         navigate(`/compliance/insert?${params.toString()}`);
     };
 
@@ -47,7 +42,12 @@ export default function GetKPIById() {
 
     return (
         <div className="container mt-4">
-            {/* ✅ Toast container for messages */}
+
+            <button onClick={() => navigate('/kpireport')}
+                style={{ display: 'inline-flex', alignItems: 'center', gap: 6, marginBottom: 16, padding: '7px 16px', borderRadius: 8, fontSize: 13, color: '#fff', cursor: 'pointer', background: 'linear-gradient(135deg,#7c3aed,#a855f7)', border: 'none' }}>
+                <i className="ti ti-arrow-left" style={{ fontSize: 15 }}></i> Back
+            </button>
+
             <div className="toast-container position-fixed top-0 end-0 p-3">
                 {error && (
                     <div className="toast show bg-danger text-white">
@@ -74,40 +74,23 @@ export default function GetKPIById() {
                     <h4 className="mb-0">Get KPI Report By ID</h4>
                 </div>
                 <div className="card-body">
-
                     <div className="input-group mb-3">
-                        <input
-                            type="number"
-                            className="form-control"
-                            value={reportId}
-                            min={1}
-                            onChange={(e) => setReportId(e.target.value)}
-                            placeholder="Enter Report ID"
-                        />
-                        <button
-                            className="btn btn-primary"
-                            onClick={handleSearch}
-                            disabled={loading}>
-                            {loading ? (
-                                <><span className="spinner-border spinner-border-sm me-2" role="status"></span>Searching...</>
-                            ) : "Search"}
+                        <input type="number" className="form-control" value={reportId} min={1}
+                            onChange={(e) => setReportId(e.target.value)} placeholder="Enter Report ID" />
+                        <button className="btn btn-primary" onClick={handleSearch} disabled={loading}>
+                            {loading ? (<><span className="spinner-border spinner-border-sm me-2" role="status"></span>Searching...</>) : "Search"}
                         </button>
                     </div>
 
                     {report && (
                         <div>
-                            {/* KPI table */}
                             <div className="table-responsive mb-3">
                                 <table className="table table-bordered table-hover">
                                     <thead className="table-dark">
                                         <tr>
-                                            <th>ID</th>
-                                            <th>Scope</th>
-                                            <th>Stock Turnover</th>
-                                            <th>Sales Growth</th>
-                                            <th>Shrinkage</th>
-                                            <th>Generated Date</th>
-                                            <th>Status</th>
+                                            <th>ID</th><th>Scope</th><th>Stock Turnover</th>
+                                            <th>Sales Growth</th><th>Shrinkage</th>
+                                            <th>Generated Date</th><th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -123,8 +106,6 @@ export default function GetKPIById() {
                                     </tbody>
                                 </table>
                             </div>
-
-                            {/* Period info */}
                             <div className="alert alert-light border mb-3">
                                 <small className="text-muted">
                                     <strong>Current Period:</strong> {report.currentStart} → {report.currentEnd}
@@ -132,26 +113,18 @@ export default function GetKPIById() {
                                     <strong>Previous Period:</strong> {report.previousStart} → {report.previousEnd}
                                 </small>
                             </div>
-
-                            {/* Metrics + actions */}
                             {report.metrics && (
                                 <div>
                                     <label className="form-label fw-semibold">Metrics string</label>
                                     <div className="input-group mb-2">
                                         <input className="form-control font-monospace" value={report.metrics} readOnly />
-                                        <button
-                                            className={`btn ${copied ? 'btn-success' : 'btn-outline-secondary'}`}
-                                            onClick={copyMetrics}>
+                                        <button className={`btn ${copied ? 'btn-success' : 'btn-outline-secondary'}`} onClick={copyMetrics}>
                                             {copied ? "✓ Copied!" : "Copy"}
                                         </button>
                                     </div>
-
                                     <button className="btn btn-success w-100" onClick={runComplianceCheck}>
                                         🛡️ Run Compliance Check for this Report
                                     </button>
-                                    <small className="text-muted d-block mt-1">
-                                        Automatically fills the compliance form with this report's metrics and scope
-                                    </small>
                                 </div>
                             )}
                         </div>

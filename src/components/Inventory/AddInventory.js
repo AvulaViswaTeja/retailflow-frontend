@@ -16,7 +16,7 @@ export default function AddInventory() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        axios.get("http://localhost:1405/api/products", {
+        axios.get("http://localhost:8070/api/products", {
             headers: { "Authorization": "Bearer " + token }
         })
         .then((res) => {
@@ -32,7 +32,7 @@ export default function AddInventory() {
         setErrorMsg("");
         setSuccessMsg("");
 
-        let url = "http://localhost:1405/api/inventory";
+        let url = "http://localhost:8070/api/inventory";
         let inventory = {
             "productId": productId,
             "locationId": locationId,

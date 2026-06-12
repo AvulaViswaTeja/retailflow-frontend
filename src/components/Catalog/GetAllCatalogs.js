@@ -1,18 +1,40 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export default function GetAllCatalogs() {
     let [catalogs, setCatalogs] = useState([]);
+    let [productMap, setProductMap] = useState({});  
     let [showConfirmModal, setShowConfirmModal] = useState(false);
     let [showResultModal, setShowResultModal] = useState(false);
     let [selectedId, setSelectedId] = useState(null);
     let [modalMessage, setModalMessage] = useState("");
     let [modalSuccess, setModalSuccess] = useState(true);
 
+    const navigate = useNavigate();
+
+    
+    useEffect(() => {
+        let token = localStorage.getItem("token");
+        axios.get("http://localhost:8070/api/products", {
+            headers: { "Authorization": "Bearer " + token }
+        })
+        .then((res) => {
+            let map = {};
+            res.data.forEach((p) => {
+                map[p.productId] = p.productName;
+            });
+            setProductMap(map);
+        })
+        .catch((err) => {
+            console.error("Failed to load products:", err);
+        });
+    }, []);
+
     const fetchCatalogs = () => {
         let token = localStorage.getItem("token");
-        axios.get("http://localhost:1405/api/catalogs", {
+        axios.get("http://localhost:8070/api/catalogs", {
             headers: { "Authorization": "Bearer " + token }
         })
         .then((response) => setCatalogs(response.data))
@@ -23,7 +45,6 @@ export default function GetAllCatalogs() {
         fetchCatalogs();
     }, []);
 
-    
     let openConfirmModal = (id) => {
         setSelectedId(id);
         setShowConfirmModal(true);
@@ -33,14 +54,14 @@ export default function GetAllCatalogs() {
         let token = localStorage.getItem("token");
         setShowConfirmModal(false);
 
-        axios.delete(`http://localhost:1405/api/catalogs/${selectedId}`, {
+        axios.delete(`http://localhost:8070/api/catalogs/${selectedId}`, {
             headers: { "Authorization": "Bearer " + token }
         })
         .then(() => {
             setModalSuccess(true);
             setModalMessage(`Catalog ID: ${selectedId} deleted successfully!`);
             setShowResultModal(true);
-            fetchCatalogs();    
+            fetchCatalogs();
         })
         .catch(() => {
             setModalSuccess(false);
@@ -51,6 +72,19 @@ export default function GetAllCatalogs() {
 
     return (
         <div className="container mt-4">
+
+            <button
+                onClick={() => navigate('/Catalog')}
+                style={{
+                    display: 'flex', alignItems: 'center', gap: 6,
+                    padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                    color: '#fff', cursor: 'pointer',
+                    background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+                    border: 'none', marginBottom: 16,
+                }}>
+                ← Back
+            </button>
+
             <div className="card shadow-sm">
                 <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                     <h4 className="mb-0">All Catalogs</h4>
@@ -68,6 +102,7 @@ export default function GetAllCatalogs() {
                                     <th>Expiry Date</th>
                                     <th>Status</th>
                                     <th>Product ID</th>
+                                    <th>Product Name</th>  
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -87,8 +122,8 @@ export default function GetAllCatalogs() {
                                             </span>
                                         </td>
                                         <td>{catalog.productId}</td>
+                                        <td>{productMap[catalog.productId] || "-"}</td>
                                         <td>
-                                           
                                             <button
                                                 className="btn btn-danger btn-sm me-2"
                                                 onClick={() => openConfirmModal(catalog.catalogId)}
@@ -110,39 +145,23 @@ export default function GetAllCatalogs() {
                 </div>
             </div>
 
-            
+           
             {showConfirmModal && (
                 <>
-                    <div
-                        className="modal-backdrop fade show"
-                        onClick={() => setShowConfirmModal(false)}
-                    ></div>
+                    <div className="modal-backdrop fade show" onClick={() => setShowConfirmModal(false)}></div>
                     <div className="modal fade show d-block" tabIndex="-1">
                         <div className="modal-dialog modal-dialog-centered">
                             <div className="modal-content">
                                 <div className="modal-header bg-warning text-dark">
                                     <h5 className="modal-title">⚠️ Confirm Delete</h5>
-                                    <button
-                                        className="btn-close"
-                                        onClick={() => setShowConfirmModal(false)}
-                                    ></button>
+                                    <button className="btn-close" onClick={() => setShowConfirmModal(false)}></button>
                                 </div>
                                 <div className="modal-body">
                                     <p>Are you sure you want to delete <strong>Catalog ID: {selectedId}</strong>?</p>
                                 </div>
                                 <div className="modal-footer">
-                                    <button
-                                        className="btn btn-secondary w-50"
-                                        onClick={() => setShowConfirmModal(false)}
-                                    >
-                                        Cancel
-                                    </button>
-                                    <button
-                                        className="btn btn-danger w-50"
-                                        onClick={deleteHandler}
-                                    >
-                                        Yes, Delete
-                                    </button>
+                                    <button className="btn btn-secondary w-50" onClick={() => setShowConfirmModal(false)}>Cancel</button>
+                                    <button className="btn btn-danger w-50" onClick={deleteHandler}>Yes, Delete</button>
                                 </div>
                             </div>
                         </div>
@@ -153,10 +172,7 @@ export default function GetAllCatalogs() {
             
             {showResultModal && (
                 <>
-                    <div
-                        className="modal-backdrop fade show"
-                        onClick={() => setShowResultModal(false)}
-                    ></div>
+                    <div className="modal-backdrop fade show" onClick={() => setShowResultModal(false)}></div>
                     <div className="modal fade show d-block" tabIndex="-1">
                         <div className="modal-dialog modal-dialog-centered">
                             <div className="modal-content">
@@ -164,10 +180,7 @@ export default function GetAllCatalogs() {
                                     <h5 className="modal-title">
                                         {modalSuccess ? "✅ Success" : "❌ Error"}
                                     </h5>
-                                    <button
-                                        className="btn-close btn-close-white"
-                                        onClick={() => setShowResultModal(false)}
-                                    ></button>
+                                    <button className="btn-close btn-close-white" onClick={() => setShowResultModal(false)}></button>
                                 </div>
                                 <div className="modal-body">
                                     <p className="mb-0">{modalMessage}</p>

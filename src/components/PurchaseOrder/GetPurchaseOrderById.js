@@ -11,7 +11,7 @@ export default function GetPurchaseOrderById() {
     if (e && e.preventDefault) e.preventDefault(); // Safely intercept form submission
     if (!poId) return;
 
-    let url = "http://localhost:1405/api/purchase-orders/" + poId;
+    let url = "http://localhost:8070/api/purchase-orders/" + poId;
     axios.get(url, {
       headers: {
         'Authorization': `Bearer ${localStorage.getItem('token')}`

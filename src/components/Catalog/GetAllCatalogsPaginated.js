@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router';
 
 export default function GetAllCatalogsPaginated() {
 
@@ -8,6 +9,26 @@ export default function GetAllCatalogsPaginated() {
     const [size] = useState(5);
     const [totalPages, setTotalPages] = useState(0);
     const [totalElements, setTotalElements] = useState(0);
+    const [productMap, setProductMap] = useState({});  
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        let token = localStorage.getItem("token");
+        axios.get("http://localhost:8070/api/products", {
+            headers: { "Authorization": "Bearer " + token }
+        })
+        .then((res) => {
+            let map = {};
+            res.data.forEach((p) => {
+                map[p.productId] = p.productName;
+            });
+            setProductMap(map);
+        })
+        .catch((err) => {
+            console.error("Failed to load products:", err);
+        });
+    }, []);
 
     useEffect(() => {
         fetchPaginated(page);
@@ -16,7 +37,7 @@ export default function GetAllCatalogsPaginated() {
     let fetchPaginated = (currentPage) => {
         let token = localStorage.getItem("token");
 
-        axios.get("http://localhost:1405/api/catalogs/paginated", {
+        axios.get("http://localhost:8070/api/catalogs/paginated", {
             headers: { "Authorization": "Bearer " + token },
             params: {
                 page: currentPage,
@@ -39,101 +60,90 @@ export default function GetAllCatalogsPaginated() {
     let goToLast  = () => setPage(totalPages - 1);
 
     return (
-    <div className="container mt-4">
-        <div className="card shadow-sm">
-            <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
-                <h4 className="mb-0">All Catalogs Paginated</h4>
-                <span className="badge bg-light text-primary">
-                    Total: {totalElements} records
-                </span>
-            </div>
-            <div className="card-body p-0">
-                <div className="table-responsive">
-                    <table className="table table-striped table-hover mb-0">
-                        <thead className="table-dark">
-                            <tr>
-                                <th>Catalog ID</th>
-                                <th>Effective Date</th>
-                                <th>Expiry Date</th>
-                                <th>Status</th>
-                                <th>Product ID</th>
-                                <th>Product Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {catalogs.length === 0 ? (
-                                <tr>
-                                    <td colSpan="6" className="text-center text-muted py-3">
-                                        No catalogs found
-                                    </td>
-                                </tr>
-                            ) : (
-                                catalogs.map((catalog) => (
-                                    <tr key={catalog.catalogId}>
-                                        <td>{catalog.catalogId}</td>
-                                        <td>{catalog.effectiveDate}</td>
-                                        <td>{catalog.expiryDate}</td>
-                                        <td>
-                                            <span className={`badge ${
-                                                catalog.status === "ACTIVE" ? "bg-success" :
-                                                catalog.status === "INACTIVE" ? "bg-danger" :
-                                                "bg-secondary"
-                                            }`}>
-                                                {catalog.status}
-                                            </span>
-                                        </td>
-                                        <td>{catalog.productId}</td>
-                                        <td>{catalog.productName}</td>
-                                    </tr>
-                                ))
-                            )}
-                        </tbody>
-                    </table>
-                </div>
+        <div className="container mt-4">
 
-                
-                <div className="d-flex justify-content-between align-items-center p-3">
-                    <div className="d-flex gap-2">
-                        <button
-                            className="btn btn-outline-primary btn-sm"
-                            onClick={goToFirst}
-                            disabled={page === 0}
-                        >
-                            « First
-                        </button>
-                        <button
-                            className="btn btn-outline-primary btn-sm"
-                            onClick={goToPrev}
-                            disabled={page === 0}
-                        >
-                            ‹ Prev
-                        </button>
-                    </div>
+            <button
+                onClick={() => navigate('/Catalog')}
+                style={{
+                    display: 'flex', alignItems: 'center', gap: 6,
+                    padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                    color: '#fff', cursor: 'pointer',
+                    background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+                    border: 'none', marginBottom: 16,
+                }}>
+                ← Back
+            </button>
 
-                    <span className="text-muted">
-                        Page <strong>{page + 1}</strong> of <strong>{totalPages}</strong>
+            <div className="card shadow-sm">
+                <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 className="mb-0">All Catalogs Paginated</h4>
+                    <span className="badge bg-light text-primary">
+                        Total: {totalElements} records
                     </span>
-
-                    <div className="d-flex gap-2">
-                        <button
-                            className="btn btn-outline-primary btn-sm"
-                            onClick={goToNext}
-                            disabled={page === totalPages - 1}
-                        >
-                            Next ›
-                        </button>
-                        <button
-                            className="btn btn-outline-primary btn-sm"
-                            onClick={goToLast}
-                            disabled={page === totalPages - 1}
-                        >
-                            Last »
-                        </button>
-                    </div>
                 </div>
+                <div className="card-body p-0">
+                    <div className="table-responsive">
+                        <table className="table table-striped table-hover mb-0">
+                            <thead className="table-dark">
+                                <tr>
+                                    <th>Catalog ID</th>
+                                    <th>Effective Date</th>
+                                    <th>Expiry Date</th>
+                                    <th>Status</th>
+                                    <th>Product ID</th>
+                                    <th>Product Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {catalogs.length === 0 ? (
+                                    <tr>
+                                        <td colSpan="6" className="text-center text-muted py-3">
+                                            No catalogs found
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    catalogs.map((catalog) => (
+                                        <tr key={catalog.catalogId}>
+                                            <td>{catalog.catalogId}</td>
+                                            <td>{catalog.effectiveDate}</td>
+                                            <td>{catalog.expiryDate}</td>
+                                            <td>
+                                                <span className={`badge ${
+                                                    catalog.status === "ACTIVE" ? "bg-success" :
+                                                    catalog.status === "INACTIVE" ? "bg-danger" :
+                                                    "bg-secondary"
+                                                }`}>
+                                                    {catalog.status}
+                                                </span>
+                                            </td>
+                                            <td>{catalog.productId}</td>
+                                            
+                                            <td>{productMap[catalog.productId] || "-"}</td>
+                                        </tr>
+                                    ))
+                                )}
+                            </tbody>
+                        </table>
+                    </div>
 
+                    <div className="d-flex justify-content-between align-items-center p-3">
+                        <div className="d-flex gap-2">
+                            <button className="btn btn-outline-primary btn-sm" onClick={goToFirst} disabled={page === 0}>« First</button>
+                            <button className="btn btn-outline-primary btn-sm" onClick={goToPrev} disabled={page === 0}>‹ Prev</button>
+                        </div>
+
+                        <span className="text-muted">
+                            Page <strong>{page + 1}</strong> of <strong>{totalPages}</strong>
+                        </span>
+
+                        <div className="d-flex gap-2">
+                            <button className="btn btn-outline-primary btn-sm" onClick={goToNext} disabled={page === totalPages - 1}>Next ›</button>
+                            <button className="btn btn-outline-primary btn-sm" onClick={goToLast} disabled={page === totalPages - 1}>Last »</button>
+                        </div>
+                    </div>
+
+                </div>
             </div>
         </div>
-    </div>
-);
+    );
 }

@@ -15,7 +15,7 @@ export default function GetInvoiceByStatus() {
     try {
       let token = localStorage.getItem("token");
       const res = await axios.get(
-        "http://localhost:1405/api/invoices/status/" + status,
+        "http://localhost:8070/api/invoices/status/" + status,
         { headers: { "Authorization": "Bearer " + token } }
       );
       setInvoices(res.data);

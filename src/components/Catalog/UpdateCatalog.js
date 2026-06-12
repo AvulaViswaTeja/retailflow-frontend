@@ -36,7 +36,7 @@ export default function UpdateCatalog() {
 
     let fetchCatalog = (catalogIdToFetch) => {
         let token = localStorage.getItem("token");
-        axios.get("http://localhost:1405/api/catalogs/" + catalogIdToFetch, {
+        axios.get("http://localhost:8070/api/catalogs/" + catalogIdToFetch, {
             headers: { "Authorization": "Bearer " + token }
         })
         .then((response) => {
@@ -66,7 +66,7 @@ export default function UpdateCatalog() {
 
     let updateHandler = () => {
         let token = localStorage.getItem("token");
-        axios.put("http://localhost:1405/api/catalogs/" + catalogId, {
+        axios.put("http://localhost:8070/api/catalogs/" + catalogId, {
             effectiveDate,
             expiryDate,
             status,
@@ -95,6 +95,20 @@ export default function UpdateCatalog() {
 
     return (
         <div className="container mt-4">
+
+            <button
+            onClick={() => navigate('/Catalog')}
+            style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                color: '#fff', cursor: 'pointer',
+                background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+                border: 'none', marginBottom: 16,
+            }}>
+            ← Back
+            </button>
+
+
             <div className="card shadow-sm">
                 <div className="card-header bg-primary text-white">
                     <h4 className="mb-0">Update Catalog</h4>

@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router';
 
 export default function AddProduct() {
     let [productName, setProductName] = useState("");
@@ -12,9 +13,11 @@ export default function AddProduct() {
     let [modalMessage, setModalMessage] = useState("");
     let [modalSuccess, setModalSuccess] = useState(true);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         let token = localStorage.getItem("token");
-        axios.get("http://localhost:1405/api/products", {
+        axios.get("http://localhost:8070/api/products", {
             headers: { "Authorization": "Bearer " + token }
         })
         .then((res) => {
@@ -64,7 +67,7 @@ export default function AddProduct() {
             return;
         }
 
-        let url = "http://localhost:1405/api/products";
+        let url = "http://localhost:8070/api/products";
         let data = { productName, category, price, status };
         let token = localStorage.getItem("token");
 
@@ -90,7 +93,24 @@ export default function AddProduct() {
     };
 
     return (
+        
         <div className="container mt-4">
+
+
+          
+            <button
+            onClick={() => navigate('/Product')}
+            style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                color: '#fff', cursor: 'pointer',
+                background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+                border: 'none', marginBottom: 16,
+            }}>
+            ← Back
+            </button>
+
+
             <div className="card shadow-sm">
                 <div className="card-header bg-primary text-white">
                     <h4 className="mb-0">Add Product</h4>

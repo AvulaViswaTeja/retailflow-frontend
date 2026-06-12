@@ -11,7 +11,7 @@ export default function GetInventoryByProduct() {
 
     // Fetch all products for dropdown
     useEffect(() => {
-        axios.get("http://localhost:1405/api/products", {
+        axios.get("http://localhost:8070/api/products", {
             headers: { "Authorization": "Bearer " + token }
         })
         .then((res) => {
@@ -29,7 +29,7 @@ export default function GetInventoryByProduct() {
         setErrorMsg("");
         setHasSearched(false);
 
-        let url = "http://localhost:1405/api/inventory/product/" + productId;
+        let url = "http://localhost:8070/api/inventory/product/" + productId;
         axios.get(url, {
             headers: { "Authorization": "Bearer " + token }
         })

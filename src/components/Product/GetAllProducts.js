@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 
 export default function GetAllProducts() {
     let [products, setProducts] = useState([]);
@@ -11,9 +12,11 @@ export default function GetAllProducts() {
     let [modalMessage, setModalMessage] = useState("");
     let [modalSuccess, setModalSuccess] = useState(true);
 
+    const navigate = useNavigate();
+
     const fetchProducts = () => {
         let token = localStorage.getItem("token");
-        axios.get("http://localhost:1405/api/products", {
+        axios.get("http://localhost:8070/api/products", {
             headers: { "Authorization": "Bearer " + token }
         })
             .then((response) => setProducts(response.data))
@@ -36,7 +39,7 @@ export default function GetAllProducts() {
         let token = localStorage.getItem("token");
         setShowConfirmModal(false);
 
-        axios.delete("http://localhost:1405/api/products/" + selectedId, {
+        axios.delete("http://localhost:8070/api/products/" + selectedId, {
             headers: { "Authorization": "Bearer " + token }
         })
         .then(() => {
@@ -54,6 +57,20 @@ export default function GetAllProducts() {
 
     return (
         <div className="container mt-4">
+
+            <button
+            onClick={() => navigate('/Product')}
+            style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                color: '#fff', cursor: 'pointer',
+                background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+                border: 'none', marginBottom: 16,
+            }}>
+            ← Back
+            </button>
+
+
             <div className="card shadow-sm">
                 <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                     <h4 className="mb-0">All Products</h4>

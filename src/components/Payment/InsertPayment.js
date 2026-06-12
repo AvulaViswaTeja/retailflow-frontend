@@ -21,7 +21,7 @@ export default function InsertPayment() {
       };
       let token = localStorage.getItem("token");
       const res = await axios.post(
-        "http://localhost:1405/api/payments",
+        "http://localhost:8070/api/payments",
         req_data,
         { headers: { "Authorization": "Bearer " + token } }
       );

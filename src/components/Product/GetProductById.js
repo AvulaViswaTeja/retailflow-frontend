@@ -1,11 +1,14 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from 'react-router';
 
 export default function GetProductById() {
     let [productId, setProductId] = useState("");
     let [product, setProduct] = useState(null);
     let [showErrorModal, setShowErrorModal] = useState(false);
     let [modalMessage, setModalMessage] = useState("");
+
+    const navigate = useNavigate();
 
     let showError = (message) => {
         setModalMessage(message);
@@ -20,7 +23,7 @@ export default function GetProductById() {
 
         let token = localStorage.getItem("token");
 
-        axios.get("http://localhost:1405/api/products/" + productId, {
+        axios.get("http://localhost:8070/api/products/" + productId, {
             headers: { "Authorization": "Bearer " + token }
         })
         .then((response) => {
@@ -34,6 +37,20 @@ export default function GetProductById() {
 
     return (
         <div className="container mt-4">
+
+            <button
+            onClick={() => navigate('/Product')}
+            style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                color: '#fff', cursor: 'pointer',
+                background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+                border: 'none', marginBottom: 16,
+            }}>
+            ← Back
+            </button>
+
+
             <div className="card shadow-sm">
                 <div className="card-header bg-primary text-white">
                     <h4 className="mb-0">Get Product By ID</h4>

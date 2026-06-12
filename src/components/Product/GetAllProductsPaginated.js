@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useNavigate } from 'react-router';
 
 export default function GetAllProductsPaginated() {
 
@@ -9,6 +10,8 @@ export default function GetAllProductsPaginated() {
     const [totalPages, setTotalPages] = useState(0);
     const [totalElements, setTotalElements] = useState(0);
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         fetchPaginated(page);
     }, [page]);
@@ -16,7 +19,7 @@ export default function GetAllProductsPaginated() {
     let fetchPaginated = (currentPage) => {
         let token = localStorage.getItem("token");
 
-        axios.get("http://localhost:1405/api/products/paginated", {
+        axios.get("http://localhost:8070/api/products/paginated", {
             headers: { "Authorization": "Bearer " + token },
             params: {
                 page: currentPage,
@@ -40,6 +43,20 @@ export default function GetAllProductsPaginated() {
 
     return (
     <div className="container mt-4">
+
+            <button
+            onClick={() => navigate('/Product')}
+            style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                color: '#fff', cursor: 'pointer',
+                background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+                border: 'none', marginBottom: 16,
+            }}>
+            ← Back
+            </button>
+
+
         <div className="card shadow-sm">
             <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
                 <h4 className="mb-0">All Products Paginated</h4>

@@ -15,7 +15,7 @@ export default function ReplenishStock() {
         setSuccessMsg("");
         setUpdatedInventory(null);
 
-        let url = `http://localhost:1405/api/inventory/${inventoryId}/replenish?quantity=${quantity}`;
+        let url = `http://localhost:8070/api/inventory/${inventoryId}/replenish?quantity=${quantity}`;
 
         axios.patch(url, null, {
             headers: { "Authorization": "Bearer " + token }

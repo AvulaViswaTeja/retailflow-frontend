@@ -8,7 +8,7 @@ export default function GetLowStock() {
 
     const fetchLowStock = () => {
         setErrorMsg("");
-        let url = "http://localhost:1405/api/inventory/low-stock";
+        let url = "http://localhost:8070/api/inventory/low-stock";
         axios.get(url, {
             headers: { "Authorization": "Bearer " + token }
         })
