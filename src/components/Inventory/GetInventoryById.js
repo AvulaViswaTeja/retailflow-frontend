@@ -15,7 +15,7 @@ export default function GetInventoryById() {
         setErrorMsg("");
         setHasSearched(false);
 
-        let url = "http://localhost:1405/api/inventory/" + inventoryId;
+        let url = "http://localhost:8070/api/inventory/" + inventoryId;
         axios.get(url, {
             headers: { "Authorization": "Bearer " + token }
         })
