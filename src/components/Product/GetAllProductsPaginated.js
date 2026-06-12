@@ -44,7 +44,6 @@ export default function GetAllProductsPaginated() {
     return (
     <div className="container mt-4">
 
-        {/* ✅ Back button */}
             <button
             onClick={() => navigate('/Product')}
             style={{
