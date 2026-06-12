@@ -15,7 +15,7 @@ export default function GetByInvoice() {
     try {
       let token = localStorage.getItem("token");
       const res = await axios.get(
-        "http://localhost:1405/api/payments/invoice/" + invoiceId,
+        "http://localhost:8070/api/payments/invoice/" + invoiceId,
         { headers: { Authorization: "Bearer " + token } }
       );
       setPayments(res.data);

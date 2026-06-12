@@ -14,7 +14,7 @@ export default function GetPaginated() {
     setError("");
     let token = localStorage.getItem("token");
     axios
-      .get("http://localhost:1405/api/invoices/paginated", {
+      .get("http://localhost:8070/api/invoices/paginated", {
         params: { page: pageNumber, size: 3 },
         headers: { Authorization: "Bearer " + token },
       })

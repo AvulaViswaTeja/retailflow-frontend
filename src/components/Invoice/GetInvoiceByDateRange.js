@@ -15,7 +15,7 @@ export default function GetInvoiceByDateRange() {
 
     try {
       let token = localStorage.getItem("token");
-      const res = await axios.get("http://localhost:1405/api/invoices/date-range", {
+      const res = await axios.get("http://localhost:8070/api/invoices/date-range", {
         params: { start: startDate, end: endDate },
         headers: { "Authorization": "Bearer " + token },
       });
