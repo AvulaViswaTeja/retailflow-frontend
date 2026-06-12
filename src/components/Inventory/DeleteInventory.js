@@ -25,6 +25,18 @@ export default function DeleteInventory() {
     return (
          <div className="container mt-5" style={{ maxWidth: '500px' }}>
         <div className="card shadow-sm">
+            {/*  Back button */}
+            <button
+            onClick={() => navigate('/Inventory')}
+            style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                color: '#fff', cursor: 'pointer',
+                background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+                border: 'none', marginBottom: 16,
+            }}>
+            ← Back
+            </button>
             <div className="card-header bg-danger text-white p-3">
                 <h3 className="mb-0 h5">Delete Inventory</h3>
             </div>

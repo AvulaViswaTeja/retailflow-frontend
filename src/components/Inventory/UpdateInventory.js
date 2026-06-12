@@ -67,6 +67,18 @@ export default function UpdateInventory() {
 
   return (
     <div className="container mt-5" style={{ maxWidth: '650px' }}>
+      {/*  Back button */}
+            <button
+            onClick={() => navigate('/Inventory')}
+            style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                color: '#fff', cursor: 'pointer',
+                background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+                border: 'none', marginBottom: 16,
+            }}>
+            ← Back
+            </button>
       <div className="card shadow-sm">
         <div className="card-header bg-dark text-white p-3">
           <h3 className="mb-0 h5">Update Inventory</h3>
@@ -89,6 +101,7 @@ export default function UpdateInventory() {
               {successMsg}
             </div>
           )}
+          
 
           <form onSubmit={submitHandler}>
             <div className="row g-3">

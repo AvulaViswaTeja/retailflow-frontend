@@ -76,6 +76,19 @@ export default function CreatePurchaseOrder() {
               {successMsg}
             </div>
           )}
+
+          {/*  Back button */}
+            <button
+            onClick={() => navigate('/PurchaseOrder')}
+            style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                color: '#fff', cursor: 'pointer',
+                background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+                border: 'none', marginBottom: 16,
+            }}>
+            ← Back
+            </button>
             <div className="card shadow-sm">
                 <div className="card-header bg-dark text-white p-3">
                     <h3 className="mb-0 h5">Create New Purchase Order</h3>
