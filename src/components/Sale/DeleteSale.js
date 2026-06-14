@@ -1,11 +1,12 @@
 import { useState } from "react";
 import axios from "axios";
-
+import {useNavigate} from 'react-router-dom';
 export default function DeleteSale() {
   const [saleId, setSaleId] = useState("");
   const [currentSale, setCurrentSale] = useState(null);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSearch = async () => {
     setMessage("");
@@ -42,8 +43,19 @@ export default function DeleteSale() {
 
   return (
     <div className="container mt-4">
+      <button
+        onClick={() => navigate('/Sale')}
+        style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            padding: '6px 14px', borderRadius: 8, fontSize: 12,
+            color: '#fff', cursor: 'pointer',
+            background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+            border: 'none', marginBottom: 16,
+        }}>
+        ← Back
+      </button>
       <div className="card shadow-sm">
-        <div className="card-header bg-danger text-white">
+        <div className="card-header bg-primary text-white">
           <h4 className="mb-0">Cancel Sale</h4>
         </div>
         <div className="card-body">

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import {useNavigate} from 'react-router-dom';
 
 export default function GetAllSalesPaginated() {
   const [sales, setSales] = useState([]);
@@ -8,6 +9,7 @@ export default function GetAllSalesPaginated() {
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const fetchSales = (pageNumber) => {
     setLoading(true);
@@ -79,6 +81,17 @@ export default function GetAllSalesPaginated() {
 
   return (
     <div className="container mt-4">
+      <button
+        onClick={() => navigate('/Sale')}
+        style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            padding: '6px 14px', borderRadius: 8, fontSize: 12,
+            color: '#fff', cursor: 'pointer',
+            background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+            border: 'none', marginBottom: 16,
+        }}>
+        ← Back
+      </button>
       <div className="card shadow-sm">
         <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
           <h4 className="mb-0">All Sales Paginated</h4>
