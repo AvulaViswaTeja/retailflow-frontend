@@ -45,7 +45,7 @@ export default function InsertSale() {
       return;
     }
     if(!quantity || parseInt(quantity)<=0){
-      setError("Enter a valid customer Id");
+      setError("Enter a valid quantity");
       return;
     }
 
