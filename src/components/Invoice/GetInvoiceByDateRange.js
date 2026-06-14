@@ -11,13 +11,14 @@ export default function GetInvoiceByDateRange() {
   const navigate = useNavigate();
 
   const handleSearch = async () => {
-    setSearched(true);
+    
     setInvoices([]);
     setError("");
     if(!endDate || !startDate){
       setError("Please select the Date");
       return;
     }
+    setSearched(true);
 
     try {
       let token = localStorage.getItem("token");
