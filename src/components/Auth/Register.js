@@ -36,18 +36,21 @@ export default function Register() {
             "role": role,
             "phoneNumber": phoneNumber
         })
-        .then(() => {
-            setSuccess("Account created successfully! Redirecting to login...");
-            setTimeout(() => navigate("/login"), 2000);
-        })
-        .catch((err) => {
-            if (err.response && err.response.status === 400) {
-                setError("Email already registered. Please use a different email.");
-            } else {
-                setError("Registration failed. Please try again.");
-            }
-            setLoading(false);
-        });
+            .then(() => {
+                setSuccess("Account created successfully! Redirecting to login...");
+                setTimeout(() => navigate("/login"), 2000);
+            })
+            .catch((err) => {
+                setError(err.response?.data?.message || "Registration failed. Please try again. Admin already exists.");
+            })
+            .catch((err) => {
+                if (err.response && err.response.status === 400) {
+                    setError("Email already registered. Please use a different email.");
+                } else {
+                    setError("Registration failed. Please try again.");
+                }
+                setLoading(false);
+            });
     }
 
     const input = {
@@ -58,16 +61,22 @@ export default function Register() {
     const label = { display: "block", fontSize: 11, color: "#8b97b8", marginBottom: 6 };
 
     return (
-        <div style={{ minHeight: "100vh", background: "#0a0e27", fontFamily: "system-ui, sans-serif",
-            display: "flex", alignItems: "center", justifyContent: "center", padding: 20 }}>
+        <div style={{
+            minHeight: "100vh", background: "#0a0e27", fontFamily: "system-ui, sans-serif",
+            display: "flex", alignItems: "center", justifyContent: "center", padding: 20
+        }}>
 
-            <div style={{ width: "100%", maxWidth: 460, background: "#141a35",
-                border: "1px solid rgba(255,255,255,.08)", borderRadius: 16, padding: 32 }}>
+            <div style={{
+                width: "100%", maxWidth: 460, background: "#141a35",
+                border: "1px solid rgba(255,255,255,.08)", borderRadius: 16, padding: 32
+            }}>
 
                 <div style={{ textAlign: "center", marginBottom: 24 }}>
-                    <div style={{ width: 54, height: 54, borderRadius: 14, background: GRAD_PRIMARY, margin: "0 auto 14px",
+                    <div style={{
+                        width: 54, height: 54, borderRadius: 14, background: GRAD_PRIMARY, margin: "0 auto 14px",
                         display: "flex", alignItems: "center", justifyContent: "center",
-                        boxShadow: "0 8px 24px rgba(79,140,255,.4)" }}>
+                        boxShadow: "0 8px 24px rgba(79,140,255,.4)"
+                    }}>
                         <i className="ti ti-user-plus" aria-hidden="true" style={{ fontSize: 24, color: "#fff" }}></i>
                     </div>
                     <h2 style={{ fontSize: 20, fontWeight: 500, color: "#f0f3fa", marginBottom: 4 }}>Create account</h2>
@@ -75,14 +84,18 @@ export default function Register() {
                 </div>
 
                 {error && (
-                    <div style={{ padding: "11px 14px", borderRadius: 10, marginBottom: 16, fontSize: 13,
-                        background: "rgba(255,77,109,.18)", color: "#ff8fa5", border: "1px solid rgba(255,77,109,.4)" }}>
+                    <div style={{
+                        padding: "11px 14px", borderRadius: 10, marginBottom: 16, fontSize: 13,
+                        background: "rgba(255,77,109,.18)", color: "#ff8fa5", border: "1px solid rgba(255,77,109,.4)"
+                    }}>
                         {error}
                     </div>
                 )}
                 {success && (
-                    <div style={{ padding: "11px 14px", borderRadius: 10, marginBottom: 16, fontSize: 13,
-                        background: "rgba(34,197,94,.18)", color: "#6ee7a8", border: "1px solid rgba(34,197,94,.4)" }}>
+                    <div style={{
+                        padding: "11px 14px", borderRadius: 10, marginBottom: 16, fontSize: 13,
+                        background: "rgba(34,197,94,.18)", color: "#6ee7a8", border: "1px solid rgba(34,197,94,.4)"
+                    }}>
                         {success}
                     </div>
                 )}
@@ -117,18 +130,21 @@ export default function Register() {
                         <label style={label}>Role</label>
                         <select value={role} onChange={(e) => setRole(e.target.value)} style={input}>
                             <option value="" style={{ color: "#000" }}>Select role</option>
-                            <option value="STORE_ASSOCIATE"    style={{ color: "#000" }}>Store Associate</option>
-                            <option value="INVENTORY_MANAGER"  style={{ color: "#000" }}>Inventory Manager</option>
-                            <option value="FINANCE_OFFICER"    style={{ color: "#000" }}>Finance Officer</option>
+                            <option value="STORE_ASSOCIATE" style={{ color: "#000" }}>Store Associate</option>
+                            <option value="INVENTORY_MANAGER" style={{ color: "#000" }}>Inventory Manager</option>
+                            <option value="FINANCE_OFFICER" style={{ color: "#000" }}>Finance Officer</option>
                             <option value="COMPLIANCE_OFFICER" style={{ color: "#000" }}>Compliance Officer</option>
-                            <option value="STORE_MANAGER"      style={{ color: "#000" }}>Store Manager</option>
-                            
+                            <option value="STORE_MANAGER" style={{ color: "#000" }}>Store Manager</option>
+                            <option value="ADMIN" style={{ color: "#000" }}>ADMIN</option>
+
                         </select>
                     </div>
 
-                    <button type="submit" disabled={loading} style={{ width: "100%", height: 44, borderRadius: 9,
+                    <button type="submit" disabled={loading} style={{
+                        width: "100%", height: 44, borderRadius: 9,
                         border: "none", background: GRAD_PRIMARY, color: "#fff", fontSize: 14, fontWeight: 500,
-                        cursor: "pointer", boxShadow: "0 6px 18px rgba(79,140,255,.35)" }}>
+                        cursor: "pointer", boxShadow: "0 6px 18px rgba(79,140,255,.35)"
+                    }}>
                         {loading ? "Creating account..." : "Create account"}
                     </button>
                 </form>
