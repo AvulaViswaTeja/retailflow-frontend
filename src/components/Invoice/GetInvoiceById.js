@@ -1,14 +1,20 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function GetInvoiceById() {
   const [invoiceId, setInvoiceId] = useState("");
   const [invoice, setInvoice] = useState(null);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSearch = async () => {
     setInvoice(null);
     setError("");
+    if(!invoiceId){
+      setError("Please enter a valid Invoice Id");
+      return;
+    }
 
     try {
       let token = localStorage.getItem("token");
@@ -23,13 +29,24 @@ export default function GetInvoiceById() {
 
   return (
     <div className="container mt-4">
+      <button
+        onClick={() => navigate('/Invoice')}
+        style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            padding: '6px 14px', borderRadius: 8, fontSize: 12,
+            color: '#fff', cursor: 'pointer',
+            background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+            border: 'none', marginBottom: 16,
+        }}>
+        ← Back
+      </button>
       <div className="card shadow-sm">
         <div className="card-header bg-primary text-white">
           <h4 className="mb-0">Get Invoice By ID</h4>
         </div>
         <div className="card-body">
 
-          {/* Search */}
+          
           <div className="input-group mb-3">
             <input
               type="number"
@@ -44,10 +61,10 @@ export default function GetInvoiceById() {
             </button>
           </div>
 
-          {/* Error */}
+         
           {error && <div className="alert alert-danger">{error}</div>}
 
-          {/* Result */}
+          
           {invoice && (
             <div className="table-responsive">
               <table className="table table-bordered table-hover">

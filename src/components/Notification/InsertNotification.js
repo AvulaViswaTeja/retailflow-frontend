@@ -1,53 +1,82 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function InsertNotification() {
 
-    const [userId, setUserId] = useState("");
-    const [message, setMessage] = useState("");
-    const [category, setCategory] = useState("");
+    let [userId, setUserId] = useState("");
+    let [message, setMessage] = useState("");
+    let [category, setCategory] = useState("");
+
+    let [showModal, setShowModal] = useState(false);
+    let [modalMessage, setModalMessage] = useState("");
+    let [modalSuccess, setModalSuccess] = useState(true);
+
+    const navigate = useNavigate();
+
+    let showError = (msg) => {
+        setModalSuccess(false);
+        setModalMessage(msg);
+        setShowModal(true);
+    };
 
     let saveNotification = (event) => {
         event.preventDefault();
 
         if (!userId || !message || !category) {
-            alert("Please fill all fields");
+            showError("Please fill all fields");
             return;
         }
 
         let token = localStorage.getItem("token");
 
         let data = {
-            "userId": userId,
-            "message": message,
-            "category": category
-        }
+            userId: userId,
+            message: message,
+            category: category
+        };
 
         axios.post("http://localhost:8070/api/notifications", data, {
             headers: { "Authorization": "Bearer " + token }
         })
         .then(() => {
-            alert("Notification created successfully!");
+            setModalSuccess(true);
+            setModalMessage("Notification created successfully!");
+            setShowModal(true);
             setUserId("");
             setMessage("");
             setCategory("");
         })
         .catch((err) => {
             if (err.response) {
-                alert("Error: " + err.response.status
-                    + " - " + JSON.stringify(err.response.data));
+                showError("Failed to create: " + (err.response.data?.message || err.response.status));
             } else {
-                alert("Network error: " + err.message);
+                showError("Network error: " + err.message);
             }
         });
-    }
+    };
 
     return (
-        <div className="container mt-4">
-            <div className="card shadow-sm" style={{ maxWidth: 500 }}>
-                <div className="card-body">
 
-                    <h5 className="card-title mb-4">Insert Notification</h5>
+        <div className="container mt-4">
+
+            <button
+                onClick={() => navigate('/notification')}
+                style={{
+                    display: 'flex', alignItems: 'center', gap: 6,
+                    padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                    color: '#fff', cursor: 'pointer',
+                    background: 'linear-gradient(135deg,#db2777,#ec4899)',
+                    border: 'none', marginBottom: 16,
+                }}>
+                ← Back
+            </button>
+
+            <div className="card shadow-sm">
+                <div className="card-header bg-primary text-white">
+                    <h4 className="mb-0">Insert Notification</h4>
+                </div>
+                <div className="card-body">
 
                     <form onSubmit={saveNotification}>
 
@@ -56,7 +85,7 @@ export default function InsertNotification() {
                             <input
                                 type="number"
                                 className="form-control"
-                                placeholder="enter user id"
+                                placeholder="Enter user id"
                                 value={userId}
                                 onChange={(e) => setUserId(e.target.value)}
                             />
@@ -67,7 +96,7 @@ export default function InsertNotification() {
                             <input
                                 type="text"
                                 className="form-control"
-                                placeholder="enter message"
+                                placeholder="Enter message"
                                 value={message}
                                 onChange={(e) => setMessage(e.target.value)}
                             />
@@ -96,6 +125,48 @@ export default function InsertNotification() {
                     </form>
                 </div>
             </div>
+
+            {/* Modal */}
+            {showModal && (
+                <>
+                    <div
+                        className="modal-backdrop fade show"
+                        onClick={() => setShowModal(false)}
+                    ></div>
+
+                    <div className="modal fade show d-block" tabIndex="-1">
+                        <div className="modal-dialog modal-dialog-centered">
+                            <div className="modal-content">
+
+                                <div className={`modal-header ${modalSuccess ? "bg-success" : "bg-danger"} text-white`}>
+                                    <h5 className="modal-title">
+                                        {modalSuccess ? "✅ Success" : "❌ Error"}
+                                    </h5>
+                                    <button
+                                        className="btn-close btn-close-white"
+                                        onClick={() => setShowModal(false)}
+                                    ></button>
+                                </div>
+
+                                <div className="modal-body">
+                                    <p className="mb-0">{modalMessage}</p>
+                                </div>
+
+                                <div className="modal-footer">
+                                    <button
+                                        className={`btn ${modalSuccess ? "btn-success" : "btn-danger"} w-100`}
+                                        onClick={() => setShowModal(false)}
+                                    >
+                                        OK
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
+
         </div>
     );
 }

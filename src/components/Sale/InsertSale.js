@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function InsertSale() {
   const [products, setProducts] = useState([]);
@@ -10,16 +11,21 @@ export default function InsertSale() {
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
 
- useEffect(()=>{
-  let token = localStorage.getItem("token");
-  axios.get("http://localhost:8070/api/products",{
-    headers:{"Authorization":"Bearer "+token}
-  }).then((res)=>{
-    setProducts(res.data);
-  }).catch((err)=>{
-    setError("Failed to load products");
-  })
- },[])
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    let token = localStorage.getItem("token");
+    axios
+      .get("http://localhost:8070/api/products", {
+        headers: { Authorization: "Bearer " + token },
+      })
+      .then((res) => {
+        setProducts(res.data);
+      })
+      .catch((err) => {
+        setError("Failed to load products");
+      });
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -30,21 +36,45 @@ export default function InsertSale() {
       quantity: parseInt(quantity),
       status: status,
     };
+    if(!productId){
+      setError("Select a product");
+      return;
+    }
+    if(!customerId){
+      setError("Enter a valid customer Id");
+      return;
+    }
+    if(!quantity || parseInt(quantity)<=0){
+      setError("Enter a valid quantity");
+      return;
+    }
 
     try {
       let token = localStorage.getItem("token");
-      const res = await axios.post("http://localhost:8070/api/sales", req_data,{
-            headers: { "Authorization": "Bearer " + token }
-        });
+      const res = await axios.post(
+        "http://localhost:8070/api/sales",
+        req_data,
+        {
+          headers: { Authorization: "Bearer " + token },
+        },
+      );
       const sale = res.data;
       setError("");
       setMessage(
         "Sale created! " +
-          "Sale ID: " + sale.saleId +
-          " | Product: " + sale.productName +
-          " | Amount: ₹" + sale.amount +
-          " | Invoice ID: " + sale.invoiceId
+          "Sale ID: " +
+          sale.saleId +
+          " | Product: " +
+          sale.productName +
+          " | Amount: ₹" +
+          sale.amount +
+          " | Invoice ID: " +
+          sale.invoiceId,
       );
+      setProductId("");
+      setCustomerId("");
+      setQuantity("");
+      setStatus("COMPLETED");
     } catch (err) {
       setMessage("");
       setError(err.response?.data?.message || "Something went wrong");
@@ -53,21 +83,37 @@ export default function InsertSale() {
 
   return (
     <div className="container mt-4">
+      <button
+        onClick={() => navigate("/Sale")}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          gap: 6,
+          padding: "6px 14px",
+          borderRadius: 8,
+          fontSize: 12,
+          color: "#fff",
+          cursor: "pointer",
+          background: "linear-gradient(135deg,#7c3aed,#a855f7)",
+          border: "none",
+          marginBottom: 16,
+        }}
+      >
+        ← Back
+      </button>
+
       <div className="card shadow-sm">
         <div className="card-header bg-primary text-white">
           <h4 className="mb-0">Create New Sale</h4>
         </div>
         <div className="card-body">
-
           {message && (
             <div className="alert alert-success alert-dismissible">
               {message}
             </div>
           )}
           {error && (
-            <div className="alert alert-danger alert-dismissible">
-              {error}
-            </div>
+            <div className="alert alert-danger alert-dismissible">{error}</div>
           )}
 
           <form onSubmit={handleSubmit}>
@@ -77,12 +123,13 @@ export default function InsertSale() {
                 className="form-select"
                 value={productId}
                 onChange={(e) => setProductId(e.target.value)}
-                required
+                
               >
                 <option value="">-- Select Product --</option>
                 {products.map((product) => (
                   <option key={product.productId} value={product.productId}>
-                    {product.productName} — ₹{product.price} ({product.category})
+                    {product.productName} — ₹{product.price} ({product.category}
+                    )
                   </option>
                 ))}
               </select>
@@ -97,7 +144,7 @@ export default function InsertSale() {
                 value={customerId}
                 onChange={(e) => setCustomerId(e.target.value)}
                 placeholder="Enter Customer ID"
-                required
+                
               />
             </div>
 
@@ -110,7 +157,7 @@ export default function InsertSale() {
                 value={quantity}
                 onChange={(e) => setQuantity(e.target.value)}
                 placeholder="Enter Quantity"
-                required
+                
               />
             </div>
 
@@ -130,7 +177,6 @@ export default function InsertSale() {
               Create Sale
             </button>
           </form>
-
         </div>
       </div>
     </div>

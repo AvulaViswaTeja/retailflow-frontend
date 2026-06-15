@@ -1,13 +1,26 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function GetPaginatedUsers() {
 
-    const [users, setUsers] = useState([]);
-    const [page, setPage] = useState(0);
-    const [size] = useState(5);
-    const [totalPages, setTotalPages] = useState(0);
-    const [totalElements, setTotalElements] = useState(0);
+    let [users, setUsers] = useState([]);
+    let [page, setPage] = useState(0);
+    let [size] = useState(5);
+    let [totalPages, setTotalPages] = useState(0);
+    let [totalElements, setTotalElements] = useState(0);
+
+    let [showModal, setShowModal] = useState(false);
+    let [modalMessage, setModalMessage] = useState("");
+    let [modalSuccess, setModalSuccess] = useState(true);
+
+    const navigate = useNavigate();
+
+    let showError = (message) => {
+        setModalSuccess(false);
+        setModalMessage(message);
+        setShowModal(true);
+    };
 
     useEffect(() => {
         fetchPaginated(page);
@@ -26,9 +39,9 @@ export default function GetPaginatedUsers() {
             setTotalElements(res.data.totalElements);
         })
         .catch((err) => {
-            alert("Error fetching users: " + err.message);
+            showError("Error fetching users: " + (err.response?.data?.message || err.message));
         });
-    }
+    };
 
     let goToFirst = () => setPage(0);
     let goToPrev  = () => setPage((prev) => Math.max(prev - 1, 0));
@@ -36,16 +49,27 @@ export default function GetPaginatedUsers() {
     let goToLast  = () => setPage(totalPages - 1);
 
     return (
-        <div className="container mt-4">
-            <div className="card shadow-sm">
-                <div className="card-body">
 
-                    <div className="d-flex justify-content-between align-items-center mb-4">
-                        <h5 className="card-title mb-0">Paginated Users</h5>
-                        <span className="badge bg-secondary">
-                            Total Records: {totalElements}
-                        </span>
-                    </div>
+        <div className="container mt-4">
+
+            <button
+                onClick={() => navigate('/user')}
+                style={{
+                    display: 'flex', alignItems: 'center', gap: 6,
+                    padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                    color: '#fff', cursor: 'pointer',
+                    background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+                    border: 'none', marginBottom: 16,
+                }}>
+                ← Back
+            </button>
+
+            <div className="card shadow-sm">
+                <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 className="mb-0">Paginated Users</h4>
+                    <span className="badge bg-light text-dark">Total Records: {totalElements}</span>
+                </div>
+                <div className="card-body">
 
                     <div className="table-responsive">
                         <table className="table table-bordered table-hover table-sm align-middle">
@@ -87,7 +111,7 @@ export default function GetPaginatedUsers() {
                     {/* Pagination controls */}
                     <div className="d-flex flex-column align-items-center mt-3">
                         <span className="text-muted small mb-2">
-                            Page {page + 1} of {totalPages}
+                            Page {totalPages === 0 ? 0 : page + 1} of {totalPages}
                         </span>
                         <nav>
                             <ul className="pagination pagination-sm mb-0">
@@ -97,10 +121,10 @@ export default function GetPaginatedUsers() {
                                 <li className={`page-item ${page === 0 ? "disabled" : ""}`}>
                                     <button className="page-link" onClick={goToPrev}>‹ Prev</button>
                                 </li>
-                                <li className={`page-item ${page === totalPages - 1 ? "disabled" : ""}`}>
+                                <li className={`page-item ${page >= totalPages - 1 ? "disabled" : ""}`}>
                                     <button className="page-link" onClick={goToNext}>Next ›</button>
                                 </li>
-                                <li className={`page-item ${page === totalPages - 1 ? "disabled" : ""}`}>
+                                <li className={`page-item ${page >= totalPages - 1 ? "disabled" : ""}`}>
                                     <button className="page-link" onClick={goToLast}>Last »</button>
                                 </li>
                             </ul>
@@ -109,6 +133,48 @@ export default function GetPaginatedUsers() {
 
                 </div>
             </div>
+
+            {/* Modal */}
+            {showModal && (
+                <>
+                    <div
+                        className="modal-backdrop fade show"
+                        onClick={() => setShowModal(false)}
+                    ></div>
+
+                    <div className="modal fade show d-block" tabIndex="-1">
+                        <div className="modal-dialog modal-dialog-centered">
+                            <div className="modal-content">
+
+                                <div className={`modal-header ${modalSuccess ? "bg-success" : "bg-danger"} text-white`}>
+                                    <h5 className="modal-title">
+                                        {modalSuccess ? "✅ Success" : "❌ Error"}
+                                    </h5>
+                                    <button
+                                        className="btn-close btn-close-white"
+                                        onClick={() => setShowModal(false)}
+                                    ></button>
+                                </div>
+
+                                <div className="modal-body">
+                                    <p className="mb-0">{modalMessage}</p>
+                                </div>
+
+                                <div className="modal-footer">
+                                    <button
+                                        className={`btn ${modalSuccess ? "btn-success" : "btn-danger"} w-100`}
+                                        onClick={() => setShowModal(false)}
+                                    >
+                                        OK
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
+
         </div>
     );
 }

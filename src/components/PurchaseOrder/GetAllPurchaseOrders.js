@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 export default function GetAllPurchaseOrders() {
     let token = localStorage.getItem("token");
     let [POArray, setPOdata] = useState([]);
+    let navigate = useNavigate();
     let [errorMsg, setErrorMsg] = useState("");
     useEffect(() => {
         let url = "http://localhost:8070/api/purchase-orders";
@@ -29,6 +30,18 @@ export default function GetAllPurchaseOrders() {
               <button type="button" className="btn-close" onClick={() => setErrorMsg("")}></button>
             </div>
           )}
+           {/*  Back button */}
+            <button
+            onClick={() => navigate('/PurchaseOrder')}
+            style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                color: '#fff', cursor: 'pointer',
+                background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+                border: 'none', marginBottom: 16,
+            }}>
+            ← Back
+            </button>
             {/* Header section with margin-bottom */}
             <div className="d-flex justify-content-between align-items-center mb-4">
                 <h2 className="text-secondary fw-bold">Purchase Orders</h2>

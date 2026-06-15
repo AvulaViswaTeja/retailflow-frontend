@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import {useNavigate} from "react-router-dom";
 
 export default function GetSalesByDateRange() {
   const [startDate, setStartDate] = useState("");
@@ -7,6 +8,7 @@ export default function GetSalesByDateRange() {
   const [sales, setSales] = useState([]);
   const [error, setError] = useState("");
   const [searched, setSearched] = useState(false);
+  const navigate = useNavigate();
 
   const handleSearch = async () => {
     setSearched(true);
@@ -30,6 +32,19 @@ export default function GetSalesByDateRange() {
 
   return (
     <div className="container mt-4">
+
+      <button
+        onClick={() => navigate('/Sale')}
+        style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            padding: '6px 14px', borderRadius: 8, fontSize: 12,
+            color: '#fff', cursor: 'pointer',
+            background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+            border: 'none', marginBottom: 16,
+        }}>
+        ← Back
+      </button>
+
       <div className="card shadow-sm">
         <div className="card-header bg-primary text-white">
           <h4 className="mb-0">Get Sales By Date Range</h4>

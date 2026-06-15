@@ -1,16 +1,22 @@
 import { useState } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router";
 
 export default function GetByInvoice() {
   const [invoiceId, setInvoiceId] = useState("");
   const [payments, setPayments] = useState([]);
   const [error, setError] = useState("");
   const [searched, setSearched] = useState(false);
+  const navigate = useNavigate();
 
   const handleSearch = async () => {
     setSearched(true);
     setPayments([]);
     setError("");
+    if(!invoiceId){
+      setError("Enter a valid invoice Id");
+      return;
+    }
 
     try {
       let token = localStorage.getItem("token");
@@ -26,6 +32,17 @@ export default function GetByInvoice() {
 
   return (
     <div className="container mt-4">
+      <button
+        onClick={() => navigate('/Payment')}
+        style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            padding: '6px 14px', borderRadius: 8, fontSize: 12,
+            color: '#fff', cursor: 'pointer',
+            background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+            border: 'none', marginBottom: 16,
+        }}>
+        ← Back
+      </button>
       <div className="card shadow-sm">
         <div className="card-header bg-primary text-white">
           <h4 className="mb-0">Get Payments By Invoice</h4>

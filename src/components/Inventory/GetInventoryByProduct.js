@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export default function GetInventoryByProduct() {
+    const navigate = useNavigate();
     const [productId, setProductId] = useState("");
     const [products, setProducts] = useState([]);
     const [inventoryArr, setInventoryArr] = useState([]);
@@ -53,7 +55,18 @@ export default function GetInventoryByProduct() {
                     <button type="button" className="btn-close" onClick={() => setErrorMsg("")}></button>
                 </div>
             )}
-
+            {/*  Back button */}
+            <button
+            onClick={() => navigate('/Inventory')}
+            style={{
+                display: 'flex', alignItems: 'center', gap: 6,
+                padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                color: '#fff', cursor: 'pointer',
+                background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+                border: 'none', marginBottom: 16,
+            }}>
+            ← Back
+            </button>
             <div className="card shadow-sm mb-4">
                 <div className="card-header bg-dark text-white p-3">
                     <h3 className="mb-0 h5">Find Inventory by Product</h3>

@@ -1,9 +1,22 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function GetAllNotifications() {
 
-    const [notifications, setNotifications] = useState([]);
+    let [notifications, setNotifications] = useState([]);
+
+    let [showModal, setShowModal] = useState(false);
+    let [modalMessage, setModalMessage] = useState("");
+    let [modalSuccess, setModalSuccess] = useState(true);
+
+    const navigate = useNavigate();
+
+    let showError = (msg) => {
+        setModalSuccess(false);
+        setModalMessage(msg);
+        setShowModal(true);
+    };
 
     useEffect(() => {
         fetchAllNotifications();
@@ -19,21 +32,32 @@ export default function GetAllNotifications() {
             setNotifications(res.data);
         })
         .catch((err) => {
-            alert("Error fetching notifications: " + err.message);
+            showError("Error fetching notifications: " + (err.response?.data?.message || err.message));
         });
-    }
+    };
 
     return (
-        <div className="container mt-4">
-            <div className="card shadow-sm">
-                <div className="card-body">
 
-                    <div className="d-flex justify-content-between align-items-center mb-4">
-                        <h5 className="card-title mb-0">All Notifications</h5>
-                        <span className="badge bg-secondary">
-                            Total: {notifications.length}
-                        </span>
-                    </div>
+        <div className="container mt-4">
+
+            <button
+                onClick={() => navigate('/notification')}
+                style={{
+                    display: 'flex', alignItems: 'center', gap: 6,
+                    padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                    color: '#fff', cursor: 'pointer',
+                    background: 'linear-gradient(135deg,#db2777,#ec4899)',
+                    border: 'none', marginBottom: 16,
+                }}>
+                ← Back
+            </button>
+
+            <div className="card shadow-sm">
+                <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                    <h4 className="mb-0">All Notifications</h4>
+                    <span className="badge bg-light text-dark">Total: {notifications.length}</span>
+                </div>
+                <div className="card-body">
 
                     <div className="table-responsive">
                         <table className="table table-bordered table-hover table-sm align-middle">
@@ -82,6 +106,48 @@ export default function GetAllNotifications() {
 
                 </div>
             </div>
+
+            {/* Modal */}
+            {showModal && (
+                <>
+                    <div
+                        className="modal-backdrop fade show"
+                        onClick={() => setShowModal(false)}
+                    ></div>
+
+                    <div className="modal fade show d-block" tabIndex="-1">
+                        <div className="modal-dialog modal-dialog-centered">
+                            <div className="modal-content">
+
+                                <div className={`modal-header ${modalSuccess ? "bg-success" : "bg-danger"} text-white`}>
+                                    <h5 className="modal-title">
+                                        {modalSuccess ? "✅ Success" : "❌ Error"}
+                                    </h5>
+                                    <button
+                                        className="btn-close btn-close-white"
+                                        onClick={() => setShowModal(false)}
+                                    ></button>
+                                </div>
+
+                                <div className="modal-body">
+                                    <p className="mb-0">{modalMessage}</p>
+                                </div>
+
+                                <div className="modal-footer">
+                                    <button
+                                        className={`btn ${modalSuccess ? "btn-success" : "btn-danger"} w-100`}
+                                        onClick={() => setShowModal(false)}
+                                    >
+                                        OK
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
+
         </div>
     );
 }

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router';
 
 export default function GetPaginated() {
   const [invoices, setInvoices] = useState([]);
@@ -8,6 +9,7 @@ export default function GetPaginated() {
   const [totalElements, setTotalElements] = useState(0);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const fetchInvoices = (pageNumber) => {
     setLoading(true);
@@ -15,7 +17,7 @@ export default function GetPaginated() {
     let token = localStorage.getItem("token");
     axios
       .get("http://localhost:8070/api/invoices/paginated", {
-        params: { page: pageNumber, size: 3 },
+        params: { page: pageNumber, size: 5 },
         headers: { Authorization: "Bearer " + token },
       })
       .then((res) => {
@@ -71,6 +73,17 @@ export default function GetPaginated() {
 
   return (
     <div className="container mt-4">
+      <button
+        onClick={() => navigate('/Invoice')}
+        style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            padding: '6px 14px', borderRadius: 8, fontSize: 12,
+            color: '#fff', cursor: 'pointer',
+            background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+            border: 'none', marginBottom: 16,
+        }}>
+        ← Back
+      </button>
       <div className="card shadow-sm">
         <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
           <h4 className="mb-0">All Invoices Paginated</h4>

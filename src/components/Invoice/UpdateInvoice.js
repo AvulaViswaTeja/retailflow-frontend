@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-
+import {useNavigate} from 'react-router-dom';
 export default function UpdateInvoice() {
   const [invoiceId, setInvoiceId] = useState("");
   const [amount, setAmount] = useState("");
@@ -8,11 +8,16 @@ export default function UpdateInvoice() {
   const [currentInvoice, setCurrentInvoice] = useState(null);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSearch = async () => {
     setMessage("");
     setError("");
     setCurrentInvoice(null);
+    if(!invoiceId){
+      setError("Please enter an valid Invoice ID");
+      return;
+    }
 
     try {
       let token = localStorage.getItem("token");
@@ -59,13 +64,24 @@ export default function UpdateInvoice() {
 
   return (
     <div className="container mt-4">
+      <button
+        onClick={() => navigate('/Invoice')}
+        style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            padding: '6px 14px', borderRadius: 8, fontSize: 12,
+            color: '#fff', cursor: 'pointer',
+            background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+            border: 'none', marginBottom: 16,
+        }}>
+        ← Back
+      </button>
       <div className="card shadow-sm">
         <div className="card-header bg-primary text-white">
           <h4 className="mb-0">Update Invoice</h4>
         </div>
         <div className="card-body">
 
-          {/* Search */}
+          
           <div className="input-group mb-3">
             <input
               type="number"
@@ -80,15 +96,15 @@ export default function UpdateInvoice() {
             </button>
           </div>
 
-          {/* Messages */}
+          
           {error && <div className="alert alert-danger">{error}</div>}
           {message && <div className="alert alert-success">{message}</div>}
 
-          {/* Current Invoice + Update Form */}
+          
           {currentInvoice && (
             <div>
 
-              {/* Current Details */}
+              
               <h6 className="text-muted mb-2">Current Invoice Details:</h6>
               <div className="table-responsive mb-4">
                 <table className="table table-bordered table-hover">
@@ -125,7 +141,7 @@ export default function UpdateInvoice() {
                 </table>
               </div>
 
-              {/* Block if PAID */}
+              
               {currentInvoice.status === "PAID" ? (
                 <div className="alert alert-warning">
                   ⚠️ Cannot update a PAID invoice!

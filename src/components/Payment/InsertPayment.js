@@ -1,17 +1,31 @@
 import axios from "axios";
 import { useState } from "react";
-
+import {useNavigate} from 'react-router-dom';
 export default function InsertPayment() {
   const [invoiceId, setInvoiceId] = useState("");
   const [amount, setAmount] = useState("");
   const [method, setMethod] = useState("CASH");
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setMessage("");
     setError("");
+    if (!invoiceId || parseInt(invoiceId) <= 0) {
+      setError("Please enter a valid Invoice ID");
+      return;
+    }
+    if (!amount || parseFloat(amount) <= 0) {
+      setError("Please enter a valid amount greater than 0");
+      return;
+    }
+
+    if (!method) {
+      setError("Please select a valid payment method");
+      return;
+    }
 
     try {
       const req_data = {
@@ -23,17 +37,23 @@ export default function InsertPayment() {
       const res = await axios.post(
         "http://localhost:8070/api/payments",
         req_data,
-        { headers: { "Authorization": "Bearer " + token } }
+        { headers: { Authorization: "Bearer " + token } },
       );
       const payment = res.data;
       setMessage(
         "Payment processed! " +
-          "Payment ID: " + payment.paymentId +
-          " | Invoice ID: " + payment.invoiceId +
-          " | Amount: ₹" + payment.amount +
-          " | Method: " + payment.method +
-          " | Status: " + payment.status +
-          " | Invoice Status: " + payment.invoiceStatus
+          "Payment ID: " +
+          payment.paymentId +
+          " | Invoice ID: " +
+          payment.invoiceId +
+          " | Amount: ₹" +
+          payment.amount +
+          " | Method: " +
+          payment.method +
+          " | Status: " +
+          payment.status +
+          " | Invoice Status: " +
+          payment.invoiceStatus,
       );
       setInvoiceId("");
       setAmount("");
@@ -45,21 +65,26 @@ export default function InsertPayment() {
 
   return (
     <div className="container mt-4">
+      <button
+        onClick={() => navigate('/Payment')}
+        style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            padding: '6px 14px', borderRadius: 8, fontSize: 12,
+            color: '#fff', cursor: 'pointer',
+            background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+            border: 'none', marginBottom: 16,
+        }}>
+        ← Back
+      </button>
       <div className="card shadow-sm">
         <div className="card-header bg-primary text-white">
           <h4 className="mb-0">Process Payment</h4>
         </div>
         <div className="card-body">
-
-          {message && (
-            <div className="alert alert-success">{message}</div>
-          )}
-          {error && (
-            <div className="alert alert-danger">{error}</div>
-          )}
+          {message && <div className="alert alert-success">{message}</div>}
+          {error && <div className="alert alert-danger">{error}</div>}
 
           <form onSubmit={handleSubmit}>
-
             <div className="mb-3">
               <label className="form-label">Invoice ID</label>
               <input
@@ -69,7 +94,7 @@ export default function InsertPayment() {
                 onChange={(e) => setInvoiceId(e.target.value)}
                 placeholder="Enter Invoice ID"
                 min={1}
-                required
+                
               />
             </div>
 
@@ -84,7 +109,7 @@ export default function InsertPayment() {
                   onChange={(e) => setAmount(e.target.value)}
                   placeholder="Enter Amount"
                   min={0}
-                  required
+                  
                 />
               </div>
             </div>
@@ -106,7 +131,6 @@ export default function InsertPayment() {
             <button type="submit" className="btn btn-primary w-100">
               Process Payment
             </button>
-
           </form>
         </div>
       </div>

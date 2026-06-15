@@ -1,16 +1,29 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function GetByUser() {
 
-    const [userId, setUserId] = useState("");
-    const [auditLogs, setAuditLogs] = useState([]);
+    let [userId, setUserId] = useState("");
+    let [auditLogs, setAuditLogs] = useState([]);
+
+    let [showModal, setShowModal] = useState(false);
+    let [modalMessage, setModalMessage] = useState("");
+    let [modalSuccess, setModalSuccess] = useState(true);
+
+    const navigate = useNavigate();
+
+    let showError = (message) => {
+        setModalSuccess(false);
+        setModalMessage(message);
+        setShowModal(true);
+    };
 
     let fetchByUser = (event) => {
         event.preventDefault();
 
         if (!userId) {
-            alert("Please enter a User ID");
+            showError("Please enter a User ID");
             return;
         }
 
@@ -21,33 +34,48 @@ export default function GetByUser() {
         })
         .then((res) => {
             if (res.data.length === 0) {
-                alert("No audit logs found for User ID: " + userId);
+                showError("No audit logs found for User ID: " + userId);
             }
             setAuditLogs(res.data);
         })
         .catch((err) => {
             if (err.response && err.response.status === 404) {
-                alert("No audit logs found for User ID: " + userId);
+                showError("No audit logs found for User ID: " + userId);
             } else {
-                alert("Error: " + err.message);
+                showError("Error: " + (err.response?.data?.message || err.message));
             }
             setAuditLogs([]);
         });
-    }
+    };
 
     let reset = () => {
         setUserId("");
         setAuditLogs([]);
-    }
+    };
 
     return (
+
         <div className="container mt-4">
+
+            <button
+                onClick={() => navigate('/auditLog')}
+                style={{
+                    display: 'flex', alignItems: 'center', gap: 6,
+                    padding: '6px 14px', borderRadius: 8, fontSize: 12,
+                    color: '#fff', cursor: 'pointer',
+                    background: 'linear-gradient(135deg,#0d9488,#14b8a6)',
+                    border: 'none', marginBottom: 16,
+                }}>
+                ← Back
+            </button>
+
             <div className="card shadow-sm">
+                <div className="card-header bg-primary text-white">
+                    <h4 className="mb-0">Get Audit Logs By User</h4>
+                </div>
                 <div className="card-body">
 
-                    <h5 className="card-title mb-4">Get Audit Logs By User</h5>
-
-                    {/* Search Form */}
+                    {/* Search form */}
                     <form onSubmit={fetchByUser}>
                         <div className="row g-2 align-items-end mb-3">
                             <div className="col-md-6">
@@ -55,7 +83,7 @@ export default function GetByUser() {
                                 <input
                                     type="number"
                                     className="form-control"
-                                    placeholder="enter user id"
+                                    placeholder="Enter user id"
                                     value={userId}
                                     onChange={(e) => setUserId(e.target.value)}
                                 />
@@ -71,7 +99,7 @@ export default function GetByUser() {
                         </div>
                     </form>
 
-                    {/* Results Table */}
+                    {/* Results table */}
                     {auditLogs.length > 0 && (
                         <div className="table-responsive mt-3">
                             <div className="d-flex justify-content-between align-items-center mb-2">
@@ -107,6 +135,48 @@ export default function GetByUser() {
 
                 </div>
             </div>
+
+            {/* Modal */}
+            {showModal && (
+                <>
+                    <div
+                        className="modal-backdrop fade show"
+                        onClick={() => setShowModal(false)}
+                    ></div>
+
+                    <div className="modal fade show d-block" tabIndex="-1">
+                        <div className="modal-dialog modal-dialog-centered">
+                            <div className="modal-content">
+
+                                <div className={`modal-header ${modalSuccess ? "bg-success" : "bg-danger"} text-white`}>
+                                    <h5 className="modal-title">
+                                        {modalSuccess ? "✅ Success" : "❌ Error"}
+                                    </h5>
+                                    <button
+                                        className="btn-close btn-close-white"
+                                        onClick={() => setShowModal(false)}
+                                    ></button>
+                                </div>
+
+                                <div className="modal-body">
+                                    <p className="mb-0">{modalMessage}</p>
+                                </div>
+
+                                <div className="modal-footer">
+                                    <button
+                                        className={`btn ${modalSuccess ? "btn-success" : "btn-danger"} w-100`}
+                                        onClick={() => setShowModal(false)}
+                                    >
+                                        OK
+                                    </button>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </>
+            )}
+
         </div>
     );
 }
