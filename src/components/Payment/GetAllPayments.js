@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { useEffect, useState } from 'react';
+import {useNavigate} from 'react-router';
 
 export default function GetAllPayments() {
   const [payments, setPayments] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     let token = localStorage.getItem("token");
@@ -24,6 +26,7 @@ export default function GetAllPayments() {
   if (loading) {
     return (
       <div className="container mt-4 text-center">
+        
         <div className="spinner-border text-primary" role="status">
           <span className="visually-hidden">Loading...</span>
         </div>
@@ -50,6 +53,17 @@ export default function GetAllPayments() {
 
   return (
     <div className="container mt-4">
+      <button
+        onClick={() => navigate('/Payment')}
+        style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            padding: '6px 14px', borderRadius: 8, fontSize: 12,
+            color: '#fff', cursor: 'pointer',
+            background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+            border: 'none', marginBottom: 16,
+        }}>
+        ← Back
+      </button>
       <div className="card shadow-sm">
         <div className="card-header bg-primary text-white d-flex justify-content-between align-items-center">
           <h4 className="mb-0">All Payments</h4>

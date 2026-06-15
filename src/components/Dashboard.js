@@ -230,7 +230,7 @@ export default function Dashboard() {
                 <h1 style={{ fontSize: 24, fontWeight: 500, color: '#fff', marginBottom: 6, position: 'relative', zIndex: 1 }}>Welcome back, {userName}</h1>
                 <p style={{ fontSize: 13, color: 'rgba(255,255,255,.8)', position: 'relative', zIndex: 1 }}>Here's what's happening across your store today</p>
                 <div style={{ display: 'flex', gap: 10, marginTop: 16, position: 'relative', zIndex: 1, flexWrap: 'wrap' }}>
-                    {[[allowed.length, 'Modules'], [6, 'Roles'], ['99.9%', 'Uptime'], [health, 'Compliance']].map(([n, l]) => (
+                    {[[allowed.length, 'Modules'], [6, 'Roles'], ].map(([n, l]) => (
                         <div key={l} style={{ background: 'rgba(255,255,255,.16)', backdropFilter: 'blur(8px)', border: '1px solid rgba(255,255,255,.25)', borderRadius: 11, padding: '9px 15px', color: '#fff' }}>
                             <span style={{ fontSize: 18, fontWeight: 500, display: 'block' }}>{n}</span>
                             <span style={{ fontSize: 10, opacity: .8, textTransform: 'uppercase', letterSpacing: '.06em' }}>{l}</span>

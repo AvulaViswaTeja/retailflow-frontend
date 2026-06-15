@@ -1,16 +1,22 @@
 import axios from "axios";
 import { useState } from "react";
+import {useNavigate} from 'react-router-dom';
 
 export default function DeleteInvoice() {
   const [invoiceId, setInvoiceId] = useState("");
   const [currentInvoice, setCurrentInvoice] = useState(null);
   const [message, setMessage] = useState("");
   const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleSearch = async () => {
     setMessage("");
     setError("");
     setCurrentInvoice(null);
+    if(!invoiceId){
+      setError("Please enter a valid Invoice Id");
+      return;
+    }
 
     try {
       let token = localStorage.getItem("token");
@@ -43,13 +49,24 @@ export default function DeleteInvoice() {
 
   return (
     <div className="container mt-4">
+      <button
+        onClick={() => navigate('/Invoice')}
+        style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            padding: '6px 14px', borderRadius: 8, fontSize: 12,
+            color: '#fff', cursor: 'pointer',
+            background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+            border: 'none', marginBottom: 16,
+        }}>
+        ← Back
+      </button>
       <div className="card shadow-sm">
         <div className="card-header bg-danger text-white">
           <h4 className="mb-0">Cancel Invoice</h4>
         </div>
         <div className="card-body">
 
-          {/* Search */}
+          
           <div className="input-group mb-3">
             <input
               type="number"
@@ -64,11 +81,11 @@ export default function DeleteInvoice() {
             </button>
           </div>
 
-          {/* Messages */}
+          
           {error && <div className="alert alert-danger">{error}</div>}
           {message && <div className="alert alert-success">{message}</div>}
 
-          {/* Current Invoice Details */}
+         
           {currentInvoice && (
             <div>
               <h6 className="text-muted mb-2">Invoice Details:</h6>
@@ -107,7 +124,7 @@ export default function DeleteInvoice() {
                 </table>
               </div>
 
-              {/* Action */}
+            
               {currentInvoice.status === "PAID" ? (
                 <div className="alert alert-warning">
                   ⚠️ Cannot cancel a PAID invoice!

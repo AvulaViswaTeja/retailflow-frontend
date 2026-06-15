@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState } from "react";
+import { useNavigate } from "react-router";
 
 export default function GetInvoiceByDateRange() {
   const [startDate, setStartDate] = useState("");
@@ -7,11 +8,16 @@ export default function GetInvoiceByDateRange() {
   const [invoices, setInvoices] = useState([]);
   const [error, setError] = useState("");
   const [searched, setSearched] = useState(false);
+  const navigate = useNavigate();
 
   const handleSearch = async () => {
     setSearched(true);
     setInvoices([]);
     setError("");
+    if(!endDate || !startDate){
+      setError("Please select the Date");
+      return;
+    }
 
     try {
       let token = localStorage.getItem("token");
@@ -27,6 +33,17 @@ export default function GetInvoiceByDateRange() {
 
   return (
     <div className="container mt-4">
+      <button
+        onClick={() => navigate('/Invoice')}
+        style={{
+            display: 'flex', alignItems: 'center', gap: 6,
+            padding: '6px 14px', borderRadius: 8, fontSize: 12,
+            color: '#fff', cursor: 'pointer',
+            background: 'linear-gradient(135deg,#7c3aed,#a855f7)',
+            border: 'none', marginBottom: 16,
+        }}>
+        ← Back
+      </button>
       <div className="card shadow-sm">
         <div className="card-header bg-primary text-white">
           <h4 className="mb-0">Get Invoices By Date Range</h4>
