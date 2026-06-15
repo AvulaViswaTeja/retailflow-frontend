@@ -33,7 +33,7 @@ export default function Login() {
                 localStorage.setItem("role",     res.data.role);
                 localStorage.setItem("userName", res.data.userName);
                 localStorage.setItem("email",    email);
-                localStorage.setItem("userId",   res.data.userId);   // ← from login response
+                localStorage.setItem("userId",   res.data.userId);  
 
                 navigate("/dashboard");
             })
