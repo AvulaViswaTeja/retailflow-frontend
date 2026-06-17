@@ -30,7 +30,7 @@ export default function ProductHome() {
     return (
         <div style={{ background: '#0a0e27', minHeight: '100vh', fontFamily: 'system-ui, sans-serif' }}>
 
-            {/* Top nav */}
+       
             <nav style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                 padding: '14px 26px',
@@ -48,7 +48,7 @@ export default function ProductHome() {
                     Products
                 </div>
 
-                {/* Dashboard button */}
+          
                 <button onClick={() => navigate('/dashboard')}
                     style={{
                         display: 'flex', alignItems: 'center', gap: 6,
@@ -62,7 +62,7 @@ export default function ProductHome() {
                 </button>
             </nav>
 
-            {/* Page content */}
+            
             <div style={{ padding: '0 22px 28px' }}>
                 {isHome ? (
                     <>
@@ -84,7 +84,6 @@ export default function ProductHome() {
                             </p>
                         </div>
 
-                        {/* Quick actions */}
                         <div style={{ display: 'flex', alignItems: 'center', gap: 11, margin: '18px 0 12px' }}>
                             <div style={{ width: 26, height: 26, borderRadius: 8, background: 'rgba(255,255,255,.07)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#8b97b8' }}>
                                 <i className="ti ti-layout-grid" style={{ fontSize: 14 }}></i>

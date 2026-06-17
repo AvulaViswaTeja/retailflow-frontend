@@ -60,7 +60,7 @@ export default function GetAllPurchaseOrders() {
                                     <th>Expected Delivery Date</th>
                                     <th>Status</th>
                                     <th>Product ID</th>
-                                    <th>Actions</th> {/* Fixed missing header column */}
+                                    <th>Actions</th> 
                                 </tr>
                             </thead>   
                             <tbody className="text-center">
@@ -74,7 +74,9 @@ export default function GetAllPurchaseOrders() {
                                             <td>
                                                 <span className={`badge ${
                                                     purchaseorder.status === 'Completed' ? 'bg-success' : 
-                                                    purchaseorder.status === 'Pending' ? 'bg-warning text-dark' : 'bg-secondary'
+                                                    purchaseorder.status === 'CANCELLED' ? 'bg-danger' :
+                                                    purchaseorder.status === 'ACTIVE' ? 'bg-info text-dark' :
+                                                    purchaseorder.status === 'PENDING' ? 'bg-warning text-dark' : 'bg-secondary'
                                                 }`}>
                                                     {purchaseorder.status}
                                                 </span>

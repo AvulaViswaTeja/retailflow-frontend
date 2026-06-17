@@ -223,7 +223,7 @@ export default function Dashboard() {
                 </div>
             </nav>
  
-            {/* Hero */}
+            
             <div style={{ margin: 22, padding: '28px 30px', borderRadius: 18, background: 'linear-gradient(120deg,#5b3cc4 0%,#3b6ee0 55%,#2bb6c4 100%)', position: 'relative', overflow: 'hidden' }}>
                 <div style={{ position: 'absolute', top: -60, right: -30, width: 220, height: 220, borderRadius: '50%', background: 'rgba(255,255,255,.10)' }}></div>
                 <div style={{ position: 'absolute', bottom: -80, right: 120, width: 180, height: 180, borderRadius: '50%', background: 'rgba(255,255,255,.07)' }}></div>

@@ -100,8 +100,8 @@ export default function GetAllPurchaseOrdersPaginated() {
                                             <td>
                                                 <span className={`badge ${
                                                     order.status === "PENDING"   ? "bg-warning text-dark" :
-                                                    order.status === "APPROVED"  ? "bg-success"           :
-                                                    order.status === "DELIVERED" ? "bg-info"              :
+                                                    order.status === "COMPLETED"  ? "bg-success"           :
+                                                    order.status === "ACTIVE" ? "bg-info"              :
                                                     order.status === "CANCELLED" ? "bg-danger"            :
                                                     "bg-secondary"
                                                 }`}>

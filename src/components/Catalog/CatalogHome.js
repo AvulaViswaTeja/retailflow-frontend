@@ -30,7 +30,7 @@ export default function CatalogHome() {
     return (
         <div style={{ background: '#0a0e27', minHeight: '100vh', fontFamily: 'system-ui, sans-serif' }}>
 
-            {/* Top nav */}
+            
             <nav style={{
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
                 padding: '14px 26px',
@@ -48,7 +48,7 @@ export default function CatalogHome() {
                     Catalogs
                 </div>
 
-                {/*  Dashboard button */}
+          
                 <button onClick={() => navigate('/dashboard')}
                     style={{
                         display: 'flex', alignItems: 'center', gap: 6,
@@ -62,7 +62,7 @@ export default function CatalogHome() {
                 </button>
             </nav>
 
-            {/* Page content */}
+            
             <div style={{ padding: '0 22px 28px' }}>
                 {isHome ? (
                     <>

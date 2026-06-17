@@ -99,7 +99,8 @@ export default function GetAllPayments() {
                     <td>
                       <span className={`badge ${
                         payment.status === "SUCCESS" ? "bg-success" :
-                        payment.status === "REFUNDED" ? "bg-danger" :
+                        payment.status === "FAILED" ? "bg-danger" :
+                        payment.status === "REFUNDED" ? "bg-warning" :
                         "bg-secondary"
                       }`}>
                         {payment.status}
